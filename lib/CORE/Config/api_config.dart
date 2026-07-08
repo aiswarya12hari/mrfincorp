@@ -17,4 +17,15 @@ class ApiConfig {
 
   static String verifyGroupLoan(String loanId) =>
       '${Env.baseUrl}/api/fieldstaff/loans/$loanId/verify/group/';
+
+  static String get refreshToken =>
+      '${Env.baseUrl}/api/fieldstaff/refresh-token/';
+
+  static String get collections => '${Env.baseUrl}/api/fieldstaff/collections/';
+
+  static String submitCollection(int assignmentId) =>
+      '${Env.baseUrl}/api/fieldstaff/collections/$assignmentId/submit/';
+
+  static String get collectedCollections =>
+      '${Env.baseUrl}/api/fieldstaff/collections/collected/';
 }

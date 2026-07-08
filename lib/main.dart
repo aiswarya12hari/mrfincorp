@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:mr_fincorp/FEATURES/Collections/provider/collected_list_provider.dart';
+import 'package:mr_fincorp/FEATURES/Collections/provider/collection_list_provider.dart';
+import 'package:mr_fincorp/FEATURES/Collections/provider/collection_submit_provider.dart';
 import 'package:mr_fincorp/FEATURES/Dashboard/provider/dashboard_provider.dart';
 import 'package:mr_fincorp/FEATURES/Loans/provider/group_loan_verification_provider.dart';
 import 'package:mr_fincorp/FEATURES/Loans/provider/individual_loan_verification.dart';
@@ -15,6 +18,8 @@ import 'CORE/Storage/shared_preference.dart';
 // import 'package:mr_fincorp/FEATURES/Navigation/presentation/pages/bottom_nav_page.dart';
 import 'package:mr_fincorp/FEATURES/Loans/provider/loan_provider.dart';
 
+
+final navigatorKey = GlobalKey<NavigatorState>();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -40,8 +45,12 @@ class FincorpApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => DashboardProvider()),
         ChangeNotifierProvider(create: (_) => IndividualLoanVerificationProvider(),),
         ChangeNotifierProvider(create: (_) => GroupLoanVerificationProvider()),
+        ChangeNotifierProvider(create: (_) => CollectionListProvider()),
+        ChangeNotifierProvider(create: (_) => CollectionSubmitProvider()),
+        ChangeNotifierProvider(create: (_) => CollectedListProvider()),
       ],
       child: MaterialApp(
+      navigatorKey: navigatorKey,
         title: 'FinCorp',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.light,

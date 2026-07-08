@@ -609,8 +609,8 @@ class _GroupMemberVerificationPageState
                 required: false,
               ),
               _sectionField(label: 'Landmark', controller: landmarkController, required: false),
-              _sectionField(label: 'State', controller: stateController),
-              _sectionField(label: 'District', controller: districtController),
+              // _sectionField(label: 'State', controller: stateController),
+              // _sectionField(label: 'District', controller: districtController),
               _sectionField(label: 'Pin Code', controller: pinCodeController),
 
               const SizedBox(height: 6),

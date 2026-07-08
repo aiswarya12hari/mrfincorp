@@ -20,25 +20,20 @@ class AppPreferences {
     required String refreshToken,
     required Map<String, dynamic> userData,
   }) async {
-    await _prefs?.setString(
-      accessTokenKey,
-      accessToken,
-    );
+    await _prefs?.setString(accessTokenKey, accessToken);
 
-    await _prefs?.setString(
-      refreshTokenKey,
-      refreshToken,
-    );
+    await _prefs?.setString(refreshTokenKey, refreshToken);
 
-    await _prefs?.setString(
-      userDataKey,
-      jsonEncode(userData),
-    );
+    await _prefs?.setString(userDataKey, jsonEncode(userData));
   }
 
   // Access Token
   static String? getAccessToken() {
     return _prefs?.getString(accessTokenKey);
+  }
+
+  static Future<void> saveAccessToken(String token) async {
+    await _prefs?.setString(accessTokenKey, token);
   }
 
   // Refresh Token

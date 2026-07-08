@@ -244,7 +244,20 @@ class _LocationPickerPageState extends State<LocationPickerPage> {
                   height: 50,
                   child: ElevatedButton(
                     onPressed: confirmLocation,
-                    child: const Text('Confirm Location'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF2A9D8F),
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    child: const Text(
+                      'Confirm Location',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
                   ),
                 ),
               ],

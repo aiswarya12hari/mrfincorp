@@ -197,8 +197,6 @@
 //   }
 // }
 
-
-
 import 'package:flutter/material.dart';
 import 'package:mr_fincorp/CORE/Utils/responsive.dart';
 import 'package:provider/provider.dart';
@@ -265,6 +263,17 @@ class RecentLoansSection extends StatelessWidget {
                 fontWeight: FontWeight.w700,
               ),
             ),
+            // TextButton(
+            //   onPressed: () {
+            //     Navigator.pushReplacement(
+            //       context,
+            //       MaterialPageRoute(
+            //         builder: (_) => const BottomNavPage(initialIndex: 1),
+            //       ),
+            //     );
+            //   },
+            //   child: Text('View All', style: TextStyle(fontSize: dim.sp(14))),
+            // ),
             TextButton(
               onPressed: () {
                 Navigator.pushReplacement(
@@ -274,7 +283,10 @@ class RecentLoansSection extends StatelessWidget {
                   ),
                 );
               },
-              child: Text('View All', style: TextStyle(fontSize: dim.sp(14))),
+              child: Text(
+                'View All',
+                style: TextStyle(fontSize: dim.sp(14), color: Colors.black),
+              ),
             ),
           ],
         ),
@@ -287,8 +299,9 @@ class RecentLoansSection extends StatelessWidget {
           itemCount: loans.length,
           itemBuilder: (context, index) {
             final loan = loans[index];
-            final bool isGroupLoan =
-                loan.loanMethod.toUpperCase().contains('GROUP');
+            final bool isGroupLoan = loan.loanMethod.toUpperCase().contains(
+              'GROUP',
+            );
             final String displayName = loan.customerName;
             final String formattedAmount =
                 '₹ ${double.tryParse(loan.loanAmount)?.toStringAsFixed(0) ?? loan.loanAmount}';
@@ -327,10 +340,38 @@ class RecentLoansSection extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Row(
+                    //   crossAxisAlignment: CrossAxisAlignment.start,
+                    //   children: [
+                    //     Expanded(
+                    //       child: Text(
+                    //         loan.loanId,
+                    //         style: TextStyle(
+                    //           fontWeight: FontWeight.w700,
+                    //           fontSize: dim.sp(14),
+                    //           color: const Color(0xFF1A202C),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //     SizedBox(width: dim.width(0.02)),
+                    //     Flexible(
+                    //       child: Text(
+                    //         displayName,
+                    //         overflow: TextOverflow.ellipsis,
+                    //         style: TextStyle(
+                    //           fontWeight: FontWeight.w600,
+                    //           fontSize: dim.sp(14),
+                    //           color: const Color(0xFF2D3748),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Expanded(
+                          flex: 1,
                           child: Text(
                             loan.loanId,
                             style: TextStyle(
@@ -341,9 +382,11 @@ class RecentLoansSection extends StatelessWidget {
                           ),
                         ),
                         SizedBox(width: dim.width(0.02)),
-                        Flexible(
+                        Expanded(
+                          flex: 1,
                           child: Text(
                             displayName,
+                            textAlign: TextAlign.right,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
