@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:mr_fincorp/FEATURES/Account/provider/account_switch_provider.dart';
 import 'package:mr_fincorp/FEATURES/Collections/provider/collected_list_provider.dart';
 import 'package:mr_fincorp/FEATURES/Collections/provider/collection_list_provider.dart';
 import 'package:mr_fincorp/FEATURES/Collections/provider/collection_submit_provider.dart';
@@ -48,6 +49,7 @@ class FincorpApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CollectionListProvider()),
         ChangeNotifierProvider(create: (_) => CollectionSubmitProvider()),
         ChangeNotifierProvider(create: (_) => CollectedListProvider()),
+        ChangeNotifierProvider(create: (_) => AccountSwitcherProvider()),
       ],
       child: MaterialApp(
       navigatorKey: navigatorKey,

@@ -131,17 +131,49 @@ class RecentLoansSection extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Row(
+                    //   crossAxisAlignment: CrossAxisAlignment.start,
+                    //   children: [
+                    //     Expanded(
+                    //       flex: 1,
+                    //       child: Text(
+                    //         loan.loanId,
+                    //         style: TextStyle(
+                    //           fontWeight: FontWeight.w700,
+                    //           fontSize: dim.sp(14),
+                    //           color: const Color(0xFF1A202C),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //     SizedBox(width: dim.width(0.02)),
+                    //     Expanded(
+                    //       flex: 1,
+                    //       child: Text(
+                    //         displayName,
+                    //         textAlign: TextAlign.right,
+                    //         overflow: TextOverflow.ellipsis,
+                    //         style: TextStyle(
+                    //           fontWeight: FontWeight.w600,
+                    //           fontSize: dim.sp(14),
+                    //           color: const Color(0xFF2D3748),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Expanded(
                           flex: 1,
                           child: Text(
-                            loan.loanId,
+                            displayName,
+                            overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                              fontWeight: FontWeight.w700,
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w600,
                               fontSize: dim.sp(14),
-                              color: const Color(0xFF1A202C),
+                              color: const Color(0xFF2D3748),
                             ),
                           ),
                         ),
@@ -149,13 +181,13 @@ class RecentLoansSection extends StatelessWidget {
                         Expanded(
                           flex: 1,
                           child: Text(
-                            displayName,
+                            loan.loanId,
                             textAlign: TextAlign.right,
-                            overflow: TextOverflow.ellipsis,
                             style: TextStyle(
+                              fontFamily: 'Inter',
                               fontWeight: FontWeight.w600,
                               fontSize: dim.sp(14),
-                              color: const Color(0xFF2D3748),
+                              color: const Color(0xFF1A202C),
                             ),
                           ),
                         ),

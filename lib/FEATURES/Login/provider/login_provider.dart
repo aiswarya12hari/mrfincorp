@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mr_fincorp/FEATURES/Account/data/models/account_model.dart';
 
 import '../data/models/login_model.dart';
 import '../data/services/login_service.dart';
@@ -23,23 +24,52 @@ class LoginProvider extends ChangeNotifier {
 
       notifyListeners();
 
+      // loginData = await _service.login(email: email, password: password);
+
+      // await AppPreferences.saveLoginData(
+      //   accessToken: loginData!.access,
+      //   refreshToken: loginData!.refresh,
+      //   userData: {
+      //     "id": loginData!.user.id,
+      //     "role": loginData!.user.role,
+      //     "email": loginData!.user.email,
+      //     "phone": loginData!.user.phone,
+      //     "field_staff_id": loginData!.user.fieldStaffId,
+      //     "field_staff_name": loginData!.user.fieldStaffName,
+      //     "branch_id": loginData!.user.branchId,
+      //     "branch_name": loginData!.user.branchName,
+      //     "branch_code": loginData!.user.branchCode,
+      //   },
+      // );
+
       loginData = await _service.login(email: email, password: password);
 
-      await AppPreferences.saveLoginData(
-        accessToken: loginData!.access,
-        refreshToken: loginData!.refresh,
-        userData: {
-          "id": loginData!.user.id,
-          "role": loginData!.user.role,
-          "email": loginData!.user.email,
-          "phone": loginData!.user.phone,
-          "field_staff_id": loginData!.user.fieldStaffId,
-          "field_staff_name": loginData!.user.fieldStaffName,
-          "branch_id": loginData!.user.branchId,
-          "branch_name": loginData!.user.branchName,
-          "branch_code": loginData!.user.branchCode,
-        },
-      );
+final userData = {
+  "id": loginData!.user.id,
+  "role": loginData!.user.role,
+  "email": loginData!.user.email,
+  "phone": loginData!.user.phone,
+  "field_staff_id": loginData!.user.fieldStaffId,
+  "field_staff_name": loginData!.user.fieldStaffName,
+  "branch_id": loginData!.user.branchId,
+  "branch_name": loginData!.user.branchName,
+  "branch_code": loginData!.user.branchCode,
+};
+
+// addOrUpdateAccount handles BOTH a fresh login AND "Add Account" the
+// same way: if this user/email is already saved it updates the tokens
+// in place, otherwise it appends a new account. Either way it becomes
+// the active account.
+await AppPreferences.addOrUpdateAccount(
+  AccountModel(
+    userId: loginData!.user.id.toString(),
+    name: loginData!.user.fieldStaffName,
+    email: loginData!.user.email,
+    accessToken: loginData!.access,
+    refreshToken: loginData!.refresh,
+    userData: userData,
+  ),
+);
 
       debugPrint('LOGIN SUCCESS');
       debugPrint('SAVED ACCESS => ${AppPreferences.getAccessToken()}');

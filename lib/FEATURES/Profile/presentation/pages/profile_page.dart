@@ -165,6 +165,7 @@
 // }
 
 import 'package:flutter/material.dart';
+import 'package:mr_fincorp/FEATURES/Account/presentation/widgets/account_switcher_sheet.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../CORE/Theme/app_color.dart';
@@ -408,11 +409,40 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
 
                           // ── Action buttons ───────────────────────
+                          // Padding(
+                          //   padding: const EdgeInsets.fromLTRB(20, 0, 20, 28),
+                          //   child: Column(
+                          //     children: [
+                          //       // const ChangePasswordButton(),
+                          //       const SizedBox(height: 14),
+                          //       const LogoutButton(),
+                          //     ],
+                          //   ),
+                          // ),
+                          // ── Action buttons ───────────────────────
                           Padding(
                             padding: const EdgeInsets.fromLTRB(20, 0, 20, 28),
                             child: Column(
                               children: [
                                 // const ChangePasswordButton(),
+                                OutlinedButton.icon(
+                                  onPressed: () => AccountSwitcherSheet.show(context),
+                                  icon: Icon(Icons.swap_horiz_rounded, color: AppColors.primary),
+                                  label: Text(
+                                    'Switch Account',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.primary,
+                                    ),
+                                  ),
+                                  style: OutlinedButton.styleFrom(
+                                    minimumSize: const Size(double.infinity, 52),
+                                    side: BorderSide(color: AppColors.primary),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(14),
+                                    ),
+                                  ),
+                                ),
                                 const SizedBox(height: 14),
                                 const LogoutButton(),
                               ],
