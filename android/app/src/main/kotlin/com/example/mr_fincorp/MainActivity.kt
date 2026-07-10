@@ -1,4 +1,4 @@
-package com.example.mr_fincorp
+package com.techfifo.mr_fincorp
 
 import io.flutter.embedding.android.FlutterActivity
 
