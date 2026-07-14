@@ -1,22 +1,3 @@
-// class GroupMemberModel {
-//   final String customerId;
-//   final String name;
-
-//   GroupMemberModel({
-//     required this.customerId,
-//     required this.name,
-//   });
-
-//   factory GroupMemberModel.fromJson(
-//     Map<String, dynamic> json,
-//   ) {
-//     return GroupMemberModel(
-//       customerId: json['customer_id'] ?? '',
-//       name: json['name'] ?? '',
-//     );
-//   }
-// }
-
 class GroupMemberModel {
   final int customerId;
   final String name;

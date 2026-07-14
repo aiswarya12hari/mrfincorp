@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mr_fincorp/FEATURES/Collections/presentation/Widgets/collection_filter_page.dart';
 import 'package:provider/provider.dart';
 import 'package:mr_fincorp/FEATURES/Collections/data/model/collection_model.dart';
 import 'package:mr_fincorp/FEATURES/Collections/presentation/Widgets/collected_list.dart';
@@ -35,7 +36,8 @@ class _CollectionsPageState extends State<CollectionsPage> {
     final query = _searchQuery.trim().toLowerCase();
     return all.where((item) {
       final matchesTab = item.status == CollectionStatus.outstanding;
-      final matchesSearch = query.isEmpty ||
+      final matchesSearch =
+          query.isEmpty ||
           item.customerName.toLowerCase().contains(query) ||
           item.loanId.toLowerCase().contains(query);
       return matchesTab && matchesSearch;
@@ -87,7 +89,13 @@ class _CollectionsPageState extends State<CollectionsPage> {
                 CollectionSearchBar(
                   onChanged: _onSearchChanged,
                   onFilterTap: () {
-                    // TODO: open filter sheet once filter UI is defined
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) =>
+                            CollectionFilterPage(activeTab: _selectedTab),
+                      ),
+                    );
                   },
                 ),
               ],

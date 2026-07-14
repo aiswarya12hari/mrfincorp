@@ -16,6 +16,7 @@ class CollectionModel {
   final String paymentMethod;
   final String feedback;
   final String createdAt;
+  final String loanStatus; 
 
   const CollectionModel({
     required this.slNo,
@@ -33,6 +34,7 @@ class CollectionModel {
     required this.paymentMethod,
     required this.feedback,
     required this.createdAt,
+    required this.loanStatus,
   });
 
   factory CollectionModel.fromJson(Map<String, dynamic> json) {
@@ -54,6 +56,7 @@ class CollectionModel {
       paymentMethod: json['payment_method'] ?? '',
       feedback: json['feedback'] ?? '',
       createdAt: json['created_at'] ?? '',
+      loanStatus: json['loan_status'] ?? '', 
     );
   }
 

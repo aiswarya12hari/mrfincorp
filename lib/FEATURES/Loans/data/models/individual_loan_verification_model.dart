@@ -8,6 +8,7 @@ class IndividualLoanVerificationModel {
   final String district;
   final String pinCode;
   final String googleMapLink;
+  final String maxPayAmount; 
 
   IndividualLoanVerificationModel({
     required this.feedback,
@@ -19,6 +20,7 @@ class IndividualLoanVerificationModel {
     required this.district,
     required this.pinCode,
     required this.googleMapLink,
+    required this.maxPayAmount,
   });
 
   Map<String, dynamic> toJson() {
