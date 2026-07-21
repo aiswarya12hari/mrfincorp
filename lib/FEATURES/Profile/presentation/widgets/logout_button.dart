@@ -7,9 +7,7 @@ import '../../provider/logout_provider.dart';
 class LogoutButton extends StatelessWidget {
   const LogoutButton({super.key});
 
-  Future<void> _showLogoutDialog(
-    BuildContext context,
-  ) async {
+  Future<void> _showLogoutDialog(BuildContext context) async {
     final confirm = await showDialog<bool>(
       context: context,
       barrierDismissible: false,
@@ -20,39 +18,25 @@ class LogoutButton extends StatelessWidget {
           ),
           title: const Text(
             'Logout',
-            style: TextStyle(
-              fontWeight: FontWeight.w700,
-            ),
+            style: TextStyle(fontWeight: FontWeight.w700),
           ),
-          content: const Text(
-            'Are you sure you want to logout?',
-          ),
+          content: const Text('Are you sure you want to logout?'),
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.pop(
-                  dialogContext,
-                  false,
-                );
+                Navigator.pop(dialogContext, false);
               },
-              child: const Text(
-                'Cancel',
-              ),
+              child: const Text('Cancel'),
             ),
             ElevatedButton(
               onPressed: () {
-                Navigator.pop(
-                  dialogContext,
-                  true,
-                );
+                Navigator.pop(dialogContext, true);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red,
                 foregroundColor: Colors.white,
               ),
-              child: const Text(
-                'Logout',
-              ),
+              child: const Text('Logout'),
             ),
           ],
         );
@@ -61,41 +45,16 @@ class LogoutButton extends StatelessWidget {
 
     if (confirm != true) return;
 
-    final provider =
-        context.read<LogoutProvider>();
-
-    // final success =
-    //     await provider.logout();
-
-    // if (!context.mounted) return;
-
-    // if (success) {
-    //   Navigator.pushAndRemoveUntil(
-    //     context,
-    //     MaterialPageRoute(
-    //       builder: (_) => const LoginPage(),
-    //     ),
-    //     (route) => false,
-    //   );
-    // } else {
-    //   ScaffoldMessenger.of(context)
-    //       .showSnackBar(
-    //     const SnackBar(
-    //       content: Text(
-    //         'Logout failed',
-    //       ),
-    //     ),
-    //   );
-    // }
+    final provider = context.read<LogoutProvider>();
 
     final result = await provider.logout();
 
     if (!context.mounted) return;
 
     if (result == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Logout failed')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Logout failed')));
       return;
     }
 
@@ -119,11 +78,7 @@ class LogoutButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<LogoutProvider>(
-      builder: (
-        context,
-        provider,
-        child,
-      ) {
+      builder: (context, provider, child) {
         return SizedBox(
           width: double.infinity,
           height: 52,
@@ -134,10 +89,7 @@ class LogoutButton extends StatelessWidget {
                   : const LinearGradient(
                       begin: Alignment.centerLeft,
                       end: Alignment.centerRight,
-                      colors: [
-                        Color(0xFFE53E3E),
-                        Color(0xFFFC8181),
-                      ],
+                      colors: [Color(0xFFE53E3E), Color(0xFFFC8181)],
                     ),
               color: provider.isLoading ? const Color(0xFFEDF2F7) : null,
               borderRadius: BorderRadius.circular(14),

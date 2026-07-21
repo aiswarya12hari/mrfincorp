@@ -120,11 +120,6 @@ class ApiClient {
         final data = jsonDecode(response.body);
         final newAccessToken = data['access'];
 
-        // if (newAccessToken != null) {
-        //   await AppPreferences.saveAccessToken(newAccessToken);
-        //   _refreshCompleter!.complete(true);
-        //   return true;
-        // }
         if (newAccessToken != null) {
           await AppPreferences.updateActiveAccessToken(newAccessToken);
           _refreshCompleter!.complete(true);
@@ -142,15 +137,6 @@ class ApiClient {
       _refreshCompleter = null;
     }
   }
-
-  // static Future<void> _forceLogout() async {
-  //   await AppPreferences.clearAll();
-
-  //   navigatorKey.currentState?.pushAndRemoveUntil(
-  //     MaterialPageRoute(builder: (_) => const LoginPage()),
-  //     (route) => false,
-  //   );
-  // }
 
   static Future<void> _forceLogout() async {
     final activeId = AppPreferences.getActiveUserId();
@@ -178,13 +164,6 @@ class ApiClient {
     }
   }
 
-  /// Used only by the splash screen to silently verify the stored
-  /// session. Does NOT call _forceLogout() — the splash screen owns
-  /// its own navigation decision based on the returned status.
-  ///
-  /// Distinguishes "token is actually invalid" from "couldn't reach
-  /// the server" so field staff with no signal aren't logged out
-  /// just because the profile ping failed to connect.
   static Future<SessionStatus> validateSession() async {
     final token = AppPreferences.getAccessToken();
     if (token == null || token.isEmpty) {

@@ -50,15 +50,13 @@ class _SplashPageState extends State<SplashPage>
       ),
     );
 
-    _textSlide = Tween<Offset>(
-      begin: const Offset(0, 0.25),
-      end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.35, 0.75, curve: Curves.easeOutCubic),
-      ),
-    );
+    _textSlide = Tween<Offset>(begin: const Offset(0, 0.25), end: Offset.zero)
+        .animate(
+          CurvedAnimation(
+            parent: _controller,
+            curve: const Interval(0.35, 0.75, curve: Curves.easeOutCubic),
+          ),
+        );
 
     _textOpacity = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
@@ -130,25 +128,12 @@ class _SplashPageState extends State<SplashPage>
         break;
 
       case SessionStatus.networkError:
-        // Couldn't reach the server — don't punish the user for
-        // being offline. Let them into the app with the stored
-        // token; individual screens will retry/refresh once
-        // connectivity is back.
         debugPrint('Splash: network error => BottomNavPage (offline entry)');
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (_) => const BottomNavPage()),
         );
         break;
-
-      // case SessionStatus.invalid:
-      //   debugPrint('Splash: invalid session => clearing + LoginPage');
-      //   await AppPreferences.clearAll();
-      //   Navigator.pushReplacement(
-      //     context,
-      //     MaterialPageRoute(builder: (_) => const LoginPage()),
-      //   );
-      //   break;
 
       case SessionStatus.invalid:
         debugPrint('Splash: invalid session => removing account');
@@ -231,7 +216,9 @@ class _SplashPageState extends State<SplashPage>
                                       color: AppColors.white.withOpacity(0.14),
                                       borderRadius: BorderRadius.circular(32),
                                       border: Border.all(
-                                        color: AppColors.white.withOpacity(0.18),
+                                        color: AppColors.white.withOpacity(
+                                          0.18,
+                                        ),
                                         width: 1,
                                       ),
                                       boxShadow: [
@@ -262,7 +249,7 @@ class _SplashPageState extends State<SplashPage>
                                 child: SlideTransition(
                                   position: _textSlide,
                                   child: Text(
-                                    'Mr Fincorp',
+                                    'Friends Fincorp',
                                     style: TextStyle(
                                       fontFamily: 'Inter',
                                       fontSize: dim.sp(30),

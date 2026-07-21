@@ -1,47 +1,4 @@
-// import 'package:flutter/material.dart';
-// import '../../../../../CORE/Theme/app_color.dart';
 
-// class ProfileInfoTile extends StatelessWidget {
-//   final String title;
-//   final String value;
-
-//   const ProfileInfoTile({
-//     super.key,
-//     required this.title,
-//     required this.value,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Row(
-//       children: [
-//         Expanded(
-//           child: Text(
-//             title,
-//             style: const TextStyle(
-//               color: AppColors.gray600,
-//               fontSize: 14,
-//             ),
-//           ),
-//         ),
-
-//         Expanded(
-//           child: Align(
-//             alignment: Alignment.centerRight,
-//             child: Text(
-//               value,
-//               textAlign: TextAlign.right,
-//               style: const TextStyle(
-//                 fontWeight: FontWeight.w500,
-//                 fontSize: 14,
-//               ),
-//             ),
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }
 
 import 'package:flutter/material.dart';
 import '../../../../../CORE/Theme/app_color.dart';
