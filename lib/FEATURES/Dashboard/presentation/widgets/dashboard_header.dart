@@ -43,38 +43,6 @@ class DashboardHeader extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // ── Avatar ─────────────────────────────────
-          // Container(
-          //   width: 48,
-          //   height: 48,
-          //   decoration: BoxDecoration(
-          //     shape: BoxShape.circle,
-          //     gradient: LinearGradient(
-          //       colors: [AppColors.primary, AppColors.primary.withOpacity(.75)],
-          //       begin: Alignment.topLeft,
-          //       end: Alignment.bottomRight,
-          //     ),
-          //     border: Border.all(color: AppColors.primaryLight, width: 2),
-          //     boxShadow: [
-          //       BoxShadow(
-          //         color: AppColors.primary.withOpacity(.25),
-          //         blurRadius: 10,
-          //         offset: const Offset(0, 4),
-          //       ),
-          //     ],
-          //   ),
-          //   alignment: Alignment.center,
-          //   child: Text(
-          //     _initials(displayName),
-          //     style: TextStyle(
-          //       fontFamily: AppTextStyles.fontFamily,
-          //       color: Colors.white,
-          //       fontSize: 17,
-          //       fontWeight: FontWeight.w600,
-          //     ),
-          //   ),
-          // ),
-
           // ── Avatar (tap to switch account) ──────────
           GestureDetector(
             onTap: () => AccountSwitcherSheet.show(context),
@@ -87,7 +55,10 @@ class DashboardHeader extends StatelessWidget {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     gradient: LinearGradient(
-                      colors: [AppColors.primary, AppColors.primary.withOpacity(.75)],
+                      colors: [
+                        AppColors.primary,
+                        AppColors.primary.withOpacity(.75),
+                      ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),

@@ -1,166 +1,3 @@
-// import 'package:flutter/material.dart';
-// import 'package:mr_fincorp/FEATURES/Loans/presentation/pages/group_member_refresh_page.dart';
-
-// import '../../data/models/group_verify_response_model.dart';
-// import 'group_all_verified_success_page.dart';
-
-// class GroupMemberVerifySuccessPage extends StatelessWidget {
-//   final String loanId;
-//   final String verifiedMemberName;
-//   final GroupVerifyResponseModel response;
-
-//   const GroupMemberVerifySuccessPage({
-//     super.key,
-//     required this.loanId,
-//     required this.verifiedMemberName,
-//     required this.response,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final allVerified = response.isFullyVerified;
-
-//     return Scaffold(
-//       backgroundColor: const Color(0xffF7F8FA),
-//       body: SafeArea(
-//         child: Padding(
-//           padding: const EdgeInsets.all(20),
-//           child: Column(
-//             children: [
-//               const SizedBox(height: 40),
-
-//               Container(
-//                 width: 100,
-//                 height: 100,
-//                 decoration: const BoxDecoration(
-//                   color: Color(0xFFE8F8F6),
-//                   shape: BoxShape.circle,
-//                 ),
-//                 child: const Icon(
-//                   Icons.check_circle,
-//                   size: 60,
-//                   color: Color(0xFF2A9D8F),
-//                 ),
-//               ),
-
-//               const SizedBox(height: 24),
-
-//               const Text(
-//                 'Member Verified Successfully!',
-//                 textAlign: TextAlign.center,
-//                 style: TextStyle(
-//                   fontSize: 24,
-//                   fontWeight: FontWeight.w700,
-//                 ),
-//               ),
-
-//               const SizedBox(height: 12),
-
-//               Text(
-//                 '$verifiedMemberName has been verified successfully.',
-//                 textAlign: TextAlign.center,
-//                 style: const TextStyle(
-//                   color: Colors.grey,
-//                   height: 1.5,
-//                 ),
-//               ),
-
-//               const SizedBox(height: 32),
-
-//               Container(
-//                 width: double.infinity,
-//                 padding: const EdgeInsets.all(16),
-//                 decoration: BoxDecoration(
-//                   color: Colors.white,
-//                   borderRadius: BorderRadius.circular(16),
-//                 ),
-//                 child: Column(
-//                   children: [
-//                     _row(
-//                       'Verified Members',
-//                       '${response.verifiedCount} / ${response.totalMembers}',
-//                     ),
-//                     const Divider(),
-//                     _row('Loan Status', response.status),
-//                   ],
-//                 ),
-//               ),
-
-//               const Spacer(),
-
-//               if (!allVerified)
-//                 SizedBox(
-//                   width: double.infinity,
-//                   height: 52,
-//                   child: ElevatedButton(
-//                     style: ElevatedButton.styleFrom(
-//                       backgroundColor: const Color(0xFF2A9D8F),
-//                       shape: RoundedRectangleBorder(
-//                         borderRadius: BorderRadius.circular(12),
-//                       ),
-//                     ),
-//                     onPressed: () {
-//                       Navigator.pushReplacement(
-//                         context,
-//                         MaterialPageRoute(
-//                           builder: (_) =>
-//                               GroupMembersRefreshPage(loanId: loanId),
-//                         ),
-//                       );
-//                     },
-//                     child: const Text('Back to Members'),
-//                   ),
-//                 )
-//               else
-//                 SizedBox(
-//                   width: double.infinity,
-//                   height: 52,
-//                   child: ElevatedButton(
-//                     style: ElevatedButton.styleFrom(
-//                       backgroundColor: const Color(0xFF2A9D8F),
-//                       shape: RoundedRectangleBorder(
-//                         borderRadius: BorderRadius.circular(12),
-//                       ),
-//                     ),
-//                     onPressed: () {
-//                       Navigator.pushReplacement(
-//                         context,
-//                         MaterialPageRoute(
-//                           builder: (_) => GroupAllVerifiedSuccessPage(
-//                             response: response,
-//                           ),
-//                         ),
-//                       );
-//                     },
-//                     child: const Text('Continue'),
-//                   ),
-//                 ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-
-//   Widget _row(String title, String value) {
-//     return Row(
-//       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//       children: [
-//         Text(title, style: const TextStyle(color: Colors.grey)),
-//         Flexible(
-//           child: Text(
-//             value,
-//             textAlign: TextAlign.end,
-//             style: const TextStyle(fontWeight: FontWeight.w600),
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }
-
-
-
 import 'package:flutter/material.dart';
 import 'package:mr_fincorp/FEATURES/Loans/presentation/pages/group_member_refresh_page.dart';
 
@@ -206,10 +43,8 @@ class GroupMemberVerifySuccessPage extends StatelessWidget {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (_) => GroupMemberVerificationPage(
-          loanId: loanId,
-          member: nextMember,
-        ),
+        builder: (_) =>
+            GroupMemberVerificationPage(loanId: loanId, member: nextMember),
       ),
     );
   }
@@ -246,10 +81,7 @@ class GroupMemberVerifySuccessPage extends StatelessWidget {
               const Text(
                 'Member Verified Successfully!',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w700,
-                ),
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
               ),
 
               const SizedBox(height: 12),
@@ -257,10 +89,7 @@ class GroupMemberVerifySuccessPage extends StatelessWidget {
               Text(
                 '$verifiedMemberName has been verified successfully.',
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Colors.grey,
-                  height: 1.5,
-                ),
+                style: const TextStyle(color: Colors.grey, height: 1.5),
               ),
 
               const SizedBox(height: 32),
@@ -337,9 +166,8 @@ class GroupMemberVerifySuccessPage extends StatelessWidget {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => GroupAllVerifiedSuccessPage(
-                            response: response,
-                          ),
+                          builder: (_) =>
+                              GroupAllVerifiedSuccessPage(response: response),
                         ),
                       );
                     },

@@ -56,7 +56,7 @@ class LoginProvider extends ChangeNotifier {
 
       return true;
     } catch (e) {
-      errorMessage = e.toString();
+      errorMessage = e.toString().replaceFirst('Exception: ', '');
 
       debugPrint('LOGIN PROVIDER ERROR => $errorMessage');
 

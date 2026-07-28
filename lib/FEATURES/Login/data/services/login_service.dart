@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -32,9 +32,17 @@ class LoginService {
         return LoginResponseModel.fromJson(jsonDecode(response.body));
       }
 
+      if (response.statusCode == 401) {
+        throw Exception('Invalid credentials');
+      }
+
       throw Exception('Login Failed : ${response.statusCode}');
     } on TimeoutException {
-      throw Exception('Connection timeout. Check server.');
+      throw Exception(
+        'Connection timeout. Please check your internet connection.',
+      );
+    } on SocketException {
+      throw Exception('Network error. Please check your internet connection.');
     } catch (e) {
       debugPrint('SERVICE ERROR => $e');
       rethrow;

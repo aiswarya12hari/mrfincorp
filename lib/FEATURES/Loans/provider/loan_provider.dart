@@ -115,8 +115,20 @@ class LoanProvider extends ChangeNotifier {
     await fetchLoans();
   }
 
+  // Future<void> changeStatusTab(String? status) async {
+  //   selectedStatus = status;
+
+  //   currentPage = 1;
+
+  //   loans.clear();
+
+  //   await fetchLoans();
+  // }
+
   Future<void> changeStatusTab(String? status) async {
     selectedStatus = status;
+    searchLoanId = '';
+    searchCustomer = '';
 
     currentPage = 1;
 

@@ -8,6 +8,7 @@ import 'package:mr_fincorp/FEATURES/Dashboard/provider/dashboard_provider.dart';
 import 'package:mr_fincorp/FEATURES/Loans/provider/group_loan_verification_provider.dart';
 import 'package:mr_fincorp/FEATURES/Loans/provider/individual_loan_verification.dart';
 import 'package:mr_fincorp/FEATURES/Loans/provider/loan_detail_provider.dart';
+import 'package:mr_fincorp/FEATURES/Navigation/navigation_provider.dart';
 import 'package:mr_fincorp/FEATURES/Profile/provider/logout_provider.dart';
 import 'package:mr_fincorp/FEATURES/Profile/provider/profile_provider.dart';
 // import 'package:mr_fincorp/FEATURES/Dashboard/presentation/pages/dashboard_page.dart';
@@ -18,7 +19,6 @@ import 'FEATURES/Splash/presentation/pages/splash_page.dart';
 import 'CORE/Storage/shared_preference.dart';
 // import 'package:mr_fincorp/FEATURES/Navigation/presentation/pages/bottom_nav_page.dart';
 import 'package:mr_fincorp/FEATURES/Loans/provider/loan_provider.dart';
-
 
 final navigatorKey = GlobalKey<NavigatorState>();
 Future<void> main() async {
@@ -50,6 +50,7 @@ class FincorpApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CollectionSubmitProvider()),
         ChangeNotifierProvider(create: (_) => CollectedListProvider()),
         ChangeNotifierProvider(create: (_) => AccountSwitcherProvider()),
+        ChangeNotifierProvider(create: (_) => NavigationProvider()),
       ],
       child: MaterialApp(
       navigatorKey: navigatorKey,

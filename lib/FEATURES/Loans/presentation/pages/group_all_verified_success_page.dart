@@ -1,147 +1,3 @@
-// import 'package:flutter/material.dart';
-
-// import '../../data/models/group_verify_response_model.dart';
-
-// class GroupAllVerifiedSuccessPage extends StatelessWidget {
-//   final GroupVerifyResponseModel response;
-
-//   const GroupAllVerifiedSuccessPage({super.key, required this.response});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: const Color(0xffF7F8FA),
-//       body: SafeArea(
-//         child: Padding(
-//           padding: const EdgeInsets.all(20),
-//           child: SingleChildScrollView(
-//             child: Column(
-//               children: [
-//                 const SizedBox(height: 40),
-
-//                 Container(
-//                   width: 100,
-//                   height: 100,
-//                   decoration: const BoxDecoration(
-//                     color: Color(0xFFE8F8F6),
-//                     shape: BoxShape.circle,
-//                   ),
-//                   child: const Icon(
-//                     Icons.check_circle,
-//                     size: 60,
-//                     color: Color(0xFF2A9D8F),
-//                   ),
-//                 ),
-
-//                 const SizedBox(height: 24),
-
-//                 const Text(
-//                   'All Members Verified Successfully!',
-//                   textAlign: TextAlign.center,
-//                   style: TextStyle(
-//                     fontSize: 24,
-//                     fontWeight: FontWeight.w700,
-//                   ),
-//                 ),
-
-//                 const SizedBox(height: 12),
-
-//                 const Text(
-//                   'All members of this group loan have been verified successfully.',
-//                   textAlign: TextAlign.center,
-//                   style: TextStyle(
-//                     color: Colors.grey,
-//                     height: 1.5,
-//                   ),
-//                 ),
-
-//                 const SizedBox(height: 32),
-
-//                 Container(
-//                   width: double.infinity,
-//                   padding: const EdgeInsets.all(16),
-//                   decoration: BoxDecoration(
-//                     color: Colors.white,
-//                     borderRadius: BorderRadius.circular(16),
-//                   ),
-//                   child: Column(
-//                     children: [
-//                       _row(
-//                         'Verified Members',
-//                         '${response.verifiedCount} / ${response.totalMembers}',
-//                       ),
-//                       const Divider(),
-//                       _row('Loan Status', response.status),
-//                     ],
-//                   ),
-//                 ),
-
-//                 const SizedBox(height: 16),
-
-//                 Container(
-//                   width: double.infinity,
-//                   padding: const EdgeInsets.all(16),
-//                   decoration: BoxDecoration(
-//                     color: Colors.white,
-//                     borderRadius: BorderRadius.circular(16),
-//                   ),
-//                   child: Column(
-//                     children: [
-//                       _row('Verified By', response.verifiedBy),
-//                       const Divider(),
-//                       _row('Loan ID', response.loanId),
-//                     ],
-//                   ),
-//                 ),
-
-//                 const SizedBox(height: 30),
-
-//                 SizedBox(
-//                   width: double.infinity,
-//                   height: 52,
-//                   child: ElevatedButton(
-//                     style: ElevatedButton.styleFrom(
-//                       backgroundColor: const Color(0xFF2A9D8F),
-//                       shape: RoundedRectangleBorder(
-//                         borderRadius: BorderRadius.circular(12),
-//                       ),
-//                     ),
-//                     onPressed: () {
-//                       Navigator.popUntil(
-//                         context,
-//                         (route) => route.isFirst,
-//                       );
-//                     },
-//                     child: const Text('Back to Loans'),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-
-//   Widget _row(String title, String value) {
-//     return Row(
-//       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//       children: [
-//         Text(title, style: const TextStyle(color: Colors.grey)),
-//         Flexible(
-//           child: Text(
-//             value,
-//             textAlign: TextAlign.end,
-//             style: const TextStyle(fontWeight: FontWeight.w600),
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }
-
-
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -154,7 +10,9 @@ class GroupAllVerifiedSuccessPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final verifiedOnText = DateFormat('d MMM yyyy, hh:mm a').format(DateTime.now());
+    final verifiedOnText = DateFormat(
+      'd MMM yyyy, hh:mm a',
+    ).format(DateTime.now());
 
     return Scaffold(
       backgroundColor: const Color(0xffF7F8FA),
@@ -197,10 +55,7 @@ class GroupAllVerifiedSuccessPage extends StatelessWidget {
                 const Text(
                   'All members of this group loan have been verified successfully.',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.grey,
-                    height: 1.5,
-                  ),
+                  style: TextStyle(color: Colors.grey, height: 1.5),
                 ),
 
                 const SizedBox(height: 32),
@@ -243,10 +98,7 @@ class GroupAllVerifiedSuccessPage extends StatelessWidget {
                       elevation: 0,
                     ),
                     onPressed: () {
-                      Navigator.popUntil(
-                        context,
-                        (route) => route.isFirst,
-                      );
+                      Navigator.popUntil(context, (route) => route.isFirst);
                     },
                     child: const Text(
                       'Back to Group Loans',
