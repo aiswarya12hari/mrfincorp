@@ -96,14 +96,14 @@ class _CollectionDetailsPageState extends State<CollectionDetailsPage> {
           'Collection Details',
           style: AppTextStyles.pageTitle(context),
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.more_vert, color: AppColors.gray800),
-            onPressed: () {
-              // TODO: show details menu (edit / delete / share, etc.)
-            },
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     icon: Icon(Icons.more_vert, color: AppColors.gray800),
+        //     onPressed: () {
+        //       // TODO: show details menu (edit / delete / share, etc.)
+        //     },
+        //   ),
+        // ],
       ),
       body: SafeArea(
         child: Column(

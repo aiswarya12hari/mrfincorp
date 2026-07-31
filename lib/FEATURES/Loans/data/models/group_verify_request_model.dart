@@ -8,7 +8,7 @@ class GroupMemberVerifyRequestModel {
   final String district;
   final String pinCode;
   final String googleMapLink;
-  final String maxPayAmount;
+  // final String maxPayAmount;
 
   GroupMemberVerifyRequestModel({
     required this.customerId,
@@ -20,7 +20,7 @@ class GroupMemberVerifyRequestModel {
     required this.district,
     required this.pinCode,
     required this.googleMapLink,
-    required this.maxPayAmount,
+    // required this.maxPayAmount,
   });
 
   Map<String, dynamic> toJson() {
@@ -34,7 +34,7 @@ class GroupMemberVerifyRequestModel {
       'district': district,
       'pin_code': pinCode,
       'google_map_link': googleMapLink,
-      'max_pay_amount': maxPayAmount,
+      // 'max_pay_amount': maxPayAmount,
     };
   }
 }

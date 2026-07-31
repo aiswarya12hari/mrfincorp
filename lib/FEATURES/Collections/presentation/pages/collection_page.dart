@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mr_fincorp/FEATURES/Collections/presentation/Widgets/collection_filter_page.dart';
+import 'package:mr_fincorp/FEATURES/Navigation/navigation_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:mr_fincorp/FEATURES/Collections/data/model/collection_model.dart';
 import 'package:mr_fincorp/FEATURES/Collections/presentation/Widgets/collected_list.dart';
@@ -63,17 +64,21 @@ class _CollectionsPageState extends State<CollectionsPage> {
     return Scaffold(
       backgroundColor: AppColors.gray100,
       appBar: AppBar(
-        backgroundColor: AppColors.gray100,
-        elevation: 0,
-        centerTitle: false,
-        leading: Builder(
-          builder: (context) => IconButton(
-            icon: Icon(Icons.menu, color: AppColors.gray800),
-            onPressed: () => Scaffold.of(context).openDrawer(),
-          ),
-        ),
-        title: Text('Collections', style: AppTextStyles.pageTitle(context)),
-      ),
+  backgroundColor: AppColors.gray100,
+  elevation: 0,
+  centerTitle: false,
+  leading: IconButton(
+    icon: Icon(Icons.arrow_back_ios_new, size: 20, color: AppColors.gray800),
+    onPressed: () {
+      if (Navigator.canPop(context)) {
+        Navigator.pop(context);
+      } else {
+        context.read<NavigationProvider>().changeTab(0);
+      }
+    },
+  ),
+  title: Text('Collections', style: AppTextStyles.pageTitle(context)),
+),
       body: Column(
         children: [
           Padding(

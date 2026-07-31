@@ -39,7 +39,7 @@ class _GroupMemberVerificationPageState
   final districtController = TextEditingController();
   final pinCodeController = TextEditingController();
   final googleMapLinkController = TextEditingController();
-  final maxPayAmountController = TextEditingController();
+  // final maxPayAmountController = TextEditingController();
 
   double? selectedLatitude;
   double? selectedLongitude;
@@ -53,7 +53,7 @@ class _GroupMemberVerificationPageState
     districtController.dispose();
     pinCodeController.dispose();
     googleMapLinkController.dispose();
-    maxPayAmountController.dispose();
+    // maxPayAmountController.dispose();
     super.dispose();
   }
 
@@ -138,7 +138,7 @@ class _GroupMemberVerificationPageState
         members: [
           GroupMemberVerifyRequestModel(
             customerId: widget.member.customerId,
-            maxPayAmount: maxPayAmountController.text,
+            // maxPayAmount: maxPayAmountController.text,
             latitude: (selectedLatitude ?? 0).toString(),
             longitude: (selectedLongitude ?? 0).toString(),
             fullAddress: addressController.text,
@@ -370,11 +370,11 @@ class _GroupMemberVerificationPageState
               const SizedBox(height: 20),
 
               // ── Max Pay Amount ──
-              _sectionField(
-                label: 'Max Pay Amount',
-                controller: maxPayAmountController,
-                required: false,
-              ),
+              // _sectionField(
+              //   label: 'Max Pay Amount',
+              //   controller: maxPayAmountController,
+              //   required: false,
+              // ),
 
               // ── Feedback moved to bottom ──
               _sectionField(

@@ -13,24 +13,6 @@ class LoanSearchBar extends StatefulWidget {
 class _LoanSearchBarState extends State<LoanSearchBar> {
   final TextEditingController _controller = TextEditingController();
 
-  // void _search() {
-  //   final text = _controller.text.trim();
-
-  //   final provider = context.read<LoanProvider>();
-
-  //   if (text.isEmpty) {
-  //     provider.resetFilter();
-  //     return;
-  //   }
-
-  //   final isLoanId = text.toUpperCase().contains('PKD');
-
-  //   provider.applyFilter(
-  //     loanId: isLoanId ? text : null,
-  //     customerName: isLoanId ? null : text,
-  //   );
-  // }
-
   void _search() {
     final text = _controller.text.trim();
 
@@ -66,14 +48,6 @@ class _LoanSearchBarState extends State<LoanSearchBar> {
 
         suffixIcon: _controller.text.isNotEmpty
             ? IconButton(
-                // icon: const Icon(Icons.close),
-                // onPressed: () {
-                //   _controller.clear();
-
-                //   context.read<LoanProvider>().resetFilter();
-
-                //   setState(() {});
-                // },
                 icon: const Icon(Icons.close),
                 onPressed: () {
                   _controller.clear();

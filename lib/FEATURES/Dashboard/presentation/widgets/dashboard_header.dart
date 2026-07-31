@@ -6,7 +6,7 @@ import '../../../../../CORE/Storage/shared_preference.dart';
 
 class DashboardHeader extends StatelessWidget {
   const DashboardHeader({super.key});
-  static const bool _hasUnreadNotifications = true;
+  // static const bool _hasUnreadNotifications = true;
 
   String _initials(String name) {
     final parts = name.trim().split(RegExp(r'\s+'));
@@ -139,39 +139,39 @@ class DashboardHeader extends StatelessWidget {
           ),
 
           // ── Notification bell ──────────────────────
-          Container(
-            decoration: BoxDecoration(
-              color: AppColors.gray100,
-              shape: BoxShape.circle,
-            ),
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.notifications_none_rounded,
-                    color: AppColors.gray800,
-                    size: 24,
-                  ),
-                ),
-                if (_hasUnreadNotifications)
-                  Positioned(
-                    top: 10,
-                    right: 10,
-                    child: Container(
-                      width: 9,
-                      height: 9,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: const Color(0xFFEF4444),
-                        border: Border.all(color: Colors.white, width: 1.5),
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-          ),
+          // Container(
+          //   decoration: BoxDecoration(
+          //     color: AppColors.gray100,
+          //     shape: BoxShape.circle,
+          //   ),
+          //   child: Stack(
+          //     clipBehavior: Clip.none,
+          //     children: [
+          //       IconButton(
+          //         onPressed: () {},
+          //         icon: Icon(
+          //           Icons.notifications_none_rounded,
+          //           color: AppColors.gray800,
+          //           size: 24,
+          //         ),
+          //       ),
+          //       if (_hasUnreadNotifications)
+          //         Positioned(
+          //           top: 10,
+          //           right: 10,
+          //           child: Container(
+          //             width: 9,
+          //             height: 9,
+          //             decoration: BoxDecoration(
+          //               shape: BoxShape.circle,
+          //               color: const Color(0xFFEF4444),
+          //               border: Border.all(color: Colors.white, width: 1.5),
+          //             ),
+          //           ),
+          //         ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );

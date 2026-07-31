@@ -34,7 +34,7 @@ class _IndividualLoanVerificationPageState
   late TextEditingController districtController;
   late TextEditingController pinCodeController;
   late TextEditingController locationController;
-  late TextEditingController maxPayAmountController;
+  // late TextEditingController maxPayAmountController;
   String selectedGoogleMapLink = '';
 
   double? selectedLatitude;
@@ -53,7 +53,7 @@ class _IndividualLoanVerificationPageState
     districtController = TextEditingController(text: customer.district);
     pinCodeController = TextEditingController(text: customer.pinCode);
     locationController = TextEditingController();
-    maxPayAmountController = TextEditingController();
+    // maxPayAmountController = TextEditingController();
   }
 
   @override
@@ -65,7 +65,7 @@ class _IndividualLoanVerificationPageState
     districtController.dispose();
     pinCodeController.dispose();
     locationController.dispose();
-    maxPayAmountController.dispose();
+    // maxPayAmountController.dispose();
 
     super.dispose();
   }
@@ -157,7 +157,7 @@ class _IndividualLoanVerificationPageState
     try {
       final request = IndividualLoanVerificationModel(
         feedback: feedbackController.text,
-        maxPayAmount: maxPayAmountController.text,
+        // maxPayAmount: maxPayAmountController.text,
         latitude: selectedLatitude.toString(),
         longitude: selectedLongitude.toString(),
         fullAddress: addressController.text,
@@ -314,11 +314,11 @@ class _IndividualLoanVerificationPageState
               const SizedBox(height: 20),
 
               // ── Max Pay Amount ──
-              buildField(
-                label: 'Max Pay Amount',
-                controller: maxPayAmountController,
-                required: false,
-              ),
+              // buildField(
+              //   label: 'Max Pay Amount',
+              //   controller: maxPayAmountController,
+              //   required: false,
+              // ),
 
               // ── Feedback moved to bottom ──
               buildField(

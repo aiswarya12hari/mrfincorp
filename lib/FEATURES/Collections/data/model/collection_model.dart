@@ -16,7 +16,7 @@ class CollectionModel {
   final String paymentMethod;
   final String feedback;
   final String createdAt;
-  final String loanStatus; 
+  final String loanStatus;
 
   const CollectionModel({
     required this.slNo,
@@ -56,7 +56,7 @@ class CollectionModel {
       paymentMethod: json['payment_method'] ?? '',
       feedback: json['feedback'] ?? '',
       createdAt: json['created_at'] ?? '',
-      loanStatus: json['loan_status'] ?? '', 
+      loanStatus: json['loan_status'] ?? '',
     );
   }
 
@@ -112,16 +112,22 @@ class CollectionModel {
 
 class CollectionListResponseModel {
   final int count;
+  final String? next;
+  final String? previous;
   final List<CollectionModel> results;
 
   const CollectionListResponseModel({
     required this.count,
+    required this.next,
+    required this.previous,
     required this.results,
   });
 
   factory CollectionListResponseModel.fromJson(Map<String, dynamic> json) {
     return CollectionListResponseModel(
       count: json['count'] ?? 0,
+      next: json['next'],
+      previous: json['previous'],
       results: (json['results'] as List<dynamic>? ?? [])
           .map((e) => CollectionModel.fromJson(e))
           .toList(),
