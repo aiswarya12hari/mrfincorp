@@ -140,7 +140,7 @@ class _LocationPickerPageState extends State<LocationPickerPage> {
         address: address,
         state: state,
         district: district,
-        pinCode: pinCode,
+        // pinCode: pinCode,
         googleMapLink: mapLink,
       ),
     );

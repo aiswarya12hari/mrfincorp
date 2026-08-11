@@ -4,7 +4,7 @@ class SelectedLocationModel {
   final String address;
   final String state;
   final String district;
-  final String pinCode;
+  // final String pinCode;
   final String googleMapLink;
 
   SelectedLocationModel({
@@ -13,7 +13,7 @@ class SelectedLocationModel {
     required this.address,
     required this.state,
     required this.district,
-    required this.pinCode,
+    // required this.pinCode,
     required this.googleMapLink,
   });
 }

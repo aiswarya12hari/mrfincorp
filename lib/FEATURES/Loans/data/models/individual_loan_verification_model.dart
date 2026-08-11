@@ -6,9 +6,9 @@ class IndividualLoanVerificationModel {
   final String landmark;
   final String state;
   final String district;
-  final String pinCode;
+  // final String pinCode;
   final String googleMapLink;
-  // final String maxPayAmount; 
+  final String maxPayAmount; 
 
   IndividualLoanVerificationModel({
     required this.feedback,
@@ -18,9 +18,9 @@ class IndividualLoanVerificationModel {
     required this.landmark,
     required this.state,
     required this.district,
-    required this.pinCode,
+    // required this.pinCode,
     required this.googleMapLink,
-    // required this.maxPayAmount,
+    required this.maxPayAmount,
   });
 
   Map<String, dynamic> toJson() {
@@ -32,8 +32,9 @@ class IndividualLoanVerificationModel {
       "landmark": landmark,
       "state": state,
       "district": district,
-      "pin_code": pinCode,
+      // "pin_code": pinCode,
       "google_map_link": googleMapLink,
+      "maximum_payable_amount": maxPayAmount,
     };
   }
 }

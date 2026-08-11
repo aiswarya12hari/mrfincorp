@@ -32,9 +32,9 @@ class _IndividualLoanVerificationPageState
   late TextEditingController landmarkController;
   late TextEditingController stateController;
   late TextEditingController districtController;
-  late TextEditingController pinCodeController;
+  // late TextEditingController pinCodeController;
   late TextEditingController locationController;
-  // late TextEditingController maxPayAmountController;
+  late TextEditingController maxPayAmountController;
   String selectedGoogleMapLink = '';
 
   double? selectedLatitude;
@@ -51,9 +51,9 @@ class _IndividualLoanVerificationPageState
     landmarkController = TextEditingController(text: customer.landmark);
     stateController = TextEditingController(text: customer.state);
     districtController = TextEditingController(text: customer.district);
-    pinCodeController = TextEditingController(text: customer.pinCode);
+    // pinCodeController = TextEditingController(text: customer.pinCode);
     locationController = TextEditingController();
-    // maxPayAmountController = TextEditingController();
+    maxPayAmountController = TextEditingController();
   }
 
   @override
@@ -63,9 +63,9 @@ class _IndividualLoanVerificationPageState
     landmarkController.dispose();
     stateController.dispose();
     districtController.dispose();
-    pinCodeController.dispose();
+    // pinCodeController.dispose();
     locationController.dispose();
-    // maxPayAmountController.dispose();
+    maxPayAmountController.dispose();
 
     super.dispose();
   }
@@ -87,7 +87,7 @@ class _IndividualLoanVerificationPageState
 
         stateController.text = result.state;
         districtController.text = result.district;
-        pinCodeController.text = result.pinCode;
+        // pinCodeController.text = result.pinCode;
       });
     }
   }
@@ -157,14 +157,14 @@ class _IndividualLoanVerificationPageState
     try {
       final request = IndividualLoanVerificationModel(
         feedback: feedbackController.text,
-        // maxPayAmount: maxPayAmountController.text,
+        maxPayAmount: maxPayAmountController.text,
         latitude: selectedLatitude.toString(),
         longitude: selectedLongitude.toString(),
         fullAddress: addressController.text,
         landmark: landmarkController.text,
         state: stateController.text,
         district: districtController.text,
-        pinCode: pinCodeController.text,
+        // pinCode: pinCodeController.text,
         googleMapLink: selectedGoogleMapLink,
       );
 
@@ -264,7 +264,7 @@ class _IndividualLoanVerificationPageState
                 maxLines: 2,
               ),
               buildField(label: 'Landmark', controller: landmarkController),
-              buildField(label: 'Pin Code', controller: pinCodeController),
+              // buildField(label: 'Pin Code', controller: pinCodeController),
 
               const SizedBox(height: 6),
 
@@ -314,11 +314,11 @@ class _IndividualLoanVerificationPageState
               const SizedBox(height: 20),
 
               // ── Max Pay Amount ──
-              // buildField(
-              //   label: 'Max Pay Amount',
-              //   controller: maxPayAmountController,
-              //   required: false,
-              // ),
+              buildField(
+                label: 'Max Pay Amount',
+                controller: maxPayAmountController,
+                required: false,
+              ),
 
               // ── Feedback moved to bottom ──
               buildField(

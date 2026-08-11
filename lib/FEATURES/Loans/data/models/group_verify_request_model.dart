@@ -6,9 +6,9 @@ class GroupMemberVerifyRequestModel {
   final String landmark;
   final String state;
   final String district;
-  final String pinCode;
+  // final String pinCode;
   final String googleMapLink;
-  // final String maxPayAmount;
+  final String maxPayAmount;
 
   GroupMemberVerifyRequestModel({
     required this.customerId,
@@ -18,9 +18,9 @@ class GroupMemberVerifyRequestModel {
     required this.landmark,
     required this.state,
     required this.district,
-    required this.pinCode,
+    // required this.pinCode,
     required this.googleMapLink,
-    // required this.maxPayAmount,
+    required this.maxPayAmount,
   });
 
   Map<String, dynamic> toJson() {
@@ -32,9 +32,9 @@ class GroupMemberVerifyRequestModel {
       'landmark': landmark,
       'state': state,
       'district': district,
-      'pin_code': pinCode,
+      // 'pin_code': pinCode,
       'google_map_link': googleMapLink,
-      // 'max_pay_amount': maxPayAmount,
+      'maximum_payable_amount': maxPayAmount,
     };
   }
 }
