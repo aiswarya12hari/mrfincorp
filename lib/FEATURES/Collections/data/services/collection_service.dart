@@ -51,6 +51,7 @@ import '../../../../CORE/Config/api_config.dart';
 import '../../../../CORE/Network/api_client.dart';
 
 import '../model/collection_model.dart';
+import '../model/collection_detail_model.dart';
 
 class CollectionService {
   Future<CollectionListResponseModel> getCollections({
@@ -120,6 +121,22 @@ class CollectionService {
       return CollectionListResponseModel.fromJson(
         jsonDecode(response.body),
       );
+    }
+
+    throw Exception(response.body);
+  }
+
+  Future<CollectionDetailModel> getCollectionDetail(int id) async {
+    final uri = Uri.parse('${ApiConfig.collections}$id/');
+
+    debugPrint('COLLECTION DETAIL URL => $uri');
+
+    final response = await ApiClient.get(uri.toString());
+
+    debugPrint('COLLECTION DETAIL STATUS => ${response.statusCode}');
+
+    if (response.statusCode == 200) {
+      return CollectionDetailModel.fromJson(jsonDecode(response.body));
     }
 
     throw Exception(response.body);

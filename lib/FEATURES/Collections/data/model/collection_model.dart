@@ -9,7 +9,8 @@ class CollectionModel {
   final String loanType;
   final String branchName;
   final double principalPending;
-  final double duesPending;
+  final int duePending;
+  final double finePending;
   final bool isCollected;
   final double collectedAmount;
   final String? collectionDate;
@@ -27,7 +28,8 @@ class CollectionModel {
     required this.loanType,
     required this.branchName,
     required this.principalPending,
-    required this.duesPending,
+    required this.duePending,
+    this.finePending = 0.0,
     required this.isCollected,
     required this.collectedAmount,
     required this.collectionDate,
@@ -47,11 +49,19 @@ class CollectionModel {
       loanType: json['loan_type'] ?? '',
       branchName: json['branch_name'] ?? '',
       principalPending:
-          double.tryParse(json['principal_pending'].toString()) ?? 0,
-      duesPending: double.tryParse(json['dues_pending'].toString()) ?? 0,
+          double.tryParse(json['principal_pending']?.toString() ?? '') ?? 0.0,
+      duePending: int.tryParse(
+            (json['due_pending'] ?? json['dues_pending'] ?? 0)
+                .toString()
+                .split('.')
+                .first,
+          ) ??
+          0,
+      finePending:
+          double.tryParse(json['fine_pending']?.toString() ?? '') ?? 0.0,
       isCollected: json['is_collected'] ?? false,
       collectedAmount:
-          double.tryParse(json['collected_amount'].toString()) ?? 0,
+          double.tryParse(json['collected_amount']?.toString() ?? '') ?? 0.0,
       collectionDate: json['collection_date'],
       paymentMethod: json['payment_method'] ?? '',
       feedback: json['feedback'] ?? '',
@@ -71,9 +81,50 @@ class CollectionModel {
 
   double get principal => principalPending;
 
-  double get due => duesPending;
+  double get due => duePending.toDouble();
 
-  double get outstanding => duesPending;
+  double get outstanding => duePending.toDouble();
+
+  double get duesPending => duePending.toDouble();
+
+  // ignore: non_constant_identifier_names
+  double get principal_pending => principalPending;
+
+  // ignore: non_constant_identifier_names
+  int get due_pending => duePending;
+
+  // ignore: non_constant_identifier_names
+  double get fine_pending => finePending;
+
+  // ignore: non_constant_identifier_names
+  String? get collection_date => collectionDate;
+
+  String get formattedLastCollection {
+    final source = collectionDate;
+    if (source == null || source.trim().isEmpty) return 'No Collection';
+    try {
+      final date = DateTime.parse(source);
+      const months = [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec',
+      ];
+      return '${date.day} ${months[date.month - 1]} ${date.year}';
+    } catch (_) {
+      return 'No Collection';
+    }
+  }
+
+  String get formattedCollectionDate => formattedLastCollection;
 
   String get dueDate {
     final source = collectionDate ?? createdAt;

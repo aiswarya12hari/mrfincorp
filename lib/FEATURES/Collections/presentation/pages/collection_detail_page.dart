@@ -1,7 +1,10 @@
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:mr_fincorp/FEATURES/Collections/data/model/collection_model.dart';
+import 'package:mr_fincorp/FEATURES/Collections/data/model/collection_detail_model.dart';
 import 'package:mr_fincorp/FEATURES/Collections/data/model/collection_submit_model.dart';
+import 'package:mr_fincorp/FEATURES/Collections/data/services/collection_service.dart';
 import 'package:mr_fincorp/FEATURES/Collections/provider/collection_submit_provider.dart';
 import 'package:mr_fincorp/FEATURES/Collections/provider/collection_list_provider.dart';
 
@@ -26,11 +29,35 @@ class _CollectionDetailsPageState extends State<CollectionDetailsPage> {
   late final TextEditingController _notesController;
   String _selectedPaymentMethod = 'CASH';
 
+  final CollectionService _collectionService = CollectionService();
+  CollectionDetailModel? _detail;
+  bool _isLoadingDetail = true;
+
   @override
   void initState() {
     super.initState();
     _amountController = TextEditingController();
     _notesController = TextEditingController();
+    _fetchDetail();
+  }
+
+  Future<void> _fetchDetail() async {
+    try {
+      final detail = await _collectionService.getCollectionDetail(
+        widget.data.assignmentId,
+      );
+      if (!mounted) return;
+      setState(() {
+        _detail = detail;
+        _isLoadingDetail = false;
+      });
+    } catch (e) {
+      debugPrint('COLLECTION DETAIL FETCH ERROR => $e');
+      if (!mounted) return;
+      setState(() {
+        _isLoadingDetail = false;
+      });
+    }
   }
 
   @override
@@ -96,14 +123,6 @@ class _CollectionDetailsPageState extends State<CollectionDetailsPage> {
           'Collection Details',
           style: AppTextStyles.pageTitle(context),
         ),
-        // actions: [
-        //   IconButton(
-        //     icon: Icon(Icons.more_vert, color: AppColors.gray800),
-        //     onPressed: () {
-        //       // TODO: show details menu (edit / delete / share, etc.)
-        //     },
-        //   ),
-        // ],
       ),
       body: SafeArea(
         child: Column(
@@ -113,7 +132,26 @@ class _CollectionDetailsPageState extends State<CollectionDetailsPage> {
                 padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
                 child: Column(
                   children: [
-                    CollectionDetailHeaderCard(data: widget.data),
+                    if (_isLoadingDetail)
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 40),
+                        child: Center(child: CircularProgressIndicator()),
+                      )
+                    else if (_detail != null)
+                      CollectionDetailHeaderCard(data: _detail!)
+                    else
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: AppColors.white,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Text(
+                          'Unable to load full loan details.',
+                          style: AppTextStyles.fieldValue(context),
+                        ),
+                      ),
                     const SizedBox(height: 16),
                     PaymentCollectionCard(
                       amountController: _amountController,

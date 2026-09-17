@@ -67,11 +67,15 @@ class CollectionCard extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _field(context, label: 'Principal', value: '₹${_format(data.principal)}'),
                 _field(
                   context,
-                  label: 'Due',
-                  value: '₹${_format(data.due)}',
+                  label: 'Principal Balance',
+                  value: '₹${_format(data.principalPending)}',
+                ),
+                _field(
+                  context,
+                  label: 'Fine Balance',
+                  value: '₹${_format(data.finePending)}',
                   alignEnd: true,
                 ),
               ],
@@ -82,14 +86,13 @@ class CollectionCard extends StatelessWidget {
               children: [
                 _field(
                   context,
-                  label: 'Outstanding',
-                  value: '₹${_format(data.outstanding)}',
-                  danger: data.isOverdue,
+                  label: 'Pending Dues',
+                  value: '${data.duePending}',
                 ),
                 _field(
                   context,
-                  label: 'Due Date',
-                  value: data.dueDate,
+                  label: 'Collection Date',
+                  value: data.formattedLastCollection,
                   alignEnd: true,
                 ),
               ],

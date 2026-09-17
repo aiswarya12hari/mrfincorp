@@ -313,12 +313,14 @@ class _IndividualLoanVerificationPageState
 
               const SizedBox(height: 20),
 
-              // ── Max Pay Amount ──
-              buildField(
-                label: 'Max Pay Amount',
-                controller: maxPayAmountController,
-                required: false,
-              ),
+              // ── Max Pay Amount (hidden for Spot loans) ──
+              if (loan.loanMethod != 'spot') ...[
+                buildField(
+                  label: 'Max Pay Amount',
+                  controller: maxPayAmountController,
+                  required: false,
+                ),
+              ],
 
               // ── Feedback moved to bottom ──
               buildField(
