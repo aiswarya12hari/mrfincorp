@@ -7,7 +7,9 @@ import '../data/services/login_service.dart';
 import '../../../CORE/Storage/shared_preference.dart';
 
 class LoginProvider extends ChangeNotifier {
-  final LoginService _service = LoginService();
+  final LoginService _service;
+
+  LoginProvider({LoginService? service}) : _service = service ?? LoginService();
 
   bool _isLoading = false;
 

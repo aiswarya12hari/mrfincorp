@@ -18,6 +18,7 @@ class CollectionDetailModel {
   final double balancePending;
   final String dueDate;
   final double installmentAmount;
+  final List<String> customerImages;
 
   const CollectionDetailModel({
     required this.id,
@@ -39,6 +40,7 @@ class CollectionDetailModel {
     required this.balancePending,
     required this.dueDate,
     this.installmentAmount = 0.0,
+    this.customerImages = const [],
   });
 
   // Backward compatibility getters
@@ -82,6 +84,18 @@ class CollectionDetailModel {
       dueDate: json['due_date']?.toString() ?? '',
       installmentAmount:
           double.tryParse(json['installment_amount']?.toString() ?? '') ?? 0.0,
+      customerImages: () {
+        final dynamic list = json['customer_images'] ?? json['customerImages'];
+        if (list is List) {
+          return list
+              .map((e) => e?.toString() ?? '')
+              .where((url) => url.isNotEmpty)
+              .toList();
+        } else if (list is String && list.isNotEmpty) {
+          return [list];
+        }
+        return const <String>[];
+      }(),
     );
   }
 

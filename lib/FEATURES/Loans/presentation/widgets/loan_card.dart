@@ -174,9 +174,12 @@
 // }
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../CORE/Theme/app_color.dart';
 import '../../../../CORE/Theme/app_text_style.dart';
+import '../../../Dashboard/provider/dashboard_provider.dart';
+import '../../provider/loan_provider.dart';
 import '../pages/group_loan_detailpage.dart';
 import '../pages/loan_detail_page.dart';
 
@@ -253,8 +256,8 @@ class LoanCard extends StatelessWidget {
         loanMethod.toUpperCase().contains('GROUP');
 
     return InkWell(
-      onTap: () {
-        Navigator.push(
+      onTap: () async {
+        await Navigator.push(
           context,
           MaterialPageRoute(
             builder: (_) => isGroupLoan
@@ -266,6 +269,10 @@ class LoanCard extends StatelessWidget {
                   ),
           ),
         );
+        if (context.mounted) {
+          context.read<LoanProvider>().fetchLoans();
+          context.read<DashboardProvider>().fetchDashboard(isRefresh: true);
+        }
       },
       borderRadius: BorderRadius.circular(14),
       child: Container(

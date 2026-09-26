@@ -47,4 +47,26 @@ class LoanModel {
           json['loan_method'] ?? '',
     );
   }
+
+  LoanModel copyWith({
+    int? id,
+    String? loanId,
+    String? customerName,
+    String? loanAmount,
+    String? loanType,
+    String? dateOfApplication,
+    String? status,
+    String? loanMethod,
+  }) {
+    return LoanModel(
+      id: id ?? this.id,
+      loanId: loanId ?? this.loanId,
+      customerName: customerName ?? this.customerName,
+      loanAmount: loanAmount ?? this.loanAmount,
+      loanType: loanType ?? this.loanType,
+      dateOfApplication: dateOfApplication ?? this.dateOfApplication,
+      status: status ?? this.status,
+      loanMethod: loanMethod ?? this.loanMethod,
+    );
+  }
 }

@@ -12,7 +12,9 @@ import '../widgets/login_header.dart';
 import '../../../Navigation/presentation/pages/bottom_nav_page.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  final Widget? destinationPage;
+
+  const LoginPage({super.key, this.destinationPage});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -25,9 +27,6 @@ class _LoginPageState extends State<LoginPage> {
   // Controllers
   final TextEditingController _emailCtrl = TextEditingController();
   final TextEditingController _passwordCtrl = TextEditingController();
-
-  // UI State
-  bool _rememberMe = false;
 
   @override
   void dispose() {
@@ -55,6 +54,7 @@ class _LoginPageState extends State<LoginPage> {
         SnackBar(
           content: Text(
             'Welcome ${user?.fieldStaffName ?? ''}',
+            style: const TextStyle(fontWeight: FontWeight.w500),
           ),
           backgroundColor: AppColors.primary,
           behavior: SnackBarBehavior.floating,
@@ -67,17 +67,17 @@ class _LoginPageState extends State<LoginPage> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (_) => const BottomNavPage(),
+          builder: (_) => widget.destinationPage ?? const BottomNavPage(),
         ),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            provider.errorMessage ??
-                'Invalid email or password',
+            provider.errorMessage ?? 'Invalid email or password',
+            style: const TextStyle(fontWeight: FontWeight.w500),
           ),
-          backgroundColor: Colors.red,
+          backgroundColor: AppColors.error,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -87,94 +87,92 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  void _handleForgotPassword() {
-    debugPrint('Forgot Password Clicked');
-  }
-
   @override
   Widget build(BuildContext context) {
     final dim = Dimensions(context);
     final keyboardOpen = dim.bottomInset > 0;
 
     return Scaffold(
-      backgroundColor: AppColors.gray100,
+      backgroundColor: AppColors.dashboardBg,
       resizeToAvoidBottomInset: true,
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
             constraints: BoxConstraints(
-              maxWidth: dim.isTablet || dim.isDesktop ? 480 : double.infinity,
+              maxWidth: dim.isTablet || dim.isDesktop ? 440 : double.infinity,
             ),
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                return SingleChildScrollView(
-                  // Lets the whole page scroll as a safety net on short
-                  // screens or when the keyboard opens, instead of
-                  // overflowing. On normal screens the ConstrainedBox
-                  // below matches the viewport height exactly, so the
-                  // spacers do their job of pushing the header down and
-                  // the version text to the bottom — same effect as
-                  // Flexible spacers, just with overflow protection.
-                  physics: const ClampingScrollPhysics(),
-                  padding: EdgeInsets.symmetric(horizontal: dim.pagePaddingH),
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minHeight: constraints.maxHeight,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        // ── Top spacer ───────────────────────
-                        // Pushes the header down from the very top
-                        // edge instead of it hugging the status bar.
-                        SizedBox(height: keyboardOpen ? dim.gap(0.02) : dim.gap(0.09)),
+            child: SingleChildScrollView(
+              physics: const ClampingScrollPhysics(),
+              padding: EdgeInsets.symmetric(
+                horizontal: dim.isTablet ? 32 : 20,
+                vertical: 16,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // ── Top spacer ───────────────────────
+                  SizedBox(
+                    height: keyboardOpen ? 8 : (dim.isTablet ? 40 : 28),
+                  ),
 
-                        // ── Header (logo + title) ────────────
-                        const LoginHeader(),
+                  // ── Header (logo card + title + subtitle) ──
+                  const LoginHeader(),
 
-                        SizedBox(height: dim.gap(0.035)),
+                  const SizedBox(height: 24),
 
-                        // ── Form: fields + remember/forgot + button ─
-                        Consumer<LoginProvider>(
-                          builder: (context, provider, child) {
-                            return LoginForm(
-                              formKey: _formKey,
-                              emailController: _emailCtrl,
-                              passwordController: _passwordCtrl,
-                              rememberMe: _rememberMe,
-                              onRememberChanged: (value) {
-                                setState(() {
-                                  _rememberMe = value ?? false;
-                                });
-                              },
-                              onForgotPassword: _handleForgotPassword,
-                              onLogin: _handleLogin,
-                              isLoading: provider.isLoading,
-                            );
-                          },
+                  // ── Form: Email + Password + Login Button Card ──
+                  Consumer<LoginProvider>(
+                    builder: (context, provider, child) {
+                      return LoginForm(
+                        formKey: _formKey,
+                        emailController: _emailCtrl,
+                        passwordController: _passwordCtrl,
+                        onLogin: _handleLogin,
+                        isLoading: provider.isLoading,
+                      );
+                    },
+                  ),
+
+                  // ── Bottom spacer ────────────────────
+                  SizedBox(
+                    height: keyboardOpen ? 16 : 32,
+                  ),
+
+                  // ── Security Note & Version text ──
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Icon(
+                        Icons.lock_outline_rounded,
+                        size: 13,
+                        color: AppColors.gray400,
+                      ),
+                      SizedBox(width: 5),
+                      Text(
+                        'Secure Field Staff Portal',
+                        style: TextStyle(
+                          fontFamily: AppTextStyles.fontFamily,
+                          fontSize: 12,
+                          color: AppColors.gray400,
+                          fontWeight: FontWeight.w500,
                         ),
+                      ),
+                    ],
+                  ),
 
-                        // ── Bottom spacer ────────────────────
-                        // Pushes the version text toward the bottom
-                        // of the screen, leaving the form sitting in
-                        // the lower-middle area like the Figma.
-                        SizedBox(height: keyboardOpen ? dim.gap(0.04) : dim.gap(0.14)),
+                  const SizedBox(height: 6),
 
-                        // ── Version text ──────────────────────
-                        Center(
-                          child: Text(
-                            'Version 1.0.0',
-                            style: AppTextStyles.version(context),
-                          ),
-                        ),
-
-                        SizedBox(height: dim.gap(0.015)),
-                      ],
+                  Center(
+                    child: Text(
+                      'Version 1.0.0',
+                      style: AppTextStyles.version(context),
                     ),
                   ),
-                );
-              },
+
+                  const SizedBox(height: 8),
+                ],
+              ),
             ),
           ),
         ),

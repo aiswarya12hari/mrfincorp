@@ -1,430 +1,10 @@
-// import 'package:flutter/material.dart';
-// import 'package:intl/intl.dart';
-// import 'package:provider/provider.dart';
-
-// import '../../provider/loan_provider.dart';
-
-// class LoanFilterPage extends StatefulWidget {
-//   const LoanFilterPage({super.key});
-
-//   @override
-//   State<LoanFilterPage> createState() => _LoanFilterPageState();
-// }
-
-// class _LoanFilterPageState extends State<LoanFilterPage> {
-//   String? status;
-//   String? loanType;
-//   String? loanMethod;
-
-//   DateTime? fromDate;
-//   DateTime? toDate;
-
-//   final loanIdController = TextEditingController();
-//   final customerController = TextEditingController();
-
-//   static const Color _accent = Color(0xFF2A9D8F);
-//   static const Color _fieldFill = Color(0xFFF7FAFC);
-//   static const Color _border = Color(0xFFE2E8F0);
-
-//   Future<void> _pickDate({required bool isFrom}) async {
-//     final now = DateTime.now();
-
-//     final picked = await showDatePicker(
-//       context: context,
-//       initialDate: (isFrom ? fromDate : toDate) ?? now,
-//       firstDate: DateTime(now.year - 5),
-//       lastDate: now,
-//       builder: (context, child) {
-//         return Theme(
-//           data: Theme.of(context).copyWith(
-//             colorScheme: Theme.of(context).colorScheme.copyWith(
-//                   primary: _accent,
-//                 ),
-//           ),
-//           child: child!,
-//         );
-//       },
-//     );
-
-//     if (picked == null) return;
-
-//     setState(() {
-//       if (isFrom) {
-//         fromDate = picked;
-//         // keep range valid
-//         if (toDate != null && toDate!.isBefore(fromDate!)) {
-//           toDate = null;
-//         }
-//       } else {
-//         toDate = picked;
-//       }
-//     });
-//   }
-
-//   String _formatDate(DateTime? date) {
-//     if (date == null) return '';
-//     return DateFormat('dd MMM yyyy').format(date);
-//   }
-
-//   String? _apiDate(DateTime? date) {
-//     if (date == null) return null;
-//     return DateFormat('yyyy-MM-dd').format(date);
-//   }
-
-//   InputDecoration _decoration({required String hint, Widget? suffixIcon}) {
-//     return InputDecoration(
-//       hintText: hint,
-//       hintStyle: const TextStyle(color: Color(0xFFA0AEC0), fontSize: 14),
-//       filled: true,
-//       fillColor: _fieldFill,
-//       suffixIcon: suffixIcon,
-//       contentPadding:
-//           const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-//       border: OutlineInputBorder(
-//         borderRadius: BorderRadius.circular(10),
-//         borderSide: const BorderSide(color: _border),
-//       ),
-//       enabledBorder: OutlineInputBorder(
-//         borderRadius: BorderRadius.circular(10),
-//         borderSide: const BorderSide(color: _border),
-//       ),
-//       focusedBorder: OutlineInputBorder(
-//         borderRadius: BorderRadius.circular(10),
-//         borderSide: const BorderSide(color: _accent, width: 1.4),
-//       ),
-//     );
-//   }
-
-//   Widget _sectionLabel(String text) {
-//     return Padding(
-//       padding: const EdgeInsets.only(bottom: 8),
-//       child: Text(
-//         text,
-//         style: const TextStyle(
-//           fontWeight: FontWeight.w600,
-//           fontSize: 14,
-//           color: Color(0xFF2D3748),
-//         ),
-//       ),
-//     );
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       resizeToAvoidBottomInset: true,
-//       backgroundColor: const Color(0xFFF7FAFC),
-//       appBar: AppBar(
-//         backgroundColor: Colors.white,
-//         elevation: 0,
-//         centerTitle: true,
-//         leading: IconButton(
-//           icon: const Icon(Icons.arrow_back, color: Colors.black),
-//           onPressed: () {
-//             Navigator.pop(context);
-//           },
-//         ),
-//         title: const Text(
-//           'Filters',
-//           style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-//         ),
-//       ),
-//       body: SingleChildScrollView(
-//         padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.stretch,
-//           children: [
-//             /// CARD CONTAINER
-//             Container(
-//               padding: const EdgeInsets.all(16),
-//               decoration: BoxDecoration(
-//                 color: Colors.white,
-//                 borderRadius: BorderRadius.circular(16),
-//                 border: Border.all(color: _border),
-//                 boxShadow: [
-//                   BoxShadow(
-//                     color: Colors.black.withOpacity(0.03),
-//                     blurRadius: 10,
-//                     offset: const Offset(0, 4),
-//                   ),
-//                 ],
-//               ),
-//               child: Column(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   /// STATUS
-//                   _sectionLabel('Status'),
-//                   DropdownButtonFormField<String>(
-//                     value: status,
-//                     decoration: _decoration(hint: 'All'),
-//                     icon: const Icon(Icons.keyboard_arrow_down_rounded,
-//                         color: Color(0xFF718096)),
-//                     items: const [
-//                       DropdownMenuItem(
-//                         value: 'VERIFICATION_PENDING',
-//                         child: Text('Pending'),
-//                       ),
-//                       DropdownMenuItem(
-//                         value: 'FIELDSTAFF_VERIFIED',
-//                         child: Text('Verified'),
-//                       ),
-//                       DropdownMenuItem(
-//                         value: 'ADMIN_APPROVED',
-//                         child: Text('Approved'),
-//                       ),
-//                     ],
-//                     onChanged: (v) {
-//                       setState(() {
-//                         status = v;
-//                       });
-//                     },
-//                   ),
-
-//                   const SizedBox(height: 20),
-
-//                   /// LOAN TYPE
-//                   _sectionLabel('Loan Type'),
-//                   DropdownButtonFormField<String>(
-//                     value: loanType,
-//                     decoration: _decoration(hint: 'All'),
-//                     icon: const Icon(Icons.keyboard_arrow_down_rounded,
-//                         color: Color(0xFF718096)),
-//                     items: const [
-//                       DropdownMenuItem(value: 'WEEKLY', child: Text('Weekly')),
-//                       DropdownMenuItem(
-//                           value: 'MONTHLY', child: Text('Monthly')),
-//                     ],
-//                     onChanged: (v) {
-//                       setState(() {
-//                         loanType = v;
-//                       });
-//                     },
-//                   ),
-
-//                   const SizedBox(height: 20),
-
-//                   /// LOAN METHOD
-//                   _sectionLabel('Method'),
-//                   DropdownButtonFormField<String>(
-//                     value: loanMethod,
-//                     decoration: _decoration(hint: 'All'),
-//                     icon: const Icon(Icons.keyboard_arrow_down_rounded,
-//                         color: Color(0xFF718096)),
-//                     items: const [
-//                       DropdownMenuItem(value: 'group', child: Text('Group')),
-//                       DropdownMenuItem(
-//                         value: 'individual',
-//                         child: Text('Individual'),
-//                       ),
-//                     ],
-//                     onChanged: (v) {
-//                       setState(() {
-//                         loanMethod = v;
-//                       });
-//                     },
-//                   ),
-
-//                   const SizedBox(height: 20),
-
-//                   /// DATE RANGE
-//                   _sectionLabel('Date Range'),
-//                   Row(
-//                     children: [
-//                       Expanded(
-//                         child: GestureDetector(
-//                           onTap: () => _pickDate(isFrom: true),
-//                           child: AbsorbPointer(
-//                             child: TextField(
-//                               controller: TextEditingController(
-//                                 text: _formatDate(fromDate),
-//                               ),
-//                               decoration: _decoration(
-//                                 hint: 'From',
-//                                 suffixIcon: const Icon(
-//                                   Icons.calendar_today_outlined,
-//                                   size: 18,
-//                                   color: Color(0xFF718096),
-//                                 ),
-//                               ),
-//                             ),
-//                           ),
-//                         ),
-//                       ),
-//                       const SizedBox(width: 12),
-//                       Expanded(
-//                         child: GestureDetector(
-//                           onTap: () => _pickDate(isFrom: false),
-//                           child: AbsorbPointer(
-//                             child: TextField(
-//                               controller: TextEditingController(
-//                                 text: _formatDate(toDate),
-//                               ),
-//                               decoration: _decoration(
-//                                 hint: 'To',
-//                                 suffixIcon: const Icon(
-//                                   Icons.calendar_today_outlined,
-//                                   size: 18,
-//                                   color: Color(0xFF718096),
-//                                 ),
-//                               ),
-//                             ),
-//                           ),
-//                         ),
-//                       ),
-//                     ],
-//                   ),
-//                   if (fromDate != null || toDate != null) ...[
-//                     const SizedBox(height: 8),
-//                     Align(
-//                       alignment: Alignment.centerRight,
-//                       child: TextButton(
-//                         onPressed: () {
-//                           setState(() {
-//                             fromDate = null;
-//                             toDate = null;
-//                           });
-//                         },
-//                         style: TextButton.styleFrom(
-//                           padding: EdgeInsets.zero,
-//                           minimumSize: const Size(0, 0),
-//                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-//                         ),
-//                         child: const Text(
-//                           'Clear dates',
-//                           style: TextStyle(
-//                             color: _accent,
-//                             fontSize: 12,
-//                             fontWeight: FontWeight.w600,
-//                           ),
-//                         ),
-//                       ),
-//                     ),
-//                   ],
-
-//                   const SizedBox(height: 20),
-
-//                   /// LOAN ID
-//                   _sectionLabel('Loan ID'),
-//                   TextField(
-//                     controller: loanIdController,
-//                     decoration: _decoration(
-//                       hint: 'Enter Loan ID',
-//                       suffixIcon: const Icon(
-//                         Icons.tag_rounded,
-//                         size: 18,
-//                         color: Color(0xFF718096),
-//                       ),
-//                     ),
-//                   ),
-
-//                   const SizedBox(height: 20),
-
-//                   /// CUSTOMER NAME
-//                   _sectionLabel('Customer Name'),
-//                   TextField(
-//                     controller: customerController,
-//                     decoration: _decoration(
-//                       hint: 'Enter Customer Name',
-//                       suffixIcon: const Icon(
-//                         Icons.person_outline_rounded,
-//                         size: 18,
-//                         color: Color(0xFF718096),
-//                       ),
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//             ),
-
-//             const SizedBox(height: 24),
-
-//             Row(
-//               children: [
-//                 Expanded(
-//                   child: OutlinedButton(
-//                     style: OutlinedButton.styleFrom(
-//                       minimumSize: const Size(double.infinity, 52),
-//                       side: const BorderSide(color: _border),
-//                       foregroundColor: const Color(0xFF2D3748),
-//                       shape: RoundedRectangleBorder(
-//                         borderRadius: BorderRadius.circular(12),
-//                       ),
-//                     ),
-//                     onPressed: () async {
-//                       setState(() {
-//                         status = null;
-//                         loanType = null;
-//                         loanMethod = null;
-//                         fromDate = null;
-//                         toDate = null;
-//                         loanIdController.clear();
-//                         customerController.clear();
-//                       });
-
-//                       await context.read<LoanProvider>().resetFilter();
-
-//                       if (mounted) {
-//                         Navigator.pop(context);
-//                       }
-//                     },
-//                     child: const Text(
-//                       'Reset',
-//                       style: TextStyle(fontWeight: FontWeight.w600),
-//                     ),
-//                   ),
-//                 ),
-
-//                 const SizedBox(width: 12),
-
-//                 Expanded(
-//                   child: ElevatedButton(
-//                     style: ElevatedButton.styleFrom(
-//                       minimumSize: const Size(double.infinity, 52),
-//                       backgroundColor: _accent,
-//                       elevation: 0,
-//                       shape: RoundedRectangleBorder(
-//                         borderRadius: BorderRadius.circular(12),
-//                       ),
-//                     ),
-//                     onPressed: () async {
-//                       await context.read<LoanProvider>().applyFilter(
-//                             status: status,
-//                             loanType: loanType,
-//                             loanMethod: loanMethod,
-//                             loanId: loanIdController.text,
-//                             customerName: customerController.text,
-//                             dateFrom: _apiDate(fromDate),
-//                             dateTo: _apiDate(toDate),
-//                           );
-
-//                       if (mounted) {
-//                         Navigator.pop(context);
-//                       }
-//                     },
-//                     child: const Text(
-//                       'Apply',
-//                       style: TextStyle(
-//                         fontWeight: FontWeight.w600,
-//                         color: Colors.white,
-//                       ),
-//                     ),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../CORE/Theme/app_color.dart';
 import '../../../../CORE/Theme/app_text_style.dart';
+import '../../../Dashboard/presentation/widgets/dashboard_animations.dart';
 import '../../provider/loan_provider.dart';
 
 class LoanFilterPage extends StatefulWidget {
@@ -444,6 +24,33 @@ class _LoanFilterPageState extends State<LoanFilterPage> {
 
   final loanIdController = TextEditingController();
   final customerController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    final provider = context.read<LoanProvider>();
+    status = provider.selectedStatus;
+    loanType = provider.selectedLoanType;
+    loanMethod = provider.selectedLoanMethod;
+    if (provider.selectedDateFrom != null &&
+        provider.selectedDateFrom!.isNotEmpty) {
+      try {
+        fromDate = DateTime.parse(provider.selectedDateFrom!);
+      } catch (_) {}
+    }
+    if (provider.selectedDateTo != null &&
+        provider.selectedDateTo!.isNotEmpty) {
+      try {
+        toDate = DateTime.parse(provider.selectedDateTo!);
+      } catch (_) {}
+    }
+    if (provider.searchLoanId.isNotEmpty) {
+      loanIdController.text = provider.searchLoanId;
+    }
+    if (provider.searchCustomer.isNotEmpty) {
+      customerController.text = provider.searchCustomer;
+    }
+  }
 
   @override
   void dispose() {
@@ -467,9 +74,17 @@ class _LoanFilterPageState extends State<LoanFilterPage> {
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: Theme.of(
-              context,
-            ).colorScheme.copyWith(primary: AppColors.primary),
+            colorScheme: Theme.of(context).colorScheme.copyWith(
+                  primary: AppColors.primary,
+                  onPrimary: AppColors.white,
+                  surface: AppColors.cardColor,
+                  onSurface: AppColors.gray800,
+                ),
+            dialogTheme: DialogThemeData(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18),
+              ),
+            ),
           ),
           child: child!,
         );
@@ -481,8 +96,6 @@ class _LoanFilterPageState extends State<LoanFilterPage> {
     setState(() {
       if (isFrom) {
         fromDate = picked;
-
-        // Keep date range valid
         if (toDate != null && toDate!.isBefore(fromDate!)) {
           toDate = null;
         }
@@ -503,44 +116,119 @@ class _LoanFilterPageState extends State<LoanFilterPage> {
   }
 
   // ─────────────────────────────────────────────────────────────
-  // INPUT DECORATION
+  // MODERN FINTECH INPUT DECORATION & CARD STYLING
   // ─────────────────────────────────────────────────────────────
 
-  InputDecoration _decoration({required String hint, Widget? suffixIcon}) {
+  InputDecoration _inputDecoration({
+    required BuildContext context,
+    required String hint,
+    Widget? prefixIcon,
+    Widget? suffixIcon,
+  }) {
     return InputDecoration(
       hintText: hint,
-      hintStyle: AppTextStyles.hint(context),
+      hintStyle: AppTextStyles.hint(context).copyWith(
+        fontSize: 13.5,
+        color: const Color(0xFFA0AEC0),
+      ),
       filled: true,
-      fillColor: AppColors.gray100,
+      fillColor: const Color(0xFFF8FAFC),
+      prefixIcon: prefixIcon,
       suffixIcon: suffixIcon,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
+      isDense: true,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9.5),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: AppColors.borderColor),
+        borderSide: BorderSide(
+          color: AppColors.borderColor.withOpacity(0.85),
+          width: 1,
+        ),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: AppColors.borderColor),
+        borderSide: BorderSide(
+          color: AppColors.borderColor.withOpacity(0.85),
+          width: 1,
+        ),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+        borderSide: const BorderSide(
+          color: AppColors.primary,
+          width: 1.5,
+        ),
       ),
     );
   }
 
-  // ─────────────────────────────────────────────────────────────
-  // SECTION LABEL
-  // ─────────────────────────────────────────────────────────────
-
-  Widget _sectionLabel(String text) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: Text(
-        text,
-        style: AppTextStyles.fieldValue(
-          context,
-        ).copyWith(fontSize: 14, fontWeight: FontWeight.w600),
+  Widget _sectionCard({
+    required IconData icon,
+    required String title,
+    required Widget child,
+    Widget? trailing,
+  }) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9.5),
+      decoration: BoxDecoration(
+        color: AppColors.cardColor,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(
+          color: AppColors.borderColor.withOpacity(0.8),
+          width: 1,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF1E293B).withOpacity(0.03),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Section Title Row with Small Teal Icon
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: 24,
+                    height: 24,
+                    decoration: BoxDecoration(
+                      color: AppColors.primaryLight,
+                      borderRadius: BorderRadius.circular(7),
+                    ),
+                    alignment: Alignment.center,
+                    child: Icon(
+                      icon,
+                      size: 13.5,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontFamily: AppTextStyles.fontFamily,
+                      fontSize: 13.5,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: -0.2,
+                      color: AppColors.gray800,
+                    ),
+                  ),
+                ],
+              ),
+              if (trailing != null) trailing,
+            ],
+          ),
+          const SizedBox(height: 7),
+          child,
+        ],
       ),
     );
   }
@@ -552,305 +240,362 @@ class _LoanFilterPageState extends State<LoanFilterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.gray100,
-
-      // Important:
-      // The bottom button area will stay fixed.
-      // The scrollable area will resize when keyboard appears.
+      backgroundColor: AppColors.dashboardBg,
       resizeToAvoidBottomInset: true,
-
-      // ─────────────────────────────────────────────────────────
-      // APP BAR
-      // ─────────────────────────────────────────────────────────
-      appBar: AppBar(
-        backgroundColor: AppColors.gray100,
-        elevation: 0,
-        centerTitle: true,
-
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_rounded, color: AppColors.gray800),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-
-        title: Text(
-          'Filters',
-          style: AppTextStyles.pageTitle(
-            context,
-          ).copyWith(color: AppColors.gray800),
-        ),
-      ),
-
-      // ─────────────────────────────────────────────────────────
-      // BODY
-      // ─────────────────────────────────────────────────────────
-      body: Column(
-        children: [
-          // =====================================================
-          // SCROLLABLE FILTER CONTENT
-          // =====================================================
-          Expanded(
-            child: SingleChildScrollView(
-              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
-
-              child: Container(
-                width: double.infinity,
-
-                padding: const EdgeInsets.all(16),
-
-                decoration: BoxDecoration(
-                  color: AppColors.white,
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: AppColors.borderColor),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.03),
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // =================================================
-                    // STATUS
-                    // =================================================
-                    _sectionLabel('Status'),
-
-                    DropdownButtonFormField<String>(
-                      value: status,
-
-                      decoration: _decoration(hint: 'All'),
-
-                      icon: const Icon(
-                        Icons.keyboard_arrow_down_rounded,
-                        color: AppColors.gray600,
+      body: SafeArea(
+        child: Column(
+          children: [
+            // ── Premium Header with Back Button, Title & Subtitle ──
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 6, 10, 10),
+              child: Row(
+                children: [
+                  BouncyTap(
+                    onTap: () => Navigator.pop(context),
+                    child: Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: AppColors.cardColor,
+                        borderRadius: BorderRadius.circular(13),
+                        border: Border.all(
+                          color: AppColors.borderColor.withOpacity(0.85),
+                          width: 1,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFF1E293B).withOpacity(0.04),
+                            blurRadius: 8,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
                       ),
-
-                      items: const [
-                        DropdownMenuItem(
-                          value: 'VERIFICATION_PENDING',
-                          child: Text('Pending'),
-                        ),
-                        DropdownMenuItem(
-                          value: 'FIELDSTAFF_VERIFIED',
-                          child: Text('Verified'),
-                        ),
-                        DropdownMenuItem(
-                          value: 'ADMIN_APPROVED',
-                          child: Text('Approved'),
-                        ),
-                      ],
-
-                      onChanged: (value) {
-                        setState(() {
-                          status = value;
-                        });
-                      },
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    // =================================================
-                    // LOAN TYPE
-                    // =================================================
-                    _sectionLabel('Loan Type'),
-
-                    DropdownButtonFormField<String>(
-                      value: loanType,
-
-                      decoration: _decoration(hint: 'All'),
-
-                      icon: const Icon(
-                        Icons.keyboard_arrow_down_rounded,
-                        color: AppColors.gray600,
+                      alignment: Alignment.center,
+                      child: const Icon(
+                        Icons.arrow_back_ios_new_rounded,
+                        size: 16,
+                        color: AppColors.gray800,
                       ),
-
-                      items: const [
-                        DropdownMenuItem(
-                          value: 'WEEKLY',
-                          child: Text('Weekly'),
-                        ),
-                        DropdownMenuItem(
-                          value: 'MONTHLY',
-                          child: Text('Monthly'),
-                        ),
-                      ],
-
-                      onChanged: (value) {
-                        setState(() {
-                          loanType = value;
-                        });
-                      },
                     ),
-
-                    const SizedBox(height: 20),
-
-                    // =================================================
-                    // METHOD
-                    // =================================================
-                    _sectionLabel('Method'),
-
-                    DropdownButtonFormField<String>(
-                      value: loanMethod,
-
-                      decoration: _decoration(hint: 'All'),
-
-                      icon: const Icon(
-                        Icons.keyboard_arrow_down_rounded,
-                        color: AppColors.gray600,
-                      ),
-
-                      items: const [
-                        DropdownMenuItem(value: 'group', child: Text('Group')),
-                        DropdownMenuItem(
-                          value: 'individual',
-                          child: Text('Individual'),
-                        ),
-                      ],
-
-                      onChanged: (value) {
-                        setState(() {
-                          loanMethod = value;
-                        });
-                      },
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    // =================================================
-                    // DATE RANGE
-                    // =================================================
-                    _sectionLabel('Date Range'),
-
-                    Row(
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () => _pickDate(isFrom: true),
-                            child: AbsorbPointer(
-                              child: TextField(
-                                controller: TextEditingController(
-                                  text: _formatDate(fromDate),
-                                ),
-
-                                decoration: _decoration(
-                                  hint: 'From',
-                                  suffixIcon: const Icon(
-                                    Icons.calendar_today_outlined,
-                                    size: 18,
-                                    color: AppColors.gray600,
-                                  ),
-                                ),
-                              ),
-                            ),
+                        Text(
+                          'Filters',
+                          style: AppTextStyles.headline(context).copyWith(
+                            fontSize: 19,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: -0.4,
+                            color: AppColors.gray800,
                           ),
                         ),
-
-                        const SizedBox(width: 12),
-
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () => _pickDate(isFrom: false),
-                            child: AbsorbPointer(
-                              child: TextField(
-                                controller: TextEditingController(
-                                  text: _formatDate(toDate),
-                                ),
-
-                                decoration: _decoration(
-                                  hint: 'To',
-                                  suffixIcon: const Icon(
-                                    Icons.calendar_today_outlined,
-                                    size: 18,
-                                    color: AppColors.gray600,
-                                  ),
-                                ),
-                              ),
-                            ),
+                        const SizedBox(height: 1),
+                        Text(
+                          'Refine your loan search',
+                          style: AppTextStyles.subheading(context).copyWith(
+                            fontSize: 12,
+                            color: AppColors.gray600,
+                            height: 1.2,
                           ),
                         ),
                       ],
                     ),
+                  ),
+                ],
+              ),
+            ),
 
-                    // CLEAR DATES
-                    if (fromDate != null || toDate != null) ...[
-                      const SizedBox(height: 8),
-
-                      Align(
-                        alignment: Alignment.centerRight,
-
-                        child: TextButton(
-                          onPressed: () {
-                            setState(() {
-                              fromDate = null;
-                              toDate = null;
-                            });
-                          },
-
-                          style: TextButton.styleFrom(
-                            padding: EdgeInsets.zero,
-                            minimumSize: const Size(0, 0),
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          ),
-
-                          child: Text(
-                            'Clear dates',
-                            style: AppTextStyles.link(
-                              context,
-                            ).copyWith(fontSize: 12),
-                          ),
+            // ── Scrollable Filter Cards with reduced spacing & increased width ──
+            Expanded(
+              child: SingleChildScrollView(
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
+                padding: const EdgeInsets.fromLTRB(10, 2, 10, 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    // ── 1. STATUS CARD ──
+                    _sectionCard(
+                      icon: Icons.verified_outlined,
+                      title: 'Status',
+                      child: DropdownButtonFormField<String?>(
+                        value: status,
+                        dropdownColor: AppColors.cardColor,
+                        borderRadius: BorderRadius.circular(14),
+                        icon: const Icon(
+                          Icons.keyboard_arrow_down_rounded,
+                          color: Color(0xFF718096),
                         ),
+                        style: AppTextStyles.inputText(context).copyWith(
+                          fontSize: 13.5,
+                          color: AppColors.gray800,
+                        ),
+                        decoration: _inputDecoration(
+                          context: context,
+                          hint: 'All',
+                        ),
+                        items: const [
+                          DropdownMenuItem<String?>(
+                            value: null,
+                            child: Text('All'),
+                          ),
+                          DropdownMenuItem<String?>(
+                            value: 'VERIFICATION_PENDING',
+                            child: Text('Pending'),
+                          ),
+                          DropdownMenuItem<String?>(
+                            value: 'FIELDSTAFF_VERIFIED',
+                            child: Text('Verified'),
+                          ),
+                          DropdownMenuItem<String?>(
+                            value: 'ADMIN_APPROVED',
+                            child: Text('Approved'),
+                          ),
+                        ],
+                        onChanged: (value) {
+                          setState(() {
+                            status = value;
+                          });
+                        },
                       ),
-                    ],
+                    ),
 
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 10),
 
-                    // =================================================
-                    // LOAN ID
-                    // =================================================
-                    _sectionLabel('Loan ID'),
+                    // ── 2. LOAN TYPE CARD ──
+                    _sectionCard(
+                      icon: Icons.tune_rounded,
+                      title: 'Loan Type',
+                      child: DropdownButtonFormField<String?>(
+                        value: loanType,
+                        dropdownColor: AppColors.cardColor,
+                        borderRadius: BorderRadius.circular(14),
+                        icon: const Icon(
+                          Icons.keyboard_arrow_down_rounded,
+                          color: Color(0xFF718096),
+                        ),
+                        style: AppTextStyles.inputText(context).copyWith(
+                          fontSize: 13.5,
+                          color: AppColors.gray800,
+                        ),
+                        decoration: _inputDecoration(
+                          context: context,
+                          hint: 'All',
+                        ),
+                        items: const [
+                          DropdownMenuItem<String?>(
+                            value: null,
+                            child: Text('All'),
+                          ),
+                          DropdownMenuItem<String?>(
+                            value: 'WEEKLY',
+                            child: Text('Weekly'),
+                          ),
+                          DropdownMenuItem<String?>(
+                            value: 'MONTHLY',
+                            child: Text('Monthly'),
+                          ),
+                        ],
+                        onChanged: (value) {
+                          setState(() {
+                            loanType = value;
+                          });
+                        },
+                      ),
+                    ),
 
-                    TextField(
-                      controller: loanIdController,
+                    const SizedBox(height: 10),
 
-                      style: AppTextStyles.inputText(context),
+                    // ── 3. METHOD CARD ──
+                    _sectionCard(
+                      icon: Icons.groups_outlined,
+                      title: 'Method',
+                      child: DropdownButtonFormField<String?>(
+                        value: loanMethod,
+                        dropdownColor: AppColors.cardColor,
+                        borderRadius: BorderRadius.circular(14),
+                        icon: const Icon(
+                          Icons.keyboard_arrow_down_rounded,
+                          color: Color(0xFF718096),
+                        ),
+                        style: AppTextStyles.inputText(context).copyWith(
+                          fontSize: 13.5,
+                          color: AppColors.gray800,
+                        ),
+                        decoration: _inputDecoration(
+                          context: context,
+                          hint: 'All',
+                        ),
+                        items: const [
+                          DropdownMenuItem<String?>(
+                            value: null,
+                            child: Text('All'),
+                          ),
+                          DropdownMenuItem<String?>(
+                            value: 'group',
+                            child: Text('Group'),
+                          ),
+                          DropdownMenuItem<String?>(
+                            value: 'individual',
+                            child: Text('Individual'),
+                          ),
+                        ],
+                        onChanged: (value) {
+                          setState(() {
+                            loanMethod = value;
+                          });
+                        },
+                      ),
+                    ),
 
-                      decoration: _decoration(
-                        hint: 'Enter Loan ID',
+                    const SizedBox(height: 10),
 
-                        suffixIcon: const Icon(
-                          Icons.tag_rounded,
-                          size: 18,
-                          color: AppColors.gray600,
+                    // ── 4. DATE RANGE CARD ──
+                    _sectionCard(
+                      icon: Icons.calendar_today_rounded,
+                      title: 'Date Range',
+                      trailing: (fromDate != null || toDate != null)
+                          ? BouncyTap(
+                              onTap: () {
+                                setState(() {
+                                  fromDate = null;
+                                  toDate = null;
+                                });
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 3.5,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: AppColors.primaryLight,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Text(
+                                  'Clear dates',
+                                  style: AppTextStyles.link(context).copyWith(
+                                    fontSize: 11.5,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            )
+                          : null,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () => _pickDate(isFrom: true),
+                              child: AbsorbPointer(
+                                child: TextField(
+                                  controller: TextEditingController(
+                                    text: _formatDate(fromDate),
+                                  ),
+                                  style:
+                                      AppTextStyles.inputText(context).copyWith(
+                                    fontSize: 13,
+                                    fontWeight: fromDate != null
+                                        ? FontWeight.w600
+                                        : FontWeight.w400,
+                                    color: fromDate != null
+                                        ? AppColors.primary
+                                        : AppColors.gray800,
+                                  ),
+                                  decoration: _inputDecoration(
+                                    context: context,
+                                    hint: 'From',
+                                    suffixIcon: const Icon(
+                                      Icons.calendar_today_outlined,
+                                      size: 16,
+                                      color: Color(0xFF718096),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () => _pickDate(isFrom: false),
+                              child: AbsorbPointer(
+                                child: TextField(
+                                  controller: TextEditingController(
+                                    text: _formatDate(toDate),
+                                  ),
+                                  style:
+                                      AppTextStyles.inputText(context).copyWith(
+                                    fontSize: 13,
+                                    fontWeight: toDate != null
+                                        ? FontWeight.w600
+                                        : FontWeight.w400,
+                                    color: toDate != null
+                                        ? AppColors.primary
+                                        : AppColors.gray800,
+                                  ),
+                                  decoration: _inputDecoration(
+                                    context: context,
+                                    hint: 'To',
+                                    suffixIcon: const Icon(
+                                      Icons.calendar_today_outlined,
+                                      size: 16,
+                                      color: Color(0xFF718096),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    const SizedBox(height: 10),
+
+                    // ── 5. LOAN ID CARD ──
+                    _sectionCard(
+                      icon: Icons.tag_rounded,
+                      title: 'Loan ID',
+                      child: TextField(
+                        controller: loanIdController,
+                        style: AppTextStyles.inputText(context).copyWith(
+                          fontSize: 13.5,
+                        ),
+                        decoration: _inputDecoration(
+                          context: context,
+                          hint: 'Enter Loan ID',
+                          suffixIcon: const Icon(
+                            Icons.tag_rounded,
+                            size: 17,
+                            color: Color(0xFF718096),
+                          ),
                         ),
                       ),
                     ),
 
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 10),
 
-                    // =================================================
-                    // CUSTOMER NAME
-                    // =================================================
-                    _sectionLabel('Customer Name'),
-
-                    TextField(
-                      controller: customerController,
-
-                      style: AppTextStyles.inputText(context),
-
-                      decoration: _decoration(
-                        hint: 'Enter Customer Name',
-
-                        suffixIcon: const Icon(
-                          Icons.person_outline_rounded,
-                          size: 18,
-                          color: AppColors.gray600,
+                    // ── 6. CUSTOMER NAME CARD ──
+                    _sectionCard(
+                      icon: Icons.person_outline_rounded,
+                      title: 'Customer Name',
+                      child: TextField(
+                        controller: customerController,
+                        style: AppTextStyles.inputText(context).copyWith(
+                          fontSize: 13.5,
+                        ),
+                        decoration: _inputDecoration(
+                          context: context,
+                          hint: 'Enter Customer Name',
+                          suffixIcon: const Icon(
+                            Icons.person_outline_rounded,
+                            size: 17,
+                            color: Color(0xFF718096),
+                          ),
                         ),
                       ),
                     ),
@@ -858,176 +603,145 @@ class _LoanFilterPageState extends State<LoanFilterPage> {
                 ),
               ),
             ),
-          ),
 
-          // =====================================================
-          // FIXED BOTTOM BUTTON AREA
-          // =====================================================
-          Container(
-            width: double.infinity,
-
-            padding: EdgeInsets.only(
-              left: 16,
-              right: 16,
-              top: 12,
-
-              // Automatically handles Android navigation bar
-              bottom: MediaQuery.of(context).padding.bottom + 12,
-            ),
-
-            decoration: BoxDecoration(
-              color: AppColors.white,
-
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.06),
-                  blurRadius: 10,
-                  offset: const Offset(0, -3),
-                ),
-              ],
-            ),
-
-            child: Row(
-              children: [
-                // =================================================
-                // RESET BUTTON
-                // =================================================
-
-                // Expanded(
-                //   child: OutlinedButton(
-                //     onPressed: () async {
-                //       setState(() {
-                //         status = null;
-                //         loanType = null;
-                //         loanMethod = null;
-                //         fromDate = null;
-                //         toDate = null;
-
-                //         loanIdController.clear();
-                //         customerController.clear();
-                //       });
-
-                //       await context
-                //           .read<LoanProvider>()
-                //           .resetFilter();
-
-                //       if (mounted) {
-                //         Navigator.pop(context);
-                //       }
-                //     },
-
-                //     style: OutlinedButton.styleFrom(
-                //       minimumSize: const Size(
-                //         double.infinity,
-                //         52,
-                //       ),
-
-                //       backgroundColor: AppColors.white,
-
-                //       foregroundColor: AppColors.primary,
-
-                //       side: const BorderSide(
-                //         color: AppColors.primary,
-                //         width: 1.2,
-                //       ),
-
-                //       shape: RoundedRectangleBorder(
-                //         borderRadius: BorderRadius.circular(12),
-                //       ),
-
-                //       elevation: 0,
-                //     ),
-
-                //     child: Text(
-                //       'Reset',
-                //       style: AppTextStyles.button(context).copyWith(
-                //         color: AppColors.primary,
-                //       ),
-                //     ),
-                //   ),
-                // ),
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: () {
-                      setState(() {
-                        status = null;
-                        loanType = null;
-                        loanMethod = null;
-                        fromDate = null;
-                        toDate = null;
-
-                        loanIdController.clear();
-                        customerController.clear();
-                      });
-                    },
-                    style: OutlinedButton.styleFrom(
-                      minimumSize: const Size(double.infinity, 52),
-                      backgroundColor: AppColors.white,
-                      foregroundColor: AppColors.primary,
-                      side: const BorderSide(
-                        color: AppColors.primary,
-                        width: 1.2,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      elevation: 0,
-                    ),
-                    child: Text(
-                      'Reset',
-                      style: AppTextStyles.button(
-                        context,
-                      ).copyWith(color: AppColors.primary),
-                    ),
+            // ── Fixed Bottom Button Area (Equal width, 18px rounded corners, subtle shadows) ──
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.only(
+                left: 10,
+                right: 10,
+                top: 10,
+                bottom: MediaQuery.of(context).padding.bottom + 10,
+              ),
+              decoration: BoxDecoration(
+                color: AppColors.cardColor,
+                border: Border(
+                  top: BorderSide(
+                    color: AppColors.borderColor.withOpacity(0.6),
+                    width: 1,
                   ),
                 ),
-
-                const SizedBox(width: 12),
-
-                // =================================================
-                // APPLY BUTTON
-                // =================================================
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      await context.read<LoanProvider>().applyFilter(
-                        status: status,
-                        loanType: loanType,
-                        loanMethod: loanMethod,
-                        loanId: loanIdController.text.trim(),
-                        customerName: customerController.text.trim(),
-                        dateFrom: _apiDate(fromDate),
-                        dateTo: _apiDate(toDate),
-                      );
-
-                      if (mounted) {
-                        Navigator.pop(context);
-                      }
-                    },
-
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(double.infinity, 52),
-
-                      backgroundColor: AppColors.primary,
-
-                      foregroundColor: AppColors.white,
-
-                      disabledBackgroundColor: AppColors.gray400,
-
-                      elevation: 0,
-
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF1E293B).withOpacity(0.05),
+                    blurRadius: 14,
+                    offset: const Offset(0, -4),
+                  ),
+                ],
+              ),
+              child: Row(
+                children: [
+                  // ── RESET BUTTON ──
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(18),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFF1E293B).withOpacity(0.03),
+                            blurRadius: 8,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: OutlinedButton(
+                        onPressed: () {
+                          setState(() {
+                            status = null;
+                            loanType = null;
+                            loanMethod = null;
+                            fromDate = null;
+                            toDate = null;
+                            loanIdController.clear();
+                            customerController.clear();
+                          });
+                        },
+                        style: OutlinedButton.styleFrom(
+                          minimumSize: const Size(double.infinity, 52),
+                          fixedSize: const Size(double.infinity, 52),
+                          backgroundColor: AppColors.cardColor,
+                          foregroundColor: AppColors.primary,
+                          side: const BorderSide(
+                            color: AppColors.primary,
+                            width: 1.3,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18),
+                          ),
+                          elevation: 0,
+                        ),
+                        child: const Text(
+                          'Reset',
+                          style: TextStyle(
+                            fontFamily: AppTextStyles.fontFamily,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.primary,
+                          ),
+                        ),
                       ),
                     ),
-
-                    child: Text('Apply', style: AppTextStyles.button(context)),
                   ),
-                ),
-              ],
+
+                  const SizedBox(width: 14),
+
+                  // ── APPLY BUTTON ──
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(18),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.primary.withOpacity(0.28),
+                            blurRadius: 12,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          final nav = Navigator.of(context);
+                          await context.read<LoanProvider>().applyFilter(
+                                status: status,
+                                loanType: loanType,
+                                loanMethod: loanMethod,
+                                loanId: loanIdController.text.trim(),
+                                customerName: customerController.text.trim(),
+                                dateFrom: _apiDate(fromDate),
+                                dateTo: _apiDate(toDate),
+                              );
+
+                          if (mounted) {
+                            nav.pop();
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(double.infinity, 52),
+                          fixedSize: const Size(double.infinity, 52),
+                          backgroundColor: AppColors.primary,
+                          foregroundColor: AppColors.white,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18),
+                          ),
+                        ),
+                        child: const Text(
+                          'Apply',
+                          style: TextStyle(
+                            fontFamily: AppTextStyles.fontFamily,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

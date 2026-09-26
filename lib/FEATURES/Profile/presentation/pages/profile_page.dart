@@ -3,6 +3,7 @@ import 'package:mr_fincorp/FEATURES/Account/presentation/widgets/account_switche
 import 'package:provider/provider.dart';
 
 import '../../../../../CORE/Theme/app_color.dart';
+import '../../../../../CORE/Theme/app_text_style.dart';
 
 import '../../provider/profile_provider.dart';
 
@@ -64,23 +65,23 @@ class _ProfilePageState extends State<ProfilePage> {
                         stops: [0.0, 0.55, 1.0],
                       ),
                     ),
-                    padding: const EdgeInsets.fromLTRB(24, 32, 24, 48),
+                    padding: const EdgeInsets.fromLTRB(24, 28, 24, 48),
                     child: Column(
                       children: [
-                        // Avatar with online badge
+                        // Avatar with online badge (No camera icon)
                         Stack(
                           children: [
                             Container(
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 border: Border.all(
-                                  color: Colors.white.withOpacity(0.6),
+                                  color: Colors.white.withValues(alpha: 0.6),
                                   width: 3,
                                 ),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: AppColors.primaryDark.withOpacity(
-                                      0.35,
+                                    color: AppColors.primaryDark.withValues(
+                                      alpha: 0.35,
                                     ),
                                     blurRadius: 20,
                                     offset: const Offset(0, 8),
@@ -89,7 +90,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                               child: CircleAvatar(
                                 radius: 42,
-                                backgroundColor: Colors.white.withOpacity(0.25),
+                                backgroundColor: Colors.white.withValues(alpha: 0.25),
                                 child: const Icon(
                                   Icons.person_rounded,
                                   color: Colors.white,
@@ -112,7 +113,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.black.withOpacity(0.15),
+                                      color: Colors.black.withValues(alpha: 0.15),
                                       blurRadius: 4,
                                     ),
                                   ],
@@ -122,12 +123,13 @@ class _ProfilePageState extends State<ProfilePage> {
                           ],
                         ),
 
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 14),
 
                         // Name
                         Text(
                           profile.fieldStaffName,
                           style: const TextStyle(
+                            fontFamily: AppTextStyles.fontFamily,
                             fontSize: 22,
                             fontWeight: FontWeight.w700,
                             color: Colors.white,
@@ -144,15 +146,16 @@ class _ProfilePageState extends State<ProfilePage> {
                             vertical: 4,
                           ),
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.2),
+                            color: Colors.white.withValues(alpha: 0.2),
                             borderRadius: BorderRadius.circular(20),
                             border: Border.all(
-                              color: Colors.white.withOpacity(0.35),
+                              color: Colors.white.withValues(alpha: 0.35),
                             ),
                           ),
                           child: Text(
                             profile.fieldStaffId,
                             style: const TextStyle(
+                              fontFamily: AppTextStyles.fontFamily,
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
                               color: Colors.white,
@@ -164,7 +167,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
 
-                  // ── Pull-up info sheet ──────────────────────────────
+                  // ── Pull-up info sheet (White rounded card container) ──
                   Transform.translate(
                     offset: const Offset(0, -24),
                     child: Container(
@@ -174,44 +177,39 @@ class _ProfilePageState extends State<ProfilePage> {
                         borderRadius: BorderRadius.circular(24),
                         boxShadow: [
                           BoxShadow(
-                            color: AppColors.primaryDark.withOpacity(0.08),
+                            color: AppColors.primaryDark.withValues(alpha: 0.08),
                             blurRadius: 24,
                             offset: const Offset(0, 8),
                           ),
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.04),
+                            color: Colors.black.withValues(alpha: 0.04),
                             blurRadius: 8,
                             offset: const Offset(0, 2),
                           ),
                         ],
                       ),
+                      padding: const EdgeInsets.fromLTRB(20, 22, 20, 26),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           // ── Section label ────────────────────────
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(24, 24, 24, 4),
-                            child: Text(
-                              'Account Info',
-                              style: TextStyle(
-                                fontSize: 11,
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.primary,
-                                letterSpacing: 1.4,
-                              ),
+                          const Text(
+                            'ACCOUNT DETAILS',
+                            style: TextStyle(
+                              fontFamily: AppTextStyles.fontFamily,
+                              fontSize: 11.5,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.primary,
+                              letterSpacing: 1.4,
                             ),
                           ),
 
-                          const SizedBox(height: 4),
+                          const SizedBox(height: 18),
 
-                          // ── Info tiles ───────────────────────────
+                          // ── Stacked full-width rows ──────────────
                           ProfileInfoTile(title: 'Email', value: profile.email),
 
-                          _divider(),
-
                           ProfileInfoTile(title: 'Phone', value: profile.phone),
-
-                          _divider(),
 
                           ProfileInfoTile(
                             title: 'Branch',
@@ -219,58 +217,55 @@ class _ProfilePageState extends State<ProfilePage> {
                                 '${profile.branchName} (${profile.branchCode})',
                           ),
 
-                          _divider(),
-
                           ProfileInfoTile(
                             title: 'Address',
                             value: profile.address,
                           ),
 
                           // ── Divider before actions ───────────────
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                          const Padding(
+                            padding: EdgeInsets.only(top: 4, bottom: 20),
                             child: Divider(
                               color: AppColors.borderColor,
                               thickness: 1,
-                              height: 36,
+                              height: 1,
                             ),
                           ),
 
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(20, 0, 20, 28),
-                            child: Column(
-                              children: [
-                                // const ChangePasswordButton(),
-                                OutlinedButton.icon(
-                                  onPressed: () =>
-                                      AccountSwitcherSheet.show(context),
-                                  icon: Icon(
-                                    Icons.swap_horiz_rounded,
-                                    color: AppColors.primary,
-                                  ),
-                                  label: Text(
-                                    'Switch Account',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      color: AppColors.primary,
-                                    ),
-                                  ),
-                                  style: OutlinedButton.styleFrom(
-                                    minimumSize: const Size(
-                                      double.infinity,
-                                      52,
-                                    ),
-                                    side: BorderSide(color: AppColors.primary),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(14),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 14),
-                                const LogoutButton(),
-                              ],
+                          // ── Actions: Switch Account & Logout ─────
+                          OutlinedButton.icon(
+                            onPressed: () =>
+                                AccountSwitcherSheet.show(context),
+                            icon: const Icon(
+                              Icons.swap_horiz_rounded,
+                              color: AppColors.primary,
+                              size: 20,
+                            ),
+                            label: const Text(
+                              'Switch Account',
+                              style: TextStyle(
+                                fontFamily: AppTextStyles.fontFamily,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.primary,
+                              ),
+                            ),
+                            style: OutlinedButton.styleFrom(
+                              minimumSize: const Size(
+                                double.infinity,
+                                50,
+                              ),
+                              side: const BorderSide(
+                                color: AppColors.primary,
+                                width: 1.2,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(14),
+                              ),
                             ),
                           ),
+                          const SizedBox(height: 12),
+                          const LogoutButton(),
                         ],
                       ),
                     ),
@@ -283,9 +278,4 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
-
-  Widget _divider() => const Padding(
-    padding: EdgeInsets.symmetric(horizontal: 20),
-    child: Divider(color: AppColors.borderColor, thickness: 1, height: 1),
-  );
 }

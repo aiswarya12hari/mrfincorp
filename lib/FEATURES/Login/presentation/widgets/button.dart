@@ -18,37 +18,33 @@ class FincorpPrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dim = Dimensions(context);
-    final height = dim.height(0.065).clamp(50.0, 60.0);
-    final radius = height / 2; // fully rounded pill, matches reference
+    const height = 52.0;
 
     return SizedBox(
       width: double.infinity,
       height: height,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          // Smooth left-to-right brand gradient, pill-shaped.
           gradient: const LinearGradient(
             colors: [AppColors.primary, AppColors.primaryDark],
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
           ),
-          borderRadius: BorderRadius.circular(radius),
+          borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: AppColors.primaryDark.withOpacity(0.35),
-              blurRadius: 18,
-              spreadRadius: -2,
-              offset: const Offset(0, 8),
+              color: AppColors.primary.withOpacity(0.28),
+              blurRadius: 14,
+              offset: const Offset(0, 4),
             ),
           ],
         ),
         child: Material(
           color: Colors.transparent,
-          borderRadius: BorderRadius.circular(radius),
+          borderRadius: BorderRadius.circular(16),
           child: InkWell(
             onTap: isLoading ? null : onPressed,
-            borderRadius: BorderRadius.circular(radius),
+            borderRadius: BorderRadius.circular(16),
             splashColor: AppColors.white.withOpacity(0.15),
             highlightColor: AppColors.white.withOpacity(0.08),
             child: Center(
@@ -61,7 +57,16 @@ class FincorpPrimaryButton extends StatelessWidget {
                         strokeWidth: 2.5,
                       ),
                     )
-                  : Text(label, style: AppTextStyles.button(context)),
+                  : Text(
+                      label,
+                      style: const TextStyle(
+                        fontFamily: AppTextStyles.fontFamily,
+                        fontSize: 15.5,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.white,
+                        letterSpacing: 0.2,
+                      ),
+                    ),
             ),
           ),
         ),

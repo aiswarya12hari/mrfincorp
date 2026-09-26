@@ -31,50 +31,88 @@ class FincorpTextField extends StatefulWidget {
 
 class _FincorpTextFieldState extends State<FincorpTextField> {
   late bool _isObscured;
+  late final FocusNode _focusNode;
+  bool _isFocused = false;
 
   @override
   void initState() {
     super.initState();
     _isObscured = widget.isPassword;
+    _focusNode = FocusNode();
+    _focusNode.addListener(_onFocusChange);
+  }
+
+  void _onFocusChange() {
+    if (mounted) {
+      setState(() {
+        _isFocused = _focusNode.hasFocus;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _focusNode.removeListener(_onFocusChange);
+    _focusNode.dispose();
+    super.dispose();
   }
 
   void _toggleObscure() => setState(() => _isObscured = !_isObscured);
 
   @override
   Widget build(BuildContext context) {
-    final mq = MediaQuery.of(context);
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Label
-        Text(widget.label, style: AppTextStyles.label(context)),
+        Text(
+          widget.label,
+          style: AppTextStyles.label(context).copyWith(
+            fontSize: 13.5,
+            fontWeight: FontWeight.w600,
+            color: AppColors.gray800,
+          ),
+        ),
 
-        SizedBox(
-          height: mq.size.height * 0.014,
-        ), // more breathing room, matches reference
+        const SizedBox(height: 7),
+
         // Text Field
         TextFormField(
           controller: widget.controller,
+          focusNode: _focusNode,
           obscureText: _isObscured,
           validator: widget.validator,
           keyboardType: widget.keyboardType,
           autovalidateMode: AutovalidateMode.onUserInteraction,
-          style: AppTextStyles.inputText(context),
+          style: AppTextStyles.inputText(context).copyWith(
+            fontSize: 14.5,
+            color: AppColors.gray800,
+          ),
           textInputAction: widget.isPassword
               ? TextInputAction.done
               : TextInputAction.next,
 
           decoration: InputDecoration(
             hintText: widget.hintText,
-            hintStyle: AppTextStyles.hint(context),
+            hintStyle: AppTextStyles.hint(context).copyWith(
+              fontSize: 14,
+              color: const Color(0xFFA0AEC0),
+            ),
+            errorStyle: const TextStyle(
+              fontSize: 12,
+              height: 1.3,
+              color: AppColors.error,
+              fontWeight: FontWeight.w500,
+            ),
 
-            errorStyle: const TextStyle(fontSize: 12, height: 1.2),
-
-            // Prefix Icon
+            // Prefix Icon with focus-aware color
             prefixIcon: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 14),
-              child: Icon(widget.icon, size: 20, color: AppColors.primary),
+              child: Icon(
+                widget.icon,
+                size: 20,
+                color: _isFocused ? AppColors.primary : const Color(0xFF94A3B8),
+              ),
             ),
             prefixIconConstraints: const BoxConstraints(
               minWidth: 48,
@@ -83,16 +121,17 @@ class _FincorpTextFieldState extends State<FincorpTextField> {
 
             // Password Toggle
             suffixIcon: widget.isPassword
-                ? GestureDetector(
-                    onTap: _toggleObscure,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 14),
-                      child: Icon(
-                        _isObscured ? Icons.visibility_off : Icons.visibility,
-                        size: 20,
-                        color: AppColors.primary,
-                      ),
+                ? IconButton(
+                    onPressed: _toggleObscure,
+                    tooltip: _isObscured ? 'Show password' : 'Hide password',
+                    icon: Icon(
+                      _isObscured
+                          ? Icons.visibility_off_outlined
+                          : Icons.visibility_outlined,
+                      size: 20,
+                      color: _isFocused ? AppColors.primary : const Color(0xFF94A3B8),
                     ),
+                    splashRadius: 20,
                   )
                 : null,
 
@@ -103,18 +142,18 @@ class _FincorpTextFieldState extends State<FincorpTextField> {
 
             // Fill
             filled: true,
-            fillColor: AppColors.white,
+            fillColor: const Color(0xFFF8FAFC),
 
             contentPadding: const EdgeInsets.symmetric(
-              vertical: 18,
-              horizontal: 16,
+              vertical: 15,
+              horizontal: 14,
             ),
 
-            // Borders
+            // Rounded borders with smooth focus transitions
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide: const BorderSide(
-                color: AppColors.borderColor,
+              borderSide: BorderSide(
+                color: AppColors.borderColor.withOpacity(0.85),
                 width: 1,
               ),
             ),
@@ -123,18 +162,24 @@ class _FincorpTextFieldState extends State<FincorpTextField> {
               borderRadius: BorderRadius.circular(14),
               borderSide: const BorderSide(
                 color: AppColors.primary,
-                width: 1.5,
+                width: 1.6,
               ),
             ),
 
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide: const BorderSide(color: AppColors.error, width: 1),
+              borderSide: const BorderSide(
+                color: AppColors.error,
+                width: 1.2,
+              ),
             ),
 
             focusedErrorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide: const BorderSide(color: AppColors.error, width: 1.5),
+              borderSide: const BorderSide(
+                color: AppColors.error,
+                width: 1.6,
+              ),
             ),
           ),
         ),

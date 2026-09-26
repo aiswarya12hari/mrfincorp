@@ -3,7 +3,14 @@ import 'package:flutter/material.dart';
 import '../../../../CORE/Theme/app_color.dart';
 import '../../../../CORE/Theme/app_text_style.dart';
 
-class SubmitCollectionButton extends StatelessWidget {
+/// Redesigned premium fintech submit collection button.
+/// Features:
+/// - Full-width floating pill button (58px height)
+/// - Teal gradient with soft drop shadow
+/// - Animated press effect with smooth scaling
+/// - Check icon on the left
+/// - Maintains exact same business logic and callback contracts
+class SubmitCollectionButton extends StatefulWidget {
   final VoidCallback? onPressed;
   final bool isLoading;
 
@@ -14,43 +21,88 @@ class SubmitCollectionButton extends StatelessWidget {
   });
 
   @override
+  State<SubmitCollectionButton> createState() => _SubmitCollectionButtonState();
+}
+
+class _SubmitCollectionButtonState extends State<SubmitCollectionButton> {
+  bool _isPressed = false;
+
+  @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      height: 52,
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primary,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14),
-          ),
-          elevation: 0,
+    final isEnabled = widget.onPressed != null && !widget.isLoading;
+
+    return AnimatedScale(
+      scale: _isPressed && isEnabled ? 0.97 : 1.0,
+      duration: const Duration(milliseconds: 120),
+      curve: Curves.easeInOut,
+      child: Container(
+        width: double.infinity,
+        height: 58,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(29),
+          gradient: isEnabled
+              ? const LinearGradient(
+                  colors: [
+                    Color(0xFF006A61), // Brand Teal
+                    Color(0xFF0D7E74), // Gradient highlight
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                )
+              : null,
+          color: isEnabled ? null : AppColors.gray400,
+          boxShadow: isEnabled
+              ? [
+                  BoxShadow(
+                    color: const Color(0xFF006A61).withValues(alpha: 0.35),
+                    blurRadius: 16,
+                    offset: const Offset(0, 6),
+                  ),
+                ]
+              : null,
         ),
-        child: isLoading
-            ? const SizedBox(
-                width: 22,
-                height: 22,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  color: AppColors.white,
-                ),
-              )
-            : Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.check_circle,
-                    color: AppColors.white,
-                    size: 20,
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    'Submit Collection',
-                    style: AppTextStyles.button(context),
-                  ),
-                ],
-              ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(29),
+            onHighlightChanged: (highlighted) {
+              if (mounted) setState(() => _isPressed = highlighted);
+            },
+            onTap: widget.onPressed,
+            splashColor: Colors.white.withValues(alpha: 0.15),
+            highlightColor: Colors.white.withValues(alpha: 0.08),
+            child: Center(
+              child: widget.isLoading
+                  ? const SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2.5,
+                        color: AppColors.white,
+                      ),
+                    )
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.check_circle_rounded,
+                          color: AppColors.white,
+                          size: 22,
+                        ),
+                        const SizedBox(width: 10),
+                        Text(
+                          'Submit Collection',
+                          style: AppTextStyles.button(context).copyWith(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 0.3,
+                          ),
+                        ),
+                      ],
+                    ),
+            ),
+          ),
+        ),
       ),
     );
   }

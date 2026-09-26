@@ -6,9 +6,11 @@ class GroupMemberVerifyRequestModel {
   final String landmark;
   final String state;
   final String district;
-  // final String pinCode;
+  final String? pinCode;
   final String googleMapLink;
   final String maxPayAmount;
+  final String? image;
+  final List<String>? images;
 
   GroupMemberVerifyRequestModel({
     required this.customerId,
@@ -18,13 +20,15 @@ class GroupMemberVerifyRequestModel {
     required this.landmark,
     required this.state,
     required this.district,
-    // required this.pinCode,
+    this.pinCode,
     required this.googleMapLink,
     required this.maxPayAmount,
+    this.image,
+    this.images,
   });
 
   Map<String, dynamic> toJson() {
-    return {
+    final Map<String, dynamic> data = {
       'customer_id': customerId,
       'latitude': latitude,
       'longitude': longitude,
@@ -32,10 +36,20 @@ class GroupMemberVerifyRequestModel {
       'landmark': landmark,
       'state': state,
       'district': district,
-      // 'pin_code': pinCode,
       'google_map_link': googleMapLink,
       'maximum_payable_amount': maxPayAmount,
     };
+    if (pinCode != null && pinCode!.isNotEmpty) {
+      data['pin_code'] = pinCode;
+    }
+    if (images != null && images!.isNotEmpty) {
+      data['images'] = images;
+      data['image'] = images!.first;
+    } else if (image != null && image!.isNotEmpty) {
+      data['image'] = image;
+      data['images'] = [image!];
+    }
+    return data;
   }
 }
 

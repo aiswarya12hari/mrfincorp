@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:mr_fincorp/FEATURES/Collections/data/model/collection_model.dart';
 
@@ -10,11 +8,7 @@ class CollectionCard extends StatelessWidget {
   final CollectionModel data;
   final VoidCallback? onTap;
 
-  const CollectionCard({
-    super.key,
-    required this.data,
-    this.onTap,
-  });
+  const CollectionCard({super.key, required this.data, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -134,9 +128,9 @@ class CollectionCard extends StatelessWidget {
       ),
       child: Text(
         status.replaceAll('_', ' '),
-        style: AppTextStyles.chipText(context).copyWith(
-          color: _statusFg(status),
-        ),
+        style: AppTextStyles.chipText(
+          context,
+        ).copyWith(color: _statusFg(status)),
       ),
     );
   }
@@ -180,8 +174,9 @@ class CollectionCard extends StatelessWidget {
   }) {
     return Expanded(
       child: Column(
-        crossAxisAlignment:
-            alignEnd ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+        crossAxisAlignment: alignEnd
+            ? CrossAxisAlignment.end
+            : CrossAxisAlignment.start,
         children: [
           Text(label, style: AppTextStyles.fieldLabel(context)),
           const SizedBox(height: 4),

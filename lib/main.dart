@@ -21,6 +21,9 @@ import 'CORE/Storage/shared_preference.dart';
 import 'package:mr_fincorp/FEATURES/Loans/provider/loan_provider.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
+final RouteObserver<ModalRoute<void>> routeObserver =
+    RouteObserver<ModalRoute<void>>();
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -44,7 +47,7 @@ class FincorpApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => LoanProvider()),
         ChangeNotifierProvider(create: (_) => LoanDetailProvider()),
         ChangeNotifierProvider(create: (_) => DashboardProvider()),
-        ChangeNotifierProvider(create: (_) => IndividualLoanVerificationProvider(),),
+        ChangeNotifierProvider(create: (_) => IndividualLoanVerificationProvider()),
         ChangeNotifierProvider(create: (_) => GroupLoanVerificationProvider()),
         ChangeNotifierProvider(create: (_) => CollectionListProvider()),
         ChangeNotifierProvider(create: (_) => CollectionSubmitProvider()),
@@ -53,7 +56,8 @@ class FincorpApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => NavigationProvider()),
       ],
       child: MaterialApp(
-      navigatorKey: navigatorKey,
+        navigatorKey: navigatorKey,
+        navigatorObservers: [routeObserver],
         title: 'FinCorp',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.light,

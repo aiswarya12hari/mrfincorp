@@ -1,7 +1,7 @@
-
-
 import 'package:flutter/material.dart';
+
 import '../../../../../CORE/Theme/app_color.dart';
+import '../../../../../CORE/Theme/app_text_style.dart';
 
 class ProfileInfoTile extends StatelessWidget {
   final String title;
@@ -16,11 +16,11 @@ class ProfileInfoTile extends StatelessWidget {
   IconData get _icon {
     switch (title.toLowerCase()) {
       case 'email':
-        return Icons.email_outlined;
+        return Icons.mail_outline_rounded;
       case 'phone':
         return Icons.phone_outlined;
       case 'branch':
-        return Icons.account_balance_outlined;
+        return Icons.business_outlined;
       case 'address':
         return Icons.location_on_outlined;
       default:
@@ -31,50 +31,58 @@ class ProfileInfoTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-      child: Row(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Teal icon pill
+          // ── Small uppercase gray label above field ──
+          Text(
+            title.toUpperCase(),
+            style: const TextStyle(
+              fontFamily: AppTextStyles.fontFamily,
+              fontSize: 11.5,
+              fontWeight: FontWeight.w600,
+              color: AppColors.gray600,
+              letterSpacing: 0.8,
+            ),
+          ),
+
+          const SizedBox(height: 6),
+
+          // ── Light gray rounded rectangular box (subtle border, soft fill) ──
           Container(
-            width: 38,
-            height: 38,
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.10),
+              color: AppColors.gray100,
               borderRadius: BorderRadius.circular(10),
-            ),
-            child: Icon(
-              _icon,
-              size: 18,
-              color: AppColors.primaryDark,
-            ),
-          ),
-
-          const SizedBox(width: 14),
-
-          // Label
-          Expanded(
-            flex: 4,
-            child: Text(
-              title,
-              style: const TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-                color: AppColors.gray600,
+              border: Border.all(
+                color: AppColors.borderColor,
+                width: 1,
               ),
             ),
-          ),
-
-          // Value
-          Expanded(
-            flex: 6,
-            child: Text(
-              value,
-              textAlign: TextAlign.right,
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: AppColors.gray800,
-              ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(
+                  _icon,
+                  size: 18,
+                  color: AppColors.gray600,
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    value.isNotEmpty ? value : 'Not provided',
+                    style: const TextStyle(
+                      fontFamily: AppTextStyles.fontFamily,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.gray800,
+                      height: 1.3,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

@@ -8,14 +8,19 @@ class DashboardProvider extends ChangeNotifier {
   final LoanService _service = LoanService();
 
   bool isLoading = false;
+  bool isRefreshing = false;
   String? errorMessage;
   DashboardModel? dashboard;
 
   List<LoanModel> recentLoans = [];
 
-  Future<void> fetchDashboard() async {
+  Future<void> fetchDashboard({bool isRefresh = false}) async {
     try {
-      isLoading = true;
+      if (isRefresh) {
+        isRefreshing = true;
+      } else {
+        isLoading = true;
+      }
       errorMessage = null;
       notifyListeners();
 
@@ -29,6 +34,7 @@ class DashboardProvider extends ChangeNotifier {
       errorMessage = e.toString().replaceFirst('Exception: ', '');
     } finally {
       isLoading = false;
+      isRefreshing = false;
 
       notifyListeners();
     }

@@ -13,6 +13,7 @@ import 'package:mr_fincorp/FEATURES/Collections/provider/collection_list_provide
 
 import '../../../../CORE/Theme/app_color.dart';
 import '../../../../CORE/Theme/app_text_style.dart';
+import 'package:mr_fincorp/main.dart';
 
 class CollectionsPage extends StatefulWidget {
   const CollectionsPage({super.key});
@@ -21,16 +22,67 @@ class CollectionsPage extends StatefulWidget {
   State<CollectionsPage> createState() => _CollectionsPageState();
 }
 
-class _CollectionsPageState extends State<CollectionsPage> {
+class _CollectionsPageState extends State<CollectionsPage> with RouteAware {
   CollectionStatus _selectedTab = CollectionStatus.outstanding;
   String _searchQuery = '';
+  int _lastNavIndex = -1;
+  int _lastTapCounter = -1;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<CollectionListProvider>().fetchCollections();
+      if (mounted) {
+        _refreshActiveTab();
+      }
     });
+  }
+
+  void _refreshActiveTab() {
+    if (_selectedTab == CollectionStatus.collected) {
+      context.read<CollectedListProvider>().fetchCollected();
+    } else {
+      context.read<CollectionListProvider>().fetchCollections();
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final route = ModalRoute.of(context);
+    if (route != null) {
+      routeObserver.subscribe(this, route);
+    }
+
+    final nav = Provider.of<NavigationProvider>(context, listen: true);
+    if (nav.currentIndex == 2 &&
+        (_lastNavIndex != 2 || _lastTapCounter != nav.tabTapCounter)) {
+      final shouldRefresh = _lastNavIndex != -1;
+      _lastNavIndex = 2;
+      _lastTapCounter = nav.tabTapCounter;
+      if (shouldRefresh) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!mounted) return;
+          _refreshActiveTab();
+        });
+      }
+    } else if (nav.currentIndex != 2) {
+      _lastNavIndex = nav.currentIndex;
+    }
+  }
+
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this);
+    super.dispose();
+  }
+
+  @override
+  void didPopNext() {
+    final nav = context.read<NavigationProvider>();
+    if (nav.currentIndex == 2) {
+      _refreshActiveTab();
+    }
   }
 
   List<CollectionModel> _filteredOutstanding(List<CollectionModel> all) {
@@ -93,14 +145,17 @@ class _CollectionsPageState extends State<CollectionsPage> {
                 const SizedBox(height: 16),
                 CollectionSearchBar(
                   onChanged: _onSearchChanged,
-                  onFilterTap: () {
-                    Navigator.push(
+                  onFilterTap: () async {
+                    await Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (_) =>
                             CollectionFilterPage(activeTab: _selectedTab),
                       ),
                     );
+                    if (mounted) {
+                      _refreshActiveTab();
+                    }
                   },
                 ),
               ],
@@ -131,12 +186,15 @@ class _CollectionsPageState extends State<CollectionsPage> {
 
                       return CollectionList(
                         items: items,
-                        onItemTap: (CollectionModel item) {
-                          Navigator.of(context).push(
+                        onItemTap: (CollectionModel item) async {
+                          await Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (_) => CollectionDetailsPage(data: item),
                             ),
                           );
+                          if (mounted) {
+                            _refreshActiveTab();
+                          }
                         },
                       );
                     },

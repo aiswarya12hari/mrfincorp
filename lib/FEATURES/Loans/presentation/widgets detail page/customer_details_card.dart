@@ -160,6 +160,17 @@ class CustomerDetailsCard extends StatelessWidget {
     }
   }
 
+  Future<void> makePhoneCall(String phoneNumber) async {
+    final trimmed = phoneNumber.trim();
+    if (trimmed.isEmpty) return;
+    final uri = Uri(scheme: 'tel', path: trimmed);
+    try {
+      await launchUrl(uri);
+    } catch (e) {
+      debugPrint('CALL ERROR => $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -235,6 +246,43 @@ class CustomerDetailsCard extends StatelessWidget {
               Expanded(
                 child: Text(customer.phone),
               ),
+              if (customer.phone.trim().isNotEmpty)
+                Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () => makePhoneCall(customer.phone),
+                    borderRadius: BorderRadius.circular(20),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 6,
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF006A61),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.call,
+                            size: 14,
+                            color: Colors.white,
+                          ),
+                          SizedBox(width: 5),
+                          Text(
+                            'Call',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12.5,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
             ],
           ),
 

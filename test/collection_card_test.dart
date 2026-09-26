@@ -69,7 +69,9 @@ void main() {
   });
 
   group('CollectionCard widget tests', () {
-    testWidgets('displays the new bottom information section properly', (tester) async {
+    testWidgets('displays the new bottom information section properly', (
+      tester,
+    ) async {
       final model = CollectionModel.fromJson({
         "sl_no": 1,
         "assignment_id": 1,
@@ -92,9 +94,7 @@ void main() {
 
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: CollectionCard(data: model),
-          ),
+          home: Scaffold(body: CollectionCard(data: model)),
         ),
       );
 
@@ -117,7 +117,9 @@ void main() {
       expect(find.text('Due Date'), findsNothing);
     });
 
-    testWidgets('displays No Collection when collection_date is null', (tester) async {
+    testWidgets('displays No Collection when collection_date is null', (
+      tester,
+    ) async {
       final model = CollectionModel.fromJson({
         "sl_no": 1,
         "assignment_id": 1,
@@ -140,9 +142,7 @@ void main() {
 
       await tester.pumpWidget(
         MaterialApp(
-          home: Scaffold(
-            body: CollectionCard(data: model),
-          ),
+          home: Scaffold(body: CollectionCard(data: model)),
         ),
       );
 

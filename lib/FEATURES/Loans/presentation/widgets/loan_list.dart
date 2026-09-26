@@ -1,108 +1,19 @@
-// import 'package:flutter/material.dart';
-// import 'package:provider/provider.dart';
-
-// import '../../provider/loan_provider.dart';
-// import 'loan_card.dart';
-
-// class LoansList extends StatefulWidget {
-//   const LoansList({super.key});
-
-//   @override
-//   State<LoansList> createState() => _LoansListState();
-// }
-
-// class _LoansListState extends State<LoansList> {
-//   final ScrollController _scrollController = ScrollController();
-
-//   @override
-//   void initState() {
-//     super.initState();
-
-//     _scrollController.addListener(() {
-//       if (_scrollController.position.pixels >=
-//           _scrollController.position.maxScrollExtent - 200) {
-//         context.read<LoanProvider>().loadMoreLoans();
-//       }
-//     });
-//   }
-
-//   @override
-//   void dispose() {
-//     _scrollController.dispose();
-//     super.dispose();
-//   }
-
-//   Future<void> _refreshLoans() async {
-//     await context.read<LoanProvider>().fetchLoans();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Consumer<LoanProvider>(
-//       builder: (context, provider, child) {
-//         if (provider.isLoading && provider.loans.isEmpty) {
-//           return const Center(child: CircularProgressIndicator());
-//         }
-
-//         return RefreshIndicator(
-//           onRefresh: _refreshLoans,
-//           child: provider.loans.isEmpty
-//               ? ListView(
-//                   physics: const AlwaysScrollableScrollPhysics(),
-//                   children: const [
-//                     SizedBox(height: 250),
-//                     Center(child: Text('No Loans Found')),
-//                   ],
-//                 )
-//               : ListView.builder(
-//                   controller: _scrollController,
-//                   physics: const AlwaysScrollableScrollPhysics(),
-//                   padding: const EdgeInsets.symmetric(horizontal: 16),
-//                   itemCount: provider.loans.length + (provider.hasMore ? 1 : 0),
-//                   itemBuilder: (context, index) {
-//                     if (index == provider.loans.length) {
-//                       return const Padding(
-//                         padding: EdgeInsets.all(20),
-//                         child: Center(child: CircularProgressIndicator()),
-//                       );
-//                     }
-
-//                     final loan = provider.loans[index];
-
-//                     return LoanCard(
-//                       loanId: loan.loanId,
-//                       customer: loan.customerName,
-//                       amount: '₹ ${loan.loanAmount}',
-//                       date: loan.dateOfApplication,
-//                       type: loan.loanType,
-//                       status: loan.status,
-//                       loanMethod: loan.loanMethod,
-//                     );
-//                   },
-//                 ),
-//         );
-//       },
-//     );
-//   }
-// }
-
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../CORE/Theme/app_color.dart';
+import '../../../../CORE/Theme/app_text_style.dart';
 import '../../../../CORE/Widgets/app_pagination.dart';
 
 import '../../provider/loan_provider.dart';
 import 'loan_card.dart';
+import 'loan_shimmer.dart';
 
 class LoansList extends StatefulWidget {
-  const LoansList({
-    super.key,
-  });
+  const LoansList({super.key});
 
   @override
-  State<LoansList> createState() =>
-      _LoansListState();
+  State<LoansList> createState() => _LoansListState();
 }
 
 class _LoansListState extends State<LoansList> {
@@ -111,9 +22,7 @@ class _LoansListState extends State<LoansList> {
   @override
   void initState() {
     super.initState();
-
-    _scrollController =
-        ScrollController();
+    _scrollController = ScrollController();
   }
 
   @override
@@ -122,136 +31,134 @@ class _LoansListState extends State<LoansList> {
     super.dispose();
   }
 
-  Future<void> _refreshLoans(
-    BuildContext context,
-  ) async {
-    await context
-        .read<LoanProvider>()
-        .fetchLoans();
+  Future<void> _refreshLoans(BuildContext context) async {
+    await context.read<LoanProvider>().fetchLoans();
   }
 
   @override
-  Widget build(
-    BuildContext context,
-  ) {
+  Widget build(BuildContext context) {
     return Consumer<LoanProvider>(
-      builder: (
-        context,
-        provider,
-        child,
-      ) {
-        /// Initial loading
-        if (provider.isLoading &&
-            provider.loans.isEmpty) {
-          return const Center(
-            child:
-                CircularProgressIndicator(),
-          );
-        }
-
+      builder: (context, provider, child) {
         return RefreshIndicator(
-          onRefresh: () =>
-              _refreshLoans(context),
-
-          child: Scrollbar(
-            controller:
-                _scrollController,
+          color: AppColors.primary,
+          onRefresh: () => _refreshLoans(context),
+          child: provider.isLoading && provider.loans.isEmpty
+              ? const SingleChildScrollView(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  child: LoanListShimmer(),
+                )
+              : Scrollbar(
+            controller: _scrollController,
             thumbVisibility: true,
             trackVisibility: true,
             thickness: 5,
-            radius:
-                const Radius.circular(10),
-
+            radius: const Radius.circular(10),
             child: ListView(
-              controller:
-                  _scrollController,
-
-              physics:
-                  const AlwaysScrollableScrollPhysics(),
-
-              padding:
-                  const EdgeInsets.only(
+              controller: _scrollController,
+              physics: const AlwaysScrollableScrollPhysics(),
+              padding: const EdgeInsets.only(
                 left: 16,
                 right: 16,
                 top: 2,
-                bottom: 20,
+                bottom: 24,
               ),
-
               children: [
-                /// Empty State
+                /// ── Empty State ──
                 if (provider.loans.isEmpty)
-                  const SizedBox(
-                    height: 250,
-                    child: Center(
-                      child: Text(
-                        'No Loans Found',
+                  Container(
+                    width: double.infinity,
+                    margin: const EdgeInsets.only(top: 24),
+                    padding: const EdgeInsets.all(28),
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(
+                        color: AppColors.borderColor.withOpacity(0.8),
                       ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFF1E293B).withOpacity(0.03),
+                          blurRadius: 10,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        Container(
+                          width: 52,
+                          height: 52,
+                          decoration: const BoxDecoration(
+                            color: AppColors.gray100,
+                            shape: BoxShape.circle,
+                          ),
+                          alignment: Alignment.center,
+                          child: Icon(
+                            Icons.receipt_long_outlined,
+                            size: 28,
+                            color: Colors.grey.shade400,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        const Text(
+                          'No loans found',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontFamily: AppTextStyles.fontFamily,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.gray800,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          'Try adjusting your search or filters',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontFamily: AppTextStyles.fontFamily,
+                            fontSize: 12.5,
+                            color: Colors.grey.shade500,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
 
-                /// Loan Cards
+                /// ── Loan Cards (Kept exactly as they are) ──
                 if (provider.loans.isNotEmpty)
                   ...provider.loans.map(
                     (loan) {
                       return LoanCard(
-                        loanId:
-                            loan.loanId,
-                        customer:
-                            loan.customerName,
-                        amount:
-                            '₹ ${loan.loanAmount}',
-                        date:
-                            loan.dateOfApplication,
-                        type:
-                            loan.loanType,
-                        status:
-                            loan.status,
-                        loanMethod:
-                            loan.loanMethod,
+                        loanId: loan.loanId,
+                        customer: loan.customerName,
+                        amount: '₹ ${loan.loanAmount}',
+                        date: loan.dateOfApplication,
+                        type: loan.loanType,
+                        status: loan.status,
+                        loanMethod: loan.loanMethod,
                       );
                     },
                   ),
 
-                /// Pagination
-                /// This is now part of the scrollable
-                /// content and will appear after
-                /// the last loan card.
+                /// ── Pagination ──
                 if (provider.totalPages > 1)
                   Padding(
-                    padding:
-                        const EdgeInsets.only(
-                      top: 4,
+                    padding: const EdgeInsets.only(
+                      top: 12,
                       bottom: 8,
                     ),
-                    child:
-                        AppPagination(
-                      currentPage:
-                          provider.currentPage,
-                      totalPages:
-                          provider.totalPages,
-                      isLoading:
-                          provider.isLoading,
-                      onPageChanged:
-                          (page) {
-                        provider
-                            .goToPage(
-                          page,
-                        );
+                    child: AppPagination(
+                      currentPage: provider.currentPage,
+                      totalPages: provider.totalPages,
+                      isLoading: provider.isLoading,
+                      onPageChanged: (page) {
+                        provider.goToPage(page);
 
-                        /// Move to top when
-                        /// changing page
-                        if (_scrollController
-                            .hasClients) {
-                          _scrollController
-                              .animateTo(
+                        if (_scrollController.hasClients) {
+                          _scrollController.animateTo(
                             0,
-                            duration:
-                                const Duration(
-                              milliseconds:
-                                  300,
-                            ),
-                            curve:
-                                Curves.easeOut,
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeOut,
                           );
                         }
                       },

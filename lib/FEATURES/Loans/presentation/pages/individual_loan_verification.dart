@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../../data/models/loan_detail_model.dart';
@@ -6,12 +9,15 @@ import '../../data/models/individual_loan_verification_model.dart';
 import '../../data/models/selected_location_model.dart';
 
 import '../../provider/individual_loan_verification.dart';
+import '../../provider/loan_provider.dart';
+import '../../../Dashboard/provider/dashboard_provider.dart';
 
 import '../../../../CORE/Theme/app_color.dart';
 import '../../../../CORE/Theme/app_text_style.dart';
 
 import 'location_picker_page.dart';
 import 'individual_verify_success_page.dart';
+import '../widgets/verification_image_section.dart';
 
 class IndividualLoanVerificationPage extends StatefulWidget {
   final LoanDetailModel loan;
@@ -39,6 +45,9 @@ class _IndividualLoanVerificationPageState
 
   double? selectedLatitude;
   double? selectedLongitude;
+
+  final List<XFile> _selectedImages = [];
+  bool _isSubmitting = false;
 
   @override
   void initState() {
@@ -142,7 +151,10 @@ class _IndividualLoanVerificationPageState
     );
   }
 
+
   Future<void> submitVerification() async {
+    if (_isSubmitting) return;
+
     if (!_formKey.currentState!.validate()) {
       return;
     }
@@ -154,7 +166,19 @@ class _IndividualLoanVerificationPageState
       return;
     }
 
+    setState(() {
+      _isSubmitting = true;
+    });
+
     try {
+      final List<String> base64Images = [];
+      for (final img in _selectedImages) {
+        final bytes = await img.readAsBytes();
+        if (!mounted) return;
+        final base64Str = base64Encode(bytes);
+        base64Images.add('data:image/jpeg;base64,$base64Str');
+      }
+
       final request = IndividualLoanVerificationModel(
         feedback: feedbackController.text,
         maxPayAmount: maxPayAmountController.text,
@@ -166,6 +190,8 @@ class _IndividualLoanVerificationPageState
         district: districtController.text,
         // pinCode: pinCodeController.text,
         googleMapLink: selectedGoogleMapLink,
+        image: base64Images.isNotEmpty ? base64Images.first : null,
+        images: base64Images.isNotEmpty ? base64Images : null,
       );
 
       final response = await context
@@ -173,6 +199,12 @@ class _IndividualLoanVerificationPageState
           .verifyLoan(loanId: widget.loan.loanId, data: request);
 
       if (!mounted) return;
+
+      context.read<LoanProvider>().onLoanVerified(
+        loanId: widget.loan.loanId,
+        status: response.status,
+      );
+      context.read<DashboardProvider>().fetchDashboard(isRefresh: true);
 
       Navigator.pushReplacement(
         context,
@@ -192,6 +224,12 @@ class _IndividualLoanVerificationPageState
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text(e.toString())));
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isSubmitting = false;
+        });
+      }
     }
   }
 
@@ -273,7 +311,7 @@ class _IndividualLoanVerificationPageState
                 width: double.infinity,
                 height: 52,
                 child: OutlinedButton.icon(
-                  onPressed: chooseLocation,
+                  onPressed: _isSubmitting ? null : chooseLocation,
                   icon: Icon(Icons.map_outlined, color: AppColors.primary),
                   label: Text(
                     'Choose Location',
@@ -311,7 +349,17 @@ class _IndividualLoanVerificationPageState
                   ),
                 ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 18),
+
+              // ── Optional Verification Photos below location details ──
+              VerificationImageSection(
+                images: _selectedImages,
+                onImagesChanged: (imgs) => setState(() {
+                  _selectedImages.clear();
+                  _selectedImages.addAll(imgs);
+                }),
+                isSubmitting: _isSubmitting,
+              ),
 
               // ── Max Pay Amount (hidden for Spot loans) ──
               if (loan.loanMethod != 'spot') ...[
@@ -354,16 +402,26 @@ class _IndividualLoanVerificationPageState
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
                 foregroundColor: AppColors.white,
+                disabledBackgroundColor: AppColors.primary.withOpacity(0.6),
                 elevation: 0,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              onPressed: submitVerification,
-              child: Text(
-                'Submit Verification',
-                style: AppTextStyles.button(context),
-              ),
+              onPressed: _isSubmitting ? null : submitVerification,
+              child: _isSubmitting
+                  ? const SizedBox(
+                      height: 22,
+                      width: 22,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2.5,
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      ),
+                    )
+                  : Text(
+                      'Submit Verification',
+                      style: AppTextStyles.button(context),
+                    ),
             ),
           ),
         ),

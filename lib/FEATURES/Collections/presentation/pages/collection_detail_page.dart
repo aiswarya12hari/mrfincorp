@@ -7,10 +7,12 @@ import 'package:mr_fincorp/FEATURES/Collections/data/model/collection_submit_mod
 import 'package:mr_fincorp/FEATURES/Collections/data/services/collection_service.dart';
 import 'package:mr_fincorp/FEATURES/Collections/provider/collection_submit_provider.dart';
 import 'package:mr_fincorp/FEATURES/Collections/provider/collection_list_provider.dart';
+import 'package:mr_fincorp/FEATURES/Collections/provider/collected_list_provider.dart';
 
 import '../../../../CORE/Theme/app_color.dart';
 import '../../../../CORE/Theme/app_text_style.dart';
 import '../widgets collection detail page/header_card.dart';
+import '../widgets collection detail page/customer_verification_images_section.dart';
 import '../widgets collection detail page/payment_collection_card.dart';
 import '../widgets collection detail page/submit_collection_button.dart';
 import 'collection_success_page.dart';
@@ -91,8 +93,11 @@ class _CollectionDetailsPageState extends State<CollectionDetailsPage> {
     if (!mounted) return;
 
     if (result != null) {
-      // Refresh the list so this item moves from Outstanding -> Collected.
-      context.read<CollectionListProvider>().fetchCollections();
+      // Invalidate and sync lists immediately:
+      context.read<CollectionListProvider>().onCollectionSubmitted(
+        widget.data.assignmentId,
+      );
+      context.read<CollectedListProvider>().fetchCollected();
 
       Navigator.of(context).push(
         MaterialPageRoute(
@@ -137,9 +142,15 @@ class _CollectionDetailsPageState extends State<CollectionDetailsPage> {
                         padding: EdgeInsets.symmetric(vertical: 40),
                         child: Center(child: CircularProgressIndicator()),
                       )
-                    else if (_detail != null)
-                      CollectionDetailHeaderCard(data: _detail!)
-                    else
+                    else if (_detail != null) ...[
+                      CollectionDetailHeaderCard(data: _detail!),
+                      if (_detail!.customerImages.isNotEmpty) ...[
+                        const SizedBox(height: 16),
+                        CustomerVerificationImagesSection(
+                          images: _detail!.customerImages,
+                        ),
+                      ],
+                    ] else
                       Container(
                         width: double.infinity,
                         padding: const EdgeInsets.all(16),

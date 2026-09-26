@@ -9,6 +9,8 @@ class IndividualLoanVerificationModel {
   // final String pinCode;
   final String googleMapLink;
   final String maxPayAmount; 
+  final String? image;
+  final List<String>? images;
 
   IndividualLoanVerificationModel({
     required this.feedback,
@@ -21,10 +23,12 @@ class IndividualLoanVerificationModel {
     // required this.pinCode,
     required this.googleMapLink,
     required this.maxPayAmount,
+    this.image,
+    this.images,
   });
 
   Map<String, dynamic> toJson() {
-    return {
+    final Map<String, dynamic> data = {
       "feedback": feedback,
       "latitude": latitude,
       "longitude": longitude,
@@ -36,5 +40,13 @@ class IndividualLoanVerificationModel {
       "google_map_link": googleMapLink,
       "maximum_payable_amount": maxPayAmount,
     };
+    if (images != null && images!.isNotEmpty) {
+      data["images"] = images;
+      data["image"] = images!.first;
+    } else if (image != null && image!.isNotEmpty) {
+      data["image"] = image;
+      data["images"] = [image!];
+    }
+    return data;
   }
 }

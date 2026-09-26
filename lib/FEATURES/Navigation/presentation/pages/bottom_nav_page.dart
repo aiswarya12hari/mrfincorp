@@ -1,114 +1,3 @@
-// import 'package:flutter/material.dart';
-
-// import 'package:mr_fincorp/FEATURES/Collections/presentation/pages/collection_page.dart';
-// import 'package:mr_fincorp/FEATURES/Dashboard/presentation/pages/dashboard_page.dart';
-// import 'package:mr_fincorp/FEATURES/Loans/presentation/pages/loans_page.dart';
-// import 'package:mr_fincorp/FEATURES/Profile/presentation/pages/profile_page.dart';
-
-// import '../widgets/app_bottom_navbar.dart';
-
-// class BottomNavPage extends StatefulWidget {
-//   final int initialIndex;
-
-//   const BottomNavPage({super.key, this.initialIndex = 0});
-
-//   @override
-//   State<BottomNavPage> createState() => _BottomNavPageState();
-// }
-
-// class _BottomNavPageState extends State<BottomNavPage> {
-//   late int _selectedIndex;
-
-//   @override
-//   void initState() {
-//     super.initState();
-
-//     _selectedIndex = widget.initialIndex;
-//   }
-
-//   final List<Widget> _pages = const [
-//     DashboardPage(),
-//     LoansPage(),
-//     CollectionsPage(),
-//     ProfilePage(),
-//   ];
-
-//   void _changeTab(int index) {
-//     setState(() {
-//       _selectedIndex = index;
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: _pages[_selectedIndex],
-
-//       bottomNavigationBar: AppBottomNavBar(
-//         currentIndex: _selectedIndex,
-//         onTap: _changeTab,
-//       ),
-//     );
-//   }
-// }
-
-// import 'package:flutter/material.dart';
-
-// import 'package:mr_fincorp/FEATURES/Collections/presentation/pages/collection_page.dart';
-// import 'package:mr_fincorp/FEATURES/Dashboard/presentation/pages/dashboard_page.dart';
-// import 'package:mr_fincorp/FEATURES/Loans/presentation/pages/loans_page.dart';
-// import 'package:mr_fincorp/FEATURES/Profile/presentation/pages/profile_page.dart';
-
-// import '../widgets/app_bottom_navbar.dart';
-
-// class BottomNavPage extends StatefulWidget {
-//   final int initialIndex;
-
-//   const BottomNavPage({super.key, this.initialIndex = 0});
-
-//   @override
-//   State<BottomNavPage> createState() => _BottomNavPageState();
-// }
-
-// class _BottomNavPageState extends State<BottomNavPage> {
-//   late int _selectedIndex;
-
-//   @override
-//   void initState() {
-//     super.initState();
-
-//     _selectedIndex = widget.initialIndex;
-//   }
-
-//   final List<Widget> _pages = const [
-//     DashboardPage(),
-//     LoansPage(),
-//     CollectionsPage(),
-//     ProfilePage(),
-//   ];
-
-//   void _changeTab(int index) {
-//     setState(() {
-//       _selectedIndex = index;
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: IndexedStack(
-//         index: _selectedIndex,
-//         children: _pages,
-//       ),
-
-//       bottomNavigationBar: AppBottomNavBar(
-//         currentIndex: _selectedIndex,
-//         onTap: _changeTab,
-//       ),
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
 import 'package:mr_fincorp/FEATURES/Navigation/navigation_provider.dart';
 import 'package:provider/provider.dart';
@@ -128,15 +17,12 @@ class BottomNavPage extends StatefulWidget {
   State<BottomNavPage> createState() => _BottomNavPageState();
 }
 
-class _BottomNavPageState extends State<BottomNavPage> {
-  @override
-  void initState() {
-    super.initState();
-    // Seed the shared provider with whatever tab this page was opened on.
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<NavigationProvider>().changeTab(widget.initialIndex);
-    });
-  }
+class _BottomNavPageState extends State<BottomNavPage>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _animController;
+  late final Animation<double> _fadeAnim;
+  late final Animation<Offset> _slideAnim;
+  int _lastIndex = 0;
 
   final List<Widget> _pages = const [
     DashboardPage(),
@@ -146,8 +32,48 @@ class _BottomNavPageState extends State<BottomNavPage> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    _lastIndex = widget.initialIndex;
+
+    _animController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 220),
+    );
+
+    final curve = CurvedAnimation(
+      parent: _animController,
+      curve: Curves.easeOutCubic,
+    );
+
+    _fadeAnim = Tween<double>(begin: 0.4, end: 1.0).animate(curve);
+    _slideAnim = Tween<Offset>(
+      begin: const Offset(0, 0.015),
+      end: Offset.zero,
+    ).animate(curve);
+
+    _animController.value = 1.0;
+
+    // Seed the shared provider with whatever tab this page was opened on.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<NavigationProvider>().changeTab(widget.initialIndex);
+    });
+  }
+
+  @override
+  void dispose() {
+    _animController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final nav = context.watch<NavigationProvider>();
+
+    if (nav.currentIndex != _lastIndex) {
+      _lastIndex = nav.currentIndex;
+      _animController.forward(from: 0.0);
+    }
 
     return PopScope(
       canPop: nav.currentIndex == 0,
@@ -158,7 +84,16 @@ class _BottomNavPageState extends State<BottomNavPage> {
         }
       },
       child: Scaffold(
-        body: IndexedStack(index: nav.currentIndex, children: _pages),
+        body: FadeTransition(
+          opacity: _fadeAnim,
+          child: SlideTransition(
+            position: _slideAnim,
+            child: IndexedStack(
+              index: nav.currentIndex,
+              children: _pages,
+            ),
+          ),
+        ),
         bottomNavigationBar: AppBottomNavBar(
           currentIndex: nav.currentIndex,
           onTap: (index) => context.read<NavigationProvider>().changeTab(index),
