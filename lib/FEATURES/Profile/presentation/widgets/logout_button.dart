@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mr_fincorp/CORE/Theme/app_color.dart';
+import 'package:mr_fincorp/CORE/Theme/app_text_style.dart';
 import 'package:mr_fincorp/FEATURES/Login/presentation/pages/login_page.dart';
 import 'package:mr_fincorp/FEATURES/Navigation/presentation/pages/bottom_nav_page.dart';
 import 'package:provider/provider.dart';
@@ -14,29 +16,88 @@ class LogoutButton extends StatelessWidget {
       builder: (dialogContext) {
         return AlertDialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(16),
           ),
-          title: const Text(
-            'Logout',
-            style: TextStyle(fontWeight: FontWeight.w700),
+          backgroundColor: AppColors.surface,
+          title: Row(
+            children: [
+              Container(
+                width: 34,
+                height: 34,
+                decoration: const BoxDecoration(
+                  color: AppColors.errorBg,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.logout_rounded,
+                  size: 17,
+                  color: AppColors.error,
+                ),
+              ),
+              const SizedBox(width: 10),
+              const Text(
+                'Logout',
+                style: TextStyle(
+                  fontFamily: AppTextStyles.fontFamily,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 16.5,
+                  color: AppColors.textPrimary,
+                ),
+              ),
+            ],
           ),
-          content: const Text('Are you sure you want to logout?'),
+          content: const Text(
+            'Are you sure you want to logout of your account?',
+            style: TextStyle(
+              fontFamily: AppTextStyles.fontFamily,
+              fontSize: 13.5,
+              color: AppColors.bodyText,
+              height: 1.4,
+            ),
+          ),
+          actionsPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(dialogContext, false);
               },
-              child: const Text('Cancel'),
+              style: TextButton.styleFrom(
+                foregroundColor: AppColors.subtitle,
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: const Text(
+                'Cancel',
+                style: TextStyle(
+                  fontFamily: AppTextStyles.fontFamily,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ),
             ElevatedButton(
               onPressed: () {
                 Navigator.pop(dialogContext, true);
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
+                backgroundColor: AppColors.error,
                 foregroundColor: Colors.white,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
               ),
-              child: const Text('Logout'),
+              child: const Text(
+                'Logout',
+                style: TextStyle(
+                  fontFamily: AppTextStyles.fontFamily,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
             ),
           ],
         );
@@ -44,6 +105,7 @@ class LogoutButton extends StatelessWidget {
     );
 
     if (confirm != true) return;
+    if (!context.mounted) return;
 
     final provider = context.read<LogoutProvider>();
 
@@ -79,72 +141,73 @@ class LogoutButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<LogoutProvider>(
       builder: (context, provider, child) {
-        return SizedBox(
-          width: double.infinity,
-          height: 52,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: provider.isLoading
-                  ? null
-                  : const LinearGradient(
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                      colors: [Color(0xFFE53E3E), Color(0xFFFC8181)],
+        return Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: provider.isLoading ? null : () => _showLogoutDialog(context),
+            borderRadius: const BorderRadius.vertical(bottom: Radius.circular(16)),
+            splashColor: AppColors.error.withValues(alpha: 0.08),
+            highlightColor: AppColors.error.withValues(alpha: 0.04),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: Row(
+                children: [
+                  Container(
+                    width: 38,
+                    height: 38,
+                    decoration: BoxDecoration(
+                      color: AppColors.errorBg,
+                      borderRadius: BorderRadius.circular(10),
                     ),
-              color: provider.isLoading ? const Color(0xFFEDF2F7) : null,
-              borderRadius: BorderRadius.circular(14),
-              boxShadow: provider.isLoading
-                  ? []
-                  : [
-                      BoxShadow(
-                        color: const Color(0xFFE53E3E).withOpacity(0.30),
-                        blurRadius: 14,
-                        offset: const Offset(0, 6),
-                      ),
-                    ],
-            ),
-            child: ElevatedButton.icon(
-              onPressed: provider.isLoading
-                  ? null
-                  : () => _showLogoutDialog(context),
-              icon: provider.isLoading
-                  ? const SizedBox(
-                      width: 18,
-                      height: 18,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: Color(0xFF718096),
-                      ),
-                    )
-                  : const Icon(
-                      Icons.logout_rounded,
-                      size: 18,
-                      color: Colors.white,
+                    alignment: Alignment.center,
+                    child: provider.isLoading
+                        ? const SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: AppColors.error,
+                            ),
+                          )
+                        : const Icon(
+                            Icons.logout_rounded,
+                            size: 19,
+                            color: AppColors.error,
+                          ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          provider.isLoading ? 'Logging out...' : 'Logout',
+                          style: const TextStyle(
+                            fontFamily: AppTextStyles.fontFamily,
+                            fontSize: 13.5,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.error,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        const Text(
+                          'Sign out of your account on this device',
+                          style: TextStyle(
+                            fontFamily: AppTextStyles.fontFamily,
+                            fontSize: 11,
+                            color: AppColors.subtitle,
+                          ),
+                        ),
+                      ],
                     ),
-              label: provider.isLoading
-                  ? const Text(
-                      'Logging out...',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFF718096),
-                      ),
-                    )
-                  : const Text(
-                      'Logout',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                        letterSpacing: 0.3,
-                      ),
-                    ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.transparent,
-                shadowColor: Colors.transparent,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(14),
-                ),
+                  ),
+                  const Icon(
+                    Icons.chevron_right_rounded,
+                    size: 20,
+                    color: AppColors.textLight,
+                  ),
+                ],
               ),
             ),
           ),

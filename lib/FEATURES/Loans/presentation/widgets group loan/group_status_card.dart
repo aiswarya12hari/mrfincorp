@@ -1,54 +1,3 @@
-// import 'package:flutter/material.dart';
-
-// class GroupStatsCard extends StatelessWidget {
-//   final String title;
-//   final String value;
-
-//   const GroupStatsCard({
-//     super.key,
-//     required this.title,
-//     required this.value,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Expanded(
-//       child: Container(
-//         padding: const EdgeInsets.all(12),
-//         decoration: BoxDecoration(
-//           color: Colors.white,
-//           borderRadius: BorderRadius.circular(12),
-//         ),
-//         child: Column(
-//           mainAxisSize: MainAxisSize.min,
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             Text(
-//               title,
-//               maxLines: 2,
-//               overflow: TextOverflow.ellipsis,
-//               style: const TextStyle(
-//                 fontSize: 11,
-//                 color: Colors.black54,
-//                 height: 1.2,
-//               ),
-//             ),
-//             const SizedBox(height: 10),
-//             Text(
-//               value,
-//               style: const TextStyle(
-//                 fontSize: 20,
-//                 fontWeight: FontWeight.bold,
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-
 import 'package:flutter/material.dart';
 
 enum StatCardType { total, verified, unverified }
@@ -106,10 +55,7 @@ class GroupStatsCard extends StatelessWidget {
               child: Text(
                 title,
                 maxLines: 1,
-                style: const TextStyle(
-                  fontSize: 11,
-                  color: Colors.black54,
-                ),
+                style: const TextStyle(fontSize: 11, color: Colors.black54),
               ),
             ),
             const SizedBox(height: 8),

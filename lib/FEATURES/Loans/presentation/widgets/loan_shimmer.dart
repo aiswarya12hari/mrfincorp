@@ -16,12 +16,12 @@ class LoanCardSkeleton extends StatelessWidget {
         color: AppColors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: AppColors.borderColor.withOpacity(0.8),
+          color: AppColors.borderColor.withValues(alpha: 0.8),
           width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF1E293B).withOpacity(0.03),
+            color: const Color(0xFF1E293B).withValues(alpha: 0.03),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -61,7 +61,7 @@ class LoanCardSkeleton extends StatelessWidget {
           // ── Subtle Divider ──
           Container(
             height: 1,
-            color: AppColors.borderColor.withOpacity(0.6),
+            color: AppColors.borderColor.withValues(alpha: 0.6),
           ),
 
           const SizedBox(height: 12),

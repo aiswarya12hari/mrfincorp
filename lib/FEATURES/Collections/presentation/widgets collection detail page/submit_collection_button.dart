@@ -43,8 +43,8 @@ class _SubmitCollectionButtonState extends State<SubmitCollectionButton> {
           gradient: isEnabled
               ? const LinearGradient(
                   colors: [
-                    Color(0xFF006A61), // Brand Teal
-                    Color(0xFF0D7E74), // Gradient highlight
+                    AppColors.secondary, // Web Aqua
+                    AppColors.accent,    // Bright Aqua highlight
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
@@ -54,7 +54,7 @@ class _SubmitCollectionButtonState extends State<SubmitCollectionButton> {
           boxShadow: isEnabled
               ? [
                   BoxShadow(
-                    color: const Color(0xFF006A61).withValues(alpha: 0.35),
+                    color: AppColors.secondary.withValues(alpha: 0.35),
                     blurRadius: 16,
                     offset: const Offset(0, 6),
                   ),
@@ -93,9 +93,9 @@ class _SubmitCollectionButtonState extends State<SubmitCollectionButton> {
                         Text(
                           'Submit Collection',
                           style: AppTextStyles.button(context).copyWith(
-                            fontSize: 16,
+                            fontSize: 14.5,
                             fontWeight: FontWeight.w700,
-                            letterSpacing: 0.3,
+                            letterSpacing: 0.2,
                           ),
                         ),
                       ],

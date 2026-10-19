@@ -73,11 +73,11 @@ class _LoansListState extends State<LoansList> {
                       color: AppColors.white,
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(
-                        color: AppColors.borderColor.withOpacity(0.8),
+                        color: AppColors.borderColor.withValues(alpha: 0.8),
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xFF1E293B).withOpacity(0.03),
+                          color: const Color(0xFF1E293B).withValues(alpha: 0.03),
                           blurRadius: 10,
                           offset: const Offset(0, 3),
                         ),

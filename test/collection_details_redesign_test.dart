@@ -205,7 +205,7 @@ void main() {
       );
     });
 
-    testWidgets('4. Information Grid renders 2x2 cards for Area, Branch, Loan Type, and Method',
+    testWidgets('4. Information Grid renders 2x2 cards for Area, Branch, Loan Type, and Loan Status',
         (WidgetTester tester) async {
       final model = CollectionDetailModel.fromJson(sampleJson);
 
@@ -228,7 +228,7 @@ void main() {
       expect(find.text('LOAN TYPE'), findsOneWidget);
       expect(find.text('WEEKLY'), findsOneWidget);
 
-      expect(find.text('METHOD'), findsOneWidget);
+      expect(find.text('LOAN STATUS'), findsOneWidget);
       expect(find.text('OPEN'), findsOneWidget);
     });
 

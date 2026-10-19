@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mr_fincorp/CORE/Theme/app_color.dart';
-import 'package:mr_fincorp/CORE/Utils/responsive.dart';
 import 'package:mr_fincorp/FEATURES/Login/presentation/widgets/button.dart';
 import 'package:mr_fincorp/FEATURES/Login/presentation/widgets/text_field.dart';
 
@@ -29,12 +28,12 @@ class LoginForm extends StatelessWidget {
         color: AppColors.cardColor,
         borderRadius: BorderRadius.circular(22),
         border: Border.all(
-          color: AppColors.borderColor.withOpacity(0.8),
+          color: AppColors.borderColor.withValues(alpha: 0.8),
           width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF1E293B).withOpacity(0.04),
+            color: const Color(0xFF1E293B).withValues(alpha: 0.04),
             blurRadius: 18,
             offset: const Offset(0, 6),
           ),
@@ -49,8 +48,7 @@ class LoginForm extends StatelessWidget {
             // ── Email ────────────────────────────────────────
             FincorpTextField(
               label: 'Email',
-              hintText: 'you@example.com',
-              icon: Icons.mail_outline_rounded,
+              hintText: 'admin@gmail.com',
               controller: emailController,
               keyboardType: TextInputType.emailAddress,
               validator: (v) {
@@ -67,7 +65,6 @@ class LoginForm extends StatelessWidget {
             FincorpTextField(
               label: 'Password',
               hintText: '••••••••',
-              icon: Icons.lock_outline_rounded,
               controller: passwordController,
               isPassword: true,
               validator: (v) {

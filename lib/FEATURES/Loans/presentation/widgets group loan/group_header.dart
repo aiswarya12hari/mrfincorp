@@ -1,76 +1,5 @@
-// import 'package:flutter/material.dart';
-
-// class GroupHeaderCard
-//     extends StatelessWidget {
-//   final String loanId;
-//   final String status;
-
-//   const GroupHeaderCard({
-//     super.key,
-//     required this.loanId,
-//     required this.status,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       padding: const EdgeInsets.all(16),
-//       decoration: BoxDecoration(
-//         color: Colors.white,
-//         borderRadius:
-//             BorderRadius.circular(16),
-//       ),
-//       child: Row(
-//         children: [
-//           const CircleAvatar(
-//             radius: 24,
-//             child: Icon(Icons.groups),
-//           ),
-
-//           const SizedBox(width: 12),
-
-//           Expanded(
-//             child: Column(
-//               crossAxisAlignment:
-//                   CrossAxisAlignment.start,
-//               children: [
-//                 Text(
-//                   loanId,
-//                   style: const TextStyle(
-//                     fontWeight:
-//                         FontWeight.bold,
-//                   ),
-//                 ),
-//                 const SizedBox(height: 4),
-//                 const Text("Group Loan"),
-//               ],
-//             ),
-//           ),
-
-//           Container(
-//             padding:
-//                 const EdgeInsets.symmetric(
-//               horizontal: 10,
-//               vertical: 5,
-//             ),
-//             decoration: BoxDecoration(
-//               color:
-//                   Colors.blue.shade50,
-//               borderRadius:
-//                   BorderRadius.circular(
-//                 20,
-//               ),
-//             ),
-//             child: Text(status),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-
 import 'package:flutter/material.dart';
+import '../../../../CORE/Theme/app_color.dart';
 
 class GroupHeaderCard extends StatelessWidget {
   final String loanId;
@@ -128,7 +57,7 @@ class GroupHeaderCard extends StatelessWidget {
             children: [
               const CircleAvatar(
                 radius: 22,
-                backgroundColor: Color(0xFF4FD1C5),
+                backgroundColor: AppColors.secondary,
                 child: Icon(Icons.groups, color: Colors.white, size: 22),
               ),
               const SizedBox(width: 12),
@@ -150,14 +79,20 @@ class GroupHeaderCard extends StatelessWidget {
                       groupName.isEmpty ? "Group Loan" : groupName,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(color: Colors.black54, fontSize: 13),
+                      style: const TextStyle(
+                        color: Colors.black54,
+                        fontSize: 13,
+                      ),
                     ),
                   ],
                 ),
               ),
               const SizedBox(width: 8),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 5,
+                ),
                 decoration: BoxDecoration(
                   color: _statusBg,
                   borderRadius: BorderRadius.circular(20),

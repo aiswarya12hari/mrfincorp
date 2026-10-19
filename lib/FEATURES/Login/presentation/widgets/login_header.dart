@@ -22,17 +22,17 @@ class LoginHeader extends StatelessWidget {
             color: AppColors.white,
             borderRadius: BorderRadius.circular(22),
             border: Border.all(
-              color: AppColors.borderColor.withOpacity(0.7),
+              color: AppColors.borderColor.withValues(alpha: 0.7),
               width: 1,
             ),
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFF1E293B).withOpacity(0.04),
+                color: const Color(0xFF1E293B).withValues(alpha: 0.04),
                 blurRadius: 16,
                 offset: const Offset(0, 4),
               ),
               BoxShadow(
-                color: AppColors.primary.withOpacity(0.06),
+                color: AppColors.primary.withValues(alpha: 0.06),
                 blurRadius: 20,
                 offset: const Offset(0, 8),
               ),

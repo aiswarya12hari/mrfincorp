@@ -59,12 +59,12 @@ class _LoanSearchBarState extends State<LoanSearchBar> {
         color: AppColors.white,
         borderRadius: BorderRadius.circular(14),
         border: Border.all(
-          color: AppColors.borderColor.withOpacity(0.85),
+          color: AppColors.borderColor.withValues(alpha: 0.85),
           width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF1E293B).withOpacity(0.03),
+            color: const Color(0xFF1E293B).withValues(alpha: 0.03),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),

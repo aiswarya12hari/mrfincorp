@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mr_fincorp/CORE/Theme/app_color.dart';
 import 'package:mr_fincorp/CORE/Theme/app_text_style.dart';
-import 'package:mr_fincorp/CORE/Utils/responsive.dart';
 
-/// Full-width teal gradient pill button used across FinCorp.
+/// Web-styled teal button used for login.
 class FincorpPrimaryButton extends StatelessWidget {
   final String label;
   final VoidCallback? onPressed;
@@ -18,35 +17,37 @@ class FincorpPrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const height = 52.0;
-
+    const height = 48.0;
     return SizedBox(
       width: double.infinity,
       height: height,
       child: DecoratedBox(
         decoration: BoxDecoration(
           gradient: const LinearGradient(
-            colors: [AppColors.primary, AppColors.primaryDark],
+            colors: [
+              Color(0xFF16BA9D), // Vibrant web teal
+              Color(0xFF2DD4BF), // Radiant light aqua
+            ],
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
           ),
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: AppColors.primary.withOpacity(0.28),
+              color: const Color(0xFF16BA9D).withValues(alpha: 0.32),
               blurRadius: 14,
-              offset: const Offset(0, 4),
+              offset: const Offset(0, 5),
             ),
           ],
         ),
         child: Material(
           color: Colors.transparent,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(12),
           child: InkWell(
             onTap: isLoading ? null : onPressed,
-            borderRadius: BorderRadius.circular(16),
-            splashColor: AppColors.white.withOpacity(0.15),
-            highlightColor: AppColors.white.withOpacity(0.08),
+            borderRadius: BorderRadius.circular(12),
+            splashColor: AppColors.white.withValues(alpha: 0.2),
+            highlightColor: AppColors.white.withValues(alpha: 0.1),
             child: Center(
               child: isLoading
                   ? const SizedBox(
@@ -61,10 +62,10 @@ class FincorpPrimaryButton extends StatelessWidget {
                       label,
                       style: const TextStyle(
                         fontFamily: AppTextStyles.fontFamily,
-                        fontSize: 15.5,
-                        fontWeight: FontWeight.w600,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
                         color: AppColors.white,
-                        letterSpacing: 0.2,
+                        letterSpacing: 0.5,
                       ),
                     ),
             ),

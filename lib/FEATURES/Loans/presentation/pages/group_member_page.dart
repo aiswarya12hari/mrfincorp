@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../CORE/Theme/app_color.dart';
 
 import '../../data/models/loan_detail_model.dart';
 import '../../data/models/group_member_model.dart';
@@ -58,10 +59,11 @@ class _GroupMembersPageState extends State<GroupMembersPage> {
         _isVerificationAllowed && detail.unverifiedCount > 0;
 
     return Scaffold(
-      backgroundColor: const Color(0xffF7F8FA),
+      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.surface,
         elevation: 0,
+        foregroundColor: AppColors.textPrimary,
         title: const Text('Group Members'),
       ),
       body: Padding(
@@ -74,8 +76,16 @@ class _GroupMembersPageState extends State<GroupMembersPage> {
               width: double.infinity,
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
+                color: AppColors.surface,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: AppColors.border),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.primary.withValues(alpha: 0.04),
+                    blurRadius: 14,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -119,7 +129,7 @@ class _GroupMembersPageState extends State<GroupMembersPage> {
             Expanded(
               child: ListView.separated(
                 itemCount: detail.members.length,
-                separatorBuilder: (_, __) => const SizedBox(height: 12),
+                separatorBuilder: (_, _) => const SizedBox(height: 12),
                 itemBuilder: (context, index) {
                   final member = detail.members[index];
 
@@ -150,7 +160,7 @@ class _GroupMembersPageState extends State<GroupMembersPage> {
                     openVerification(pending);
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF38B2AC),
+                    backgroundColor: AppColors.primary,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
@@ -210,12 +220,20 @@ class _MemberCard extends StatelessWidget {
 
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(20),
       child: Container(
-        padding: const EdgeInsets.all(14),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: AppColors.border),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.primary.withValues(alpha: 0.04),
+              blurRadius: 14,
+              offset: const Offset(0, 4),
+            ),
+          ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -225,15 +243,15 @@ class _MemberCard extends StatelessWidget {
                 CircleAvatar(
                   radius: 22,
                   backgroundColor: verified
-                      ? const Color(0xFFE3F8EF)
-                      : const Color(0xFFFCEDE3),
+                      ? const Color(0xFFDEF7EC)
+                      : const Color(0xFFFEF3C7),
                   child: Text(
                     member.name.isNotEmpty ? member.name[0].toUpperCase() : '?',
                     style: TextStyle(
                       fontWeight: FontWeight.w700,
                       color: verified
-                          ? const Color(0xFF1E9E6B)
-                          : const Color(0xFFE08A3C),
+                          ? const Color(0xFF16A34A)
+                          : const Color(0xFFD97706),
                     ),
                   ),
                 ),
@@ -264,8 +282,8 @@ class _MemberCard extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                     color: verified
-                        ? const Color(0xFFE3F8EF)
-                        : const Color(0xFFFCEDE3),
+                        ? const Color(0xFFDEF7EC)
+                        : const Color(0xFFFEF3C7),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
@@ -274,8 +292,8 @@ class _MemberCard extends StatelessWidget {
                       fontSize: 11,
                       fontWeight: FontWeight.w700,
                       color: verified
-                          ? const Color(0xFF1E9E6B)
-                          : const Color(0xFFE08A3C),
+                          ? const Color(0xFF16A34A)
+                          : const Color(0xFFD97706),
                     ),
                   ),
                 ),

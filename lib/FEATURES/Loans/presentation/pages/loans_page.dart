@@ -100,15 +100,15 @@ class _LoansPageState extends State<LoansPage> with RouteAware {
                       width: 40,
                       height: 40,
                       decoration: BoxDecoration(
-                        color: AppColors.cardColor,
+                        color: AppColors.surface,
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
-                          color: AppColors.borderColor.withOpacity(0.8),
+                          color: AppColors.border,
                           width: 1,
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: const Color(0xFF1E293B).withOpacity(0.04),
+                            color: AppColors.primary.withValues(alpha: 0.04),
                             blurRadius: 8,
                             offset: const Offset(0, 2),
                           ),
@@ -118,7 +118,7 @@ class _LoansPageState extends State<LoansPage> with RouteAware {
                       child: const Icon(
                         Icons.arrow_back_ios_new_rounded,
                         size: 17,
-                        color: AppColors.gray800,
+                        color: AppColors.textPrimary,
                       ),
                     ),
                   ),
@@ -133,7 +133,7 @@ class _LoansPageState extends State<LoansPage> with RouteAware {
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
                           letterSpacing: -0.3,
-                          color: AppColors.gray800,
+                          color: AppColors.textPrimary,
                         ),
                       ),
                     ),
@@ -148,7 +148,7 @@ class _LoansPageState extends State<LoansPage> with RouteAware {
                           builder: (_) => const LoanFilterPage(),
                         ),
                       );
-                      if (mounted) {
+                      if (context.mounted) {
                         context.read<LoanProvider>().fetchLoans();
                       }
                     },
@@ -156,15 +156,15 @@ class _LoansPageState extends State<LoansPage> with RouteAware {
                       width: 40,
                       height: 40,
                       decoration: BoxDecoration(
-                        color: AppColors.cardColor,
+                        color: AppColors.surface,
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
-                          color: AppColors.borderColor.withOpacity(0.8),
+                          color: AppColors.border,
                           width: 1,
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: const Color(0xFF1E293B).withOpacity(0.04),
+                            color: AppColors.primary.withValues(alpha: 0.04),
                             blurRadius: 8,
                             offset: const Offset(0, 2),
                           ),
@@ -174,7 +174,7 @@ class _LoansPageState extends State<LoansPage> with RouteAware {
                       child: const Icon(
                         Icons.tune_rounded,
                         size: 19,
-                        color: AppColors.gray800,
+                        color: AppColors.textPrimary,
                       ),
                     ),
                   ),

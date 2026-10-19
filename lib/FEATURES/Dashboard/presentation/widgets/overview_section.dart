@@ -94,7 +94,7 @@ class OverviewSection extends StatelessWidget {
               width: 4,
               height: 20,
               decoration: BoxDecoration(
-                color: AppColors.primary,
+                color: AppColors.secondary,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -106,7 +106,7 @@ class OverviewSection extends StatelessWidget {
                 fontSize: 21,
                 fontWeight: FontWeight.w800,
                 letterSpacing: -0.4,
-                color: Color(0xFF0F2A38),
+                color: AppColors.textPrimary,
               ),
             ),
           ],
@@ -130,8 +130,8 @@ class OverviewSection extends StatelessWidget {
                 title: 'Total Loans',
                 value: dashboard.totalLoans.toString(),
                 icon: Icons.account_balance_wallet_rounded,
-                iconColor: const Color(0xFF1D4ED8), // High-contrast Blue 700
-                iconBg: const Color(0xFFDBEAFE),    // Rich Blue 100
+                iconColor: AppColors.secondary,
+                iconBg: AppColors.primaryLight,
                 onTap: () => _navigateToLoanTab(context, null),
               ),
             ),
@@ -141,8 +141,8 @@ class OverviewSection extends StatelessWidget {
                 title: 'Verification Pending',
                 value: dashboard.verificationPending.toString(),
                 icon: Icons.pending_actions_rounded,
-                iconColor: const Color(0xFFC2410C), // High-contrast Orange 700
-                iconBg: const Color(0xFFFFEDD5),    // Rich Orange 100
+                iconColor: AppColors.warning,
+                iconBg: AppColors.warningBg,
                 onTap: () => _navigateToLoanTab(context, 'VERIFICATION_PENDING'),
               ),
             ),
@@ -152,8 +152,8 @@ class OverviewSection extends StatelessWidget {
                 title: 'Verified Loans',
                 value: dashboard.verifiedLoans.toString(),
                 icon: Icons.verified_rounded,
-                iconColor: const Color(0xFF047857), // High-contrast Emerald Green 700
-                iconBg: const Color(0xFFD1FAE5),    // Rich Emerald 100
+                iconColor: AppColors.success,
+                iconBg: AppColors.successBg,
                 onTap: () => _navigateToLoanTab(context, 'FIELDSTAFF_VERIFIED'),
               ),
             ),
@@ -163,8 +163,8 @@ class OverviewSection extends StatelessWidget {
                 title: "Today's Loans",
                 value: dashboard.todayActivity.toString(),
                 icon: Icons.calendar_today_rounded,
-                iconColor: const Color(0xFFB91C1C), // High-contrast Red 700
-                iconBg: const Color(0xFFFEE2E2),    // Rich Red 100
+                iconColor: AppColors.secondary,
+                iconBg: AppColors.primaryLight,
                 onTap: () => _navigateToLoanTab(context, null),
               ),
             ),
@@ -197,40 +197,27 @@ class OverviewCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.white,
-        gradient: LinearGradient(
-          colors: [
-            AppColors.white,
-            iconBg.withValues(alpha: 0.38),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(20),
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(18),
         border: Border.all(
-          color: iconColor.withValues(alpha: 0.16),
-          width: 1.2,
+          color: AppColors.border,
+          width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: iconColor.withValues(alpha: 0.08),
-            blurRadius: 14,
-            offset: const Offset(0, 4),
-          ),
-          BoxShadow(
-            color: const Color(0xFF0F172A).withValues(alpha: 0.04),
-            blurRadius: 6,
-            offset: const Offset(0, 2),
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 10,
+            offset: const Offset(0, 3),
           ),
         ],
       ),
       child: Material(
         color: Colors.transparent,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(18),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(18),
           splashColor: iconColor.withValues(alpha: 0.12),
           highlightColor: iconColor.withValues(alpha: 0.05),
           child: Padding(
@@ -239,15 +226,15 @@ class OverviewCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // ── Top: Title with increased visual weight ──
+                // ── Top: Title with web muted style ──
                 Text(
                   title,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontFamily: AppTextStyles.fontFamily,
-                    color: Color(0xFF475569),
-                    fontSize: 13,
+                    color: AppColors.textLight,
+                    fontSize: 12.5,
                     fontWeight: FontWeight.w600,
                     letterSpacing: -0.1,
                   ),
@@ -266,10 +253,10 @@ class OverviewCard extends StatelessWidget {
                           value,
                           style: const TextStyle(
                             fontFamily: AppTextStyles.fontFamily,
-                            fontSize: 32,
+                            fontSize: 30,
                             fontWeight: FontWeight.w800,
                             letterSpacing: -0.8,
-                            color: Color(0xFF0F172A),
+                            color: AppColors.textPrimary,
                             height: 1.0,
                           ),
                         ),
@@ -277,18 +264,22 @@ class OverviewCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 8),
                     Container(
-                      width: 42,
-                      height: 42,
+                      width: 40,
+                      height: 40,
                       decoration: BoxDecoration(
                         color: iconBg,
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: iconColor.withValues(alpha: 0.22),
-                          width: 1.2,
+                          color: iconColor.withValues(alpha: 0.15),
+                          width: 1,
                         ),
                       ),
                       alignment: Alignment.center,
-                      child: Icon(icon, color: iconColor, size: 21),
+                      child: Icon(
+                        icon,
+                        size: 20,
+                        color: iconColor,
+                      ),
                     ),
                   ],
                 ),

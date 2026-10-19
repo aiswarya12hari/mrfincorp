@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../data/model/collection_model.dart';
 import '../../provider/collection_list_provider.dart';
 import '../../provider/collected_list_provider.dart';
+import '../../../../CORE/Theme/app_color.dart';
 
 class CollectionFilterPage extends StatefulWidget {
   final CollectionStatus activeTab;
@@ -25,9 +26,9 @@ class _CollectionFilterPageState extends State<CollectionFilterPage> {
   final loanIdController = TextEditingController();
   final customerController = TextEditingController();
 
-  static const Color _accent = Color(0xFF2A9D8F);
-  static const Color _fieldFill = Color(0xFFF7FAFC);
-  static const Color _border = Color(0xFFE2E8F0);
+  static const Color _accent = AppColors.secondary;
+  static const Color _fieldFill = AppColors.surfaceSecondary;
+  static const Color _border = AppColors.border;
 
   @override
   void dispose() {
@@ -179,7 +180,7 @@ class _CollectionFilterPageState extends State<CollectionFilterPage> {
                 border: Border.all(color: _border),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.03),
+                    color: Colors.black.withValues(alpha: 0.03),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -194,7 +195,8 @@ class _CollectionFilterPageState extends State<CollectionFilterPage> {
                   _sectionLabel('Loan Type'),
 
                   DropdownButtonFormField<String>(
-                    value: loanType,
+                    key: ValueKey('loanType_$loanType'),
+                    initialValue: loanType,
                     decoration: _decoration(hint: 'All'),
                     icon: const Icon(
                       Icons.keyboard_arrow_down_rounded,
@@ -222,7 +224,8 @@ class _CollectionFilterPageState extends State<CollectionFilterPage> {
                   _sectionLabel('Method'),
 
                   DropdownButtonFormField<String>(
-                    value: loanMethod,
+                    key: ValueKey('loanMethod_$loanMethod'),
+                    initialValue: loanMethod,
                     decoration: _decoration(hint: 'All'),
                     icon: const Icon(
                       Icons.keyboard_arrow_down_rounded,
@@ -397,7 +400,7 @@ class _CollectionFilterPageState extends State<CollectionFilterPage> {
 
                       await _reset();
 
-                      if (mounted) {
+                      if (context.mounted) {
                         Navigator.pop(context);
                       }
                     },
@@ -423,7 +426,7 @@ class _CollectionFilterPageState extends State<CollectionFilterPage> {
                     onPressed: () async {
                       await _apply();
 
-                      if (mounted) {
+                      if (context.mounted) {
                         Navigator.pop(context);
                       }
                     },

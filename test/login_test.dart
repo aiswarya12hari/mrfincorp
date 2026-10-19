@@ -10,7 +10,6 @@ import 'package:mr_fincorp/FEATURES/Login/presentation/widgets/login_form.dart';
 import 'package:mr_fincorp/FEATURES/Login/presentation/widgets/login_header.dart';
 import 'package:mr_fincorp/FEATURES/Login/presentation/widgets/text_field.dart';
 import 'package:mr_fincorp/FEATURES/Login/provider/login_provider.dart';
-import 'package:mr_fincorp/FEATURES/Navigation/presentation/pages/bottom_nav_page.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

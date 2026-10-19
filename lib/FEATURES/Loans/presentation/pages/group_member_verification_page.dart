@@ -244,7 +244,7 @@ class _GroupMemberVerificationPageState
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.gray800.withOpacity(0.05),
+                      color: AppColors.gray800.withValues(alpha: 0.05),
                       blurRadius: 12,
                       offset: const Offset(0, 4),
                     ),
@@ -322,7 +322,7 @@ class _GroupMemberVerificationPageState
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.gray800.withOpacity(0.05),
+                      color: AppColors.gray800.withValues(alpha: 0.05),
                       blurRadius: 12,
                       offset: const Offset(0, 4),
                     ),
@@ -376,12 +376,6 @@ class _GroupMemberVerificationPageState
                 controller: googleMapLinkController,
                 required: false,
               ),
-              _sectionField(
-                label: 'Landmark',
-                controller: landmarkController,
-                required: false,
-              ),
-              // _sectionField(label: 'Pin Code', controller: pinCodeController),
 
               const SizedBox(height: 6),
 
@@ -405,6 +399,15 @@ class _GroupMemberVerificationPageState
                   ),
                 ),
               ),
+
+              const SizedBox(height: 16),
+
+              _sectionField(
+                label: 'Landmark',
+                controller: landmarkController,
+                required: false,
+              ),
+              // _sectionField(label: 'Pin Code', controller: pinCodeController),
 
               const SizedBox(height: 20),
 
@@ -444,7 +447,7 @@ class _GroupMemberVerificationPageState
             color: AppColors.white,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(.06),
+                color: Colors.black.withValues(alpha: 0.06),
                 blurRadius: 12,
                 offset: const Offset(0, -3),
               ),
@@ -457,8 +460,8 @@ class _GroupMemberVerificationPageState
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
                 foregroundColor: AppColors.white,
-                disabledBackgroundColor: AppColors.primary.withOpacity(0.6),
-                disabledForegroundColor: AppColors.white.withOpacity(0.8),
+                disabledBackgroundColor: AppColors.primary.withValues(alpha: 0.6),
+                disabledForegroundColor: AppColors.white.withValues(alpha: 0.8),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),

@@ -51,7 +51,7 @@ class CollectionTabToggle extends StatelessWidget {
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         decoration: BoxDecoration(
-          color: isActive ? AppColors.primary : Colors.transparent,
+          color: isActive ? AppColors.secondary : Colors.transparent,
           borderRadius: BorderRadius.circular(20),
         ),
         child: Text(

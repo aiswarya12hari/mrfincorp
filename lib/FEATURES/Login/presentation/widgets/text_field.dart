@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:mr_fincorp/CORE/Theme/app_color.dart';
 import 'package:mr_fincorp/CORE/Theme/app_text_style.dart';
 
-/// Reusable FinCorp text field.
-/// Pass [icon] from Flutter Icons.
+/// Reusable FinCorp text field matching the web UI styling.
+/// [icon] is optional (defaults to null for clean web look).
 /// Set [isPassword] to true to enable show/hide toggle.
 class FincorpTextField extends StatefulWidget {
   final String label;
   final String hintText;
-  final IconData icon;
+  final IconData? icon;
   final bool isPassword;
   final TextEditingController controller;
   final TextInputType keyboardType;
@@ -18,7 +18,7 @@ class FincorpTextField extends StatefulWidget {
     super.key,
     required this.label,
     required this.hintText,
-    required this.icon,
+    this.icon,
     required this.controller,
     this.isPassword = false,
     this.keyboardType = TextInputType.text,
@@ -33,6 +33,11 @@ class _FincorpTextFieldState extends State<FincorpTextField> {
   late bool _isObscured;
   late final FocusNode _focusNode;
   bool _isFocused = false;
+
+  static const Color _focusedBorder = Color(0xFF48D8C2); // Soft radiant aqua matching web button
+  static const Color _cursorColor = Color(0xFF20C5A0);
+  static const Color _focusedBlue = Color(0xFFEAF2FC);
+  static const Color _unfocusedBg = Color(0xFFF1F5F9);
 
   @override
   void initState() {
@@ -70,7 +75,7 @@ class _FincorpTextFieldState extends State<FincorpTextField> {
           style: AppTextStyles.label(context).copyWith(
             fontSize: 13.5,
             fontWeight: FontWeight.w600,
-            color: AppColors.gray800,
+            color: const Color(0xFF1E293B),
           ),
         ),
 
@@ -83,10 +88,12 @@ class _FincorpTextFieldState extends State<FincorpTextField> {
           obscureText: _isObscured,
           validator: widget.validator,
           keyboardType: widget.keyboardType,
+          cursorColor: _cursorColor,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           style: AppTextStyles.inputText(context).copyWith(
             fontSize: 14.5,
-            color: AppColors.gray800,
+            color: const Color(0xFF1E293B),
+            fontWeight: FontWeight.w500,
           ),
           textInputAction: widget.isPassword
               ? TextInputAction.done
@@ -105,19 +112,23 @@ class _FincorpTextFieldState extends State<FincorpTextField> {
               fontWeight: FontWeight.w500,
             ),
 
-            // Prefix Icon with focus-aware color
-            prefixIcon: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 14),
-              child: Icon(
-                widget.icon,
-                size: 20,
-                color: _isFocused ? AppColors.primary : const Color(0xFF94A3B8),
-              ),
-            ),
-            prefixIconConstraints: const BoxConstraints(
-              minWidth: 48,
-              minHeight: 48,
-            ),
+            // Prefix Icon only if provided
+            prefixIcon: widget.icon != null
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 14),
+                    child: Icon(
+                      widget.icon,
+                      size: 20,
+                      color: _isFocused ? _focusedBorder : AppColors.textMuted,
+                    ),
+                  )
+                : null,
+            prefixIconConstraints: widget.icon != null
+                ? const BoxConstraints(
+                    minWidth: 48,
+                    minHeight: 48,
+                  )
+                : null,
 
             // Password Toggle
             suffixIcon: widget.isPassword
@@ -129,7 +140,7 @@ class _FincorpTextFieldState extends State<FincorpTextField> {
                           ? Icons.visibility_off_outlined
                           : Icons.visibility_outlined,
                       size: 20,
-                      color: _isFocused ? AppColors.primary : const Color(0xFF94A3B8),
+                      color: _isFocused ? _focusedBorder : const Color(0xFF94A3B8),
                     ),
                     splashRadius: 20,
                   )
@@ -140,34 +151,34 @@ class _FincorpTextFieldState extends State<FincorpTextField> {
               minHeight: 48,
             ),
 
-            // Fill
+            // Fill: Changes to blue on tap/focus (matching web UI)
             filled: true,
-            fillColor: const Color(0xFFF8FAFC),
+            fillColor: _isFocused ? _focusedBlue : _unfocusedBg,
 
             contentPadding: const EdgeInsets.symmetric(
               vertical: 15,
-              horizontal: 14,
+              horizontal: 16,
             ),
 
-            // Rounded borders with smooth focus transitions
+            // Web-style rounded borders with smooth focus transitions
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(14),
-              borderSide: BorderSide(
-                color: AppColors.borderColor.withOpacity(0.85),
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(
+                color: Color(0xFFE2E8F0),
                 width: 1,
               ),
             ),
 
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(12),
               borderSide: const BorderSide(
-                color: AppColors.primary,
-                width: 1.6,
+                color: _focusedBorder,
+                width: 1.3,
               ),
             ),
 
             errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(12),
               borderSide: const BorderSide(
                 color: AppColors.error,
                 width: 1.2,
@@ -175,7 +186,7 @@ class _FincorpTextFieldState extends State<FincorpTextField> {
             ),
 
             focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(12),
               borderSide: const BorderSide(
                 color: AppColors.error,
                 width: 1.6,

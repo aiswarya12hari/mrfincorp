@@ -133,7 +133,7 @@ class DashboardSkeleton extends StatelessWidget {
               ),
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFF1E293B).withOpacity(0.04),
+                  color: const Color(0xFF1E293B).withValues(alpha: 0.04),
                   blurRadius: 12,
                   offset: const Offset(0, 4),
                 ),
@@ -234,12 +234,12 @@ class _OverviewCardSkeleton extends StatelessWidget {
         color: AppColors.cardColor,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: AppColors.borderColor.withOpacity(0.8),
+          color: AppColors.borderColor.withValues(alpha: 0.8),
           width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF1E293B).withOpacity(0.03),
+            color: const Color(0xFF1E293B).withValues(alpha: 0.03),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -275,12 +275,12 @@ class _RecentLoanCardSkeleton extends StatelessWidget {
         color: AppColors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: AppColors.borderColor.withOpacity(0.8),
+          color: AppColors.borderColor.withValues(alpha: 0.8),
           width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF1E293B).withOpacity(0.04),
+            color: const Color(0xFF1E293B).withValues(alpha: 0.04),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -313,7 +313,7 @@ class _RecentLoanCardSkeleton extends StatelessWidget {
           // Divider
           Container(
             height: 1,
-            color: AppColors.borderColor.withOpacity(0.7),
+            color: AppColors.borderColor.withValues(alpha: 0.7),
           ),
 
           const SizedBox(height: 10),

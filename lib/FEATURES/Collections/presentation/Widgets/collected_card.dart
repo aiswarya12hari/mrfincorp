@@ -19,11 +19,12 @@ class CollectedCard extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: AppColors.white,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: AppColors.border),
           boxShadow: [
             BoxShadow(
-              color: AppColors.gray800.withOpacity(0.05),
-              blurRadius: 12,
+              color: AppColors.primary.withValues(alpha: 0.04),
+              blurRadius: 14,
               offset: const Offset(0, 4),
             ),
           ],

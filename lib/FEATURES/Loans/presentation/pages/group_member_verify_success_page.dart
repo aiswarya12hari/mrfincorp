@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../CORE/Theme/app_color.dart';
 import 'package:mr_fincorp/FEATURES/Loans/presentation/pages/group_member_refresh_page.dart';
 
 import '../../data/models/group_member_model.dart';
@@ -66,13 +67,13 @@ class GroupMemberVerifySuccessPage extends StatelessWidget {
                 width: 100,
                 height: 100,
                 decoration: const BoxDecoration(
-                  color: Color(0xFFE3F8EF),
+                  color: AppColors.successBg,
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(
                   Icons.check_circle,
                   size: 56,
-                  color: Color(0xFF1E9E6B),
+                  color: AppColors.success,
                 ),
               ),
 
@@ -121,7 +122,7 @@ class GroupMemberVerifySuccessPage extends StatelessWidget {
                   height: 52,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF38B2AC),
+                      backgroundColor: AppColors.secondary,
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
@@ -144,7 +145,7 @@ class GroupMemberVerifySuccessPage extends StatelessWidget {
                   child: const Text(
                     'Back to Members',
                     style: TextStyle(
-                      color: Color(0xFF38B2AC),
+                      color: AppColors.secondary,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -155,7 +156,7 @@ class GroupMemberVerifySuccessPage extends StatelessWidget {
                   height: 52,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF38B2AC),
+                      backgroundColor: AppColors.secondary,
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),

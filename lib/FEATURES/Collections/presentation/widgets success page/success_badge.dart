@@ -11,7 +11,7 @@ class CollectionSuccessBadge extends StatelessWidget {
       width: 88,
       height: 88,
       decoration: const BoxDecoration(
-        color: AppColors.primary,
+        color: AppColors.secondary,
         shape: BoxShape.circle,
       ),
       child: Center(
@@ -22,7 +22,7 @@ class CollectionSuccessBadge extends StatelessWidget {
             color: AppColors.white,
             shape: BoxShape.circle,
           ),
-          child: const Icon(Icons.check, color: AppColors.primary, size: 30),
+          child: const Icon(Icons.check, color: AppColors.success, size: 30),
         ),
       ),
     );

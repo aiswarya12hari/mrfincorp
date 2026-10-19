@@ -83,8 +83,34 @@ void main() {
           'Please make your payment at the earliest. For any assistance, kindly contact our field staff.',
         ),
       );
-      expect(message, contains('Thank you,'));
-      expect(message, contains('**Friends Fincorp**'));
+      expect(message, contains('Thank you,\n**Friends Fincorp**'));
+
+      // Check blank line separation and Malayalam translation
+      expect(
+        message,
+        contains(
+          '**Friends Fincorp**\n\nനമസ്കാരം *Ramesh Kumar*,',
+        ),
+      );
+      expect(
+        message,
+        contains(
+          'നിങ്ങളുടെ ലോൺ തിരിച്ചടവുമായി ബന്ധപ്പെട്ട് **Friends Fincorp**-ൽ നിന്നുള്ള ഒരു ഓർമ്മപ്പെടുത്തലാണിത്.',
+        ),
+      );
+      expect(message, contains('* ലോൺ ഐഡി: IND01-LAT-00085'));
+      expect(message, contains('* കളക്ഷൻ തീയതി: 2026-09-15'));
+      expect(message, contains('* അടയ്ക്കാനുള്ള തവണകൾ: 3'));
+      expect(message, contains('* പ്രിൻസിപ്പൽ ബാക്കി: ₹6,000'));
+      expect(message, contains('* ഫൈൻ ബാക്കി: ₹200'));
+      expect(message, contains('* ആകെ അടയ്ക്കാനുള്ള തുക: ₹6,200'));
+      expect(
+        message,
+        contains(
+          'ദയവായി നിങ്ങളുടെ തിരിച്ചടവ് എത്രയും വേഗം നടത്തുക. എന്തെങ്കിലും സഹായത്തിന് ഞങ്ങളുടെ ഫീൽഡ് സ്റ്റാഫുമായി ബന്ധപ്പെടുക.',
+        ),
+      );
+      expect(message, contains('നന്ദി,\n**Friends Fincorp**'));
     });
 
     test('buildWhatsAppUri builds valid wa.me deep link with URL-encoded text', () {

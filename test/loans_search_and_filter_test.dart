@@ -17,6 +17,7 @@ class MockSearchAndFilterLoanProvider extends LoanProvider {
   bool _isLoading = false;
   @override
   bool get isLoading => _isLoading;
+  @override
   set isLoading(bool v) {
     _isLoading = v;
     notifyListeners();
@@ -25,6 +26,7 @@ class MockSearchAndFilterLoanProvider extends LoanProvider {
   List<LoanModel> _loans = [];
   @override
   List<LoanModel> get loans => _loans;
+  @override
   set loans(List<LoanModel> list) {
     _loans = list;
     notifyListeners();
@@ -33,6 +35,7 @@ class MockSearchAndFilterLoanProvider extends LoanProvider {
   int _currentPage = 1;
   @override
   int get currentPage => _currentPage;
+  @override
   set currentPage(int v) {
     _currentPage = v;
     notifyListeners();
@@ -41,6 +44,7 @@ class MockSearchAndFilterLoanProvider extends LoanProvider {
   int _totalCount = 0;
   @override
   int get totalCount => _totalCount;
+  @override
   set totalCount(int v) {
     _totalCount = v;
     notifyListeners();
@@ -49,6 +53,7 @@ class MockSearchAndFilterLoanProvider extends LoanProvider {
   int _pageSize = 10;
   @override
   int get pageSize => _pageSize;
+  @override
   set pageSize(int v) {
     _pageSize = v;
     notifyListeners();

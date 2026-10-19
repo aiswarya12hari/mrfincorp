@@ -65,68 +65,270 @@ class VerificationImageSection extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
+      isScrollControlled: true,
       builder: (ctx) => Container(
         decoration: const BoxDecoration(
-          color: AppColors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          color: Color(0xFFF8FAFC),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
         ),
-        padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
         child: SafeArea(
           top: false,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              // ── Drag handle ──
+              const SizedBox(height: 12),
               Container(
-                width: 40,
+                width: 36,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: AppColors.gray200,
+                  color: const Color(0xFFD1D5DB),
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
-              const SizedBox(height: 16),
-              Text(
-                'Add Photos',
-                style: AppTextStyles.cardCustomerName(context).copyWith(fontSize: 18),
-              ),
-              const SizedBox(height: 6),
-              Text(
-                'Upload photos for verification (Optional)',
-                style: AppTextStyles.hint(context).copyWith(fontSize: 13),
-              ),
-              const SizedBox(height: 18),
-              ListTile(
-                leading: Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: AppColors.primaryLight,
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Icon(Icons.camera_alt_outlined, color: AppColors.primary),
+              const SizedBox(height: 20),
+
+              // ── Header ──
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: AppColors.primaryLight,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Icon(
+                        Icons.add_a_photo_rounded,
+                        color: AppColors.secondaryDark,
+                        size: 20,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        Text(
+                          'Add Photos',
+                          style: TextStyle(
+                            fontFamily: 'Inter',
+                            fontSize: 17,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xFF111827),
+                            letterSpacing: -0.2,
+                          ),
+                        ),
+                        SizedBox(height: 1),
+                        Text(
+                          'For verification (optional)',
+                          style: TextStyle(
+                            fontSize: 12.5,
+                            color: Color(0xFF9CA3AF),
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                title: const Text('Capture Photo', style: TextStyle(fontWeight: FontWeight.w600)),
-                subtitle: const Text('Use camera to take a photo'),
-                onTap: () {
-                  Navigator.pop(ctx);
-                  _pickFromCamera(context);
-                },
               ),
-              ListTile(
-                leading: Container(
-                  padding: const EdgeInsets.all(10),
+
+              const SizedBox(height: 20),
+
+              // ── Options card ──
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Container(
                   decoration: BoxDecoration(
-                    color: AppColors.primaryLight,
-                    shape: BoxShape.circle,
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(
+                      color: const Color(0xFFE5E7EB),
+                      width: 1,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.04),
+                        blurRadius: 12,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
                   ),
-                  child: const Icon(Icons.photo_library_outlined, color: AppColors.primary),
+                  child: Column(
+                    children: [
+                      // Camera option
+                      Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pop(ctx);
+                            _pickFromCamera(context);
+                          },
+                          borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(18),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 18,
+                              vertical: 16,
+                            ),
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 44,
+                                  height: 44,
+                                  decoration: BoxDecoration(
+                                    color: AppColors.primaryLight,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: const Icon(
+                                    Icons.camera_alt_rounded,
+                                    color: AppColors.secondaryDark,
+                                    size: 22,
+                                  ),
+                                ),
+                                const SizedBox(width: 14),
+                                const Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Take a Photo',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600,
+                                          color: Color(0xFF111827),
+                                        ),
+                                      ),
+                                      SizedBox(height: 2),
+                                      Text(
+                                        'Open camera to capture now',
+                                        style: TextStyle(
+                                          fontSize: 12.5,
+                                          color: Color(0xFF6B7280),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const Icon(
+                                  Icons.chevron_right_rounded,
+                                  color: Color(0xFFD1D5DB),
+                                  size: 22,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      // Divider
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 18),
+                        child: Divider(height: 1, thickness: 1, color: Color(0xFFF1F5F9)),
+                      ),
+
+                      // Gallery option
+                      Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pop(ctx);
+                            _pickFromGallery(context);
+                          },
+                          borderRadius: const BorderRadius.vertical(
+                            bottom: Radius.circular(18),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 18,
+                              vertical: 16,
+                            ),
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 44,
+                                  height: 44,
+                                  decoration: BoxDecoration(
+                                    color: AppColors.primaryLight,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: const Icon(
+                                    Icons.photo_library_rounded,
+                                    color: AppColors.secondaryDark,
+                                    size: 22,
+                                  ),
+                                ),
+                                const SizedBox(width: 14),
+                                const Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Choose from Gallery',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600,
+                                          color: Color(0xFF111827),
+                                        ),
+                                      ),
+                                      SizedBox(height: 2),
+                                      Text(
+                                        'Pick one or more from your device',
+                                        style: TextStyle(
+                                          fontSize: 12.5,
+                                          color: Color(0xFF6B7280),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const Icon(
+                                  Icons.chevron_right_rounded,
+                                  color: Color(0xFFD1D5DB),
+                                  size: 22,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                title: const Text('Upload from Gallery', style: TextStyle(fontWeight: FontWeight.w600)),
-                subtitle: const Text('Select one or multiple images from device gallery'),
-                onTap: () {
-                  Navigator.pop(ctx);
-                  _pickFromGallery(context);
-                },
               ),
+
+              const SizedBox(height: 12),
+
+              // ── Cancel button ──
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: TextButton(
+                    onPressed: () => Navigator.pop(ctx),
+                    style: TextButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      backgroundColor: Colors.white,
+                    ),
+                    child: const Text(
+                      'Cancel',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF6B7280),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 8),
             ],
           ),
         ),
@@ -177,7 +379,7 @@ class VerificationImageSection extends StatelessWidget {
                   child: Text(
                     '${images.length} ${images.length == 1 ? 'Photo' : 'Photos'}',
                     style: const TextStyle(
-                      color: AppColors.primary,
+                      color: AppColors.secondaryDark,
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
                     ),
@@ -200,7 +402,7 @@ class VerificationImageSection extends StatelessWidget {
                   color: AppColors.white,
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
-                    color: AppColors.primary.withValues(alpha: 0.35),
+                    color: AppColors.secondaryDark.withValues(alpha: 0.35),
                     width: 1.2,
                   ),
                 ),
@@ -209,14 +411,14 @@ class VerificationImageSection extends StatelessWidget {
                   children: [
                     const Icon(
                       Icons.camera_alt_outlined,
-                      color: AppColors.primary,
+                      color: AppColors.secondaryDark,
                       size: 20,
                     ),
                     const SizedBox(width: 8),
                     Text(
                       '+ Add Photos',
                       style: AppTextStyles.button(context).copyWith(
-                        color: AppColors.primary,
+                        color: AppColors.secondaryDark,
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
                       ),
@@ -245,7 +447,7 @@ class VerificationImageSection extends StatelessWidget {
                           color: AppColors.white,
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
-                            color: AppColors.primary.withValues(alpha: 0.4),
+                            color: AppColors.secondaryDark.withValues(alpha: 0.4),
                             width: 1.2,
                           ),
                         ),
@@ -254,14 +456,14 @@ class VerificationImageSection extends StatelessWidget {
                           children: const [
                             Icon(
                               Icons.camera_alt_outlined,
-                              color: AppColors.primary,
+                              color: AppColors.secondaryDark,
                               size: 20,
                             ),
                             SizedBox(height: 2),
                             Text(
                               '+ Add',
                               style: TextStyle(
-                                color: AppColors.primary,
+                                color: AppColors.secondaryDark,
                                 fontSize: 11,
                                 fontWeight: FontWeight.w600,
                               ),

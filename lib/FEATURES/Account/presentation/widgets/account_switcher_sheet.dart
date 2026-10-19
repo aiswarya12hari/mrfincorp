@@ -6,7 +6,7 @@ import '../../../../CORE/Theme/app_color.dart';
 import '../../../../CORE/Theme/app_text_style.dart';
 import '../../../Login/presentation/pages/login_page.dart';
 import '../../../Navigation/presentation/pages/bottom_nav_page.dart';
-import '../../data/models/account_model.dart';
+import 'package:mr_fincorp/FEATURES/Account/data/models/account_model.dart';
 
 /// Gmail-style quick account switcher. Call
 /// AccountSwitcherSheet.show(context) from anywhere (header, profile).
@@ -170,22 +170,30 @@ class _AccountRow extends StatelessWidget {
       contentPadding: EdgeInsets.zero,
       onTap: isBusy ? null : onTap,
       leading: Container(
-        width: 44,
-        height: 44,
+        width: 40,
+        height: 40,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          gradient: LinearGradient(
-            colors: [AppColors.primary, AppColors.primary.withOpacity(.75)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+          color: AppColors.primaryLight,
+          border: Border.all(
+            color: AppColors.secondary,
+            width: 1.5,
           ),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.secondary.withValues(alpha: 0.12),
+              blurRadius: 6,
+              offset: const Offset(0, 2),
+            ),
+          ],
         ),
         alignment: Alignment.center,
         child: Text(
           account.initials,
           style: const TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w600,
+            fontFamily: AppTextStyles.fontFamily,
+            color: AppColors.secondary,
+            fontWeight: FontWeight.w700,
             fontSize: 15,
           ),
         ),
@@ -208,7 +216,7 @@ class _AccountRow extends StatelessWidget {
         ),
       ),
       trailing: isActive
-          ? Icon(Icons.check_circle_rounded, color: AppColors.primary)
+          ? Icon(Icons.check_circle_rounded, color: AppColors.secondary)
           : (isBusy ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2)) : null),
     );
   }

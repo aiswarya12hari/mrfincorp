@@ -1,20 +1,72 @@
 import 'package:flutter/material.dart';
 import 'package:mr_fincorp/CORE/Theme/app_color.dart';
 
-/// FinCorp Text Style Definitions
+/// Friends Fincorp Web-Styled Text Definitions
 /// Font Family : Inter
-/// All sizes are relative to screen width via MediaQuery for responsiveness.
 class AppTextStyles {
   AppTextStyles._();
 
   static const String fontFamily = 'Inter';
 
-  // ── Headings ────────────────────────────────────────────
+  // ── Web Typography System ────────────────────────────────
+  /// Heading: 28 Bold, Color: AppColors.textPrimary
+  static TextStyle heading(BuildContext context) => TextStyle(
+        fontFamily: fontFamily,
+        fontSize: _sp(context, 28),
+        fontWeight: FontWeight.w700,
+        color: AppColors.textPrimary,
+        letterSpacing: -0.5,
+      );
+
+  /// Section Title: 22 SemiBold, Color: AppColors.textPrimary
+  static TextStyle sectionTitle(BuildContext context) => TextStyle(
+        fontFamily: fontFamily,
+        fontSize: _sp(context, 22),
+        fontWeight: FontWeight.w600,
+        color: AppColors.textPrimary,
+        letterSpacing: -0.3,
+      );
+
+  /// Card Title: 18 SemiBold, Color: AppColors.textPrimary
+  static TextStyle cardTitle(BuildContext context) => TextStyle(
+        fontFamily: fontFamily,
+        fontSize: _sp(context, 18),
+        fontWeight: FontWeight.w600,
+        color: AppColors.textPrimary,
+        letterSpacing: -0.2,
+      );
+
+  /// Body: 16 Medium, Color: AppColors.textSecondary
+  static TextStyle body(BuildContext context) => TextStyle(
+        fontFamily: fontFamily,
+        fontSize: _sp(context, 16),
+        fontWeight: FontWeight.w500,
+        color: AppColors.textSecondary,
+        height: 1.5,
+      );
+
+  /// Caption: 14 Regular, Color: AppColors.textLight
+  static TextStyle caption(BuildContext context) => TextStyle(
+        fontFamily: fontFamily,
+        fontSize: _sp(context, 14),
+        fontWeight: FontWeight.w400,
+        color: AppColors.textLight,
+      );
+
+  /// Small Label: 12 Medium, Color: AppColors.textLight
+  static TextStyle smallLabel(BuildContext context) => TextStyle(
+        fontFamily: fontFamily,
+        fontSize: _sp(context, 12),
+        fontWeight: FontWeight.w500,
+        color: AppColors.textLight,
+      );
+
+  // ── Compatibility & Specific Element Styles ──────────────
   static TextStyle headline(BuildContext context) => TextStyle(
         fontFamily: fontFamily,
         fontSize: _sp(context, 24),
         fontWeight: FontWeight.w700,
-        color: AppColors.gray800,
+        color: AppColors.textPrimary,
         letterSpacing: -0.5,
       );
 
@@ -22,49 +74,39 @@ class AppTextStyles {
         fontFamily: fontFamily,
         fontSize: _sp(context, 14),
         fontWeight: FontWeight.w400,
-        color: AppColors.gray600,
+        color: AppColors.textLight,
         height: 1.5,
-      );
-
-  // ── Body ────────────────────────────────────────────────
-  static TextStyle body(BuildContext context) => TextStyle(
-        fontFamily: fontFamily,
-        fontSize: _sp(context, 14),
-        fontWeight: FontWeight.w400,
-        color: AppColors.gray800,
       );
 
   static TextStyle bodySmall(BuildContext context) => TextStyle(
         fontFamily: fontFamily,
         fontSize: _sp(context, 13),
         fontWeight: FontWeight.w400,
-        color: AppColors.gray600,
+        color: AppColors.textLight,
       );
 
-  // ── Input ───────────────────────────────────────────────
   static TextStyle inputText(BuildContext context) => TextStyle(
         fontFamily: fontFamily,
         fontSize: _sp(context, 15),
         fontWeight: FontWeight.w400,
-        color: AppColors.gray800,
+        color: AppColors.textPrimary,
       );
 
   static TextStyle hint(BuildContext context) => TextStyle(
         fontFamily: fontFamily,
         fontSize: _sp(context, 14),
         fontWeight: FontWeight.w400,
-        color: AppColors.gray400,
+        color: AppColors.textMuted,
       );
 
   static TextStyle label(BuildContext context) => TextStyle(
         fontFamily: fontFamily,
         fontSize: _sp(context, 14),
         fontWeight: FontWeight.w500,
-        color: AppColors.gray600,
+        color: AppColors.textLight,
         letterSpacing: 0.1,
       );
 
-  // ── Button ──────────────────────────────────────────────
   static TextStyle button(BuildContext context) => TextStyle(
         fontFamily: fontFamily,
         fontSize: _sp(context, 16),
@@ -73,12 +115,11 @@ class AppTextStyles {
         letterSpacing: 0.3,
       );
 
-  // ── Links ───────────────────────────────────────────────
   static TextStyle link(BuildContext context) => TextStyle(
         fontFamily: fontFamily,
         fontSize: _sp(context, 13),
         fontWeight: FontWeight.w600,
-        color: AppColors.primary,
+        color: AppColors.secondary,
         decoration: TextDecoration.none,
       );
 
@@ -86,19 +127,17 @@ class AppTextStyles {
         fontFamily: fontFamily,
         fontSize: _sp(context, 11),
         fontWeight: FontWeight.w400,
-        color: AppColors.gray400,
+        color: AppColors.textMuted,
         letterSpacing: 0.5,
       );
 
-  // ── Page / AppBar ───────────────────────────────────────
   static TextStyle pageTitle(BuildContext context) => TextStyle(
         fontFamily: fontFamily,
         fontSize: _sp(context, 20),
         fontWeight: FontWeight.w700,
-        color: AppColors.primary,
+        color: AppColors.textPrimary,
       );
 
-  // ── Tabs (Outstanding / Collected pill toggle) ─────────
   static TextStyle tabActive(BuildContext context) => TextStyle(
         fontFamily: fontFamily,
         fontSize: _sp(context, 14),
@@ -110,29 +149,28 @@ class AppTextStyles {
         fontFamily: fontFamily,
         fontSize: _sp(context, 14),
         fontWeight: FontWeight.w600,
-        color: AppColors.gray600,
+        color: AppColors.textLight,
       );
 
-  // ── Collection Card ─────────────────────────────────────
   static TextStyle cardCustomerName(BuildContext context) => TextStyle(
         fontFamily: fontFamily,
         fontSize: _sp(context, 16),
         fontWeight: FontWeight.w700,
-        color: AppColors.primary,
+        color: AppColors.textPrimary,
       );
 
   static TextStyle cardLoanId(BuildContext context) => TextStyle(
         fontFamily: fontFamily,
         fontSize: _sp(context, 12.5),
         fontWeight: FontWeight.w400,
-        color: AppColors.gray600,
+        color: AppColors.textLight,
       );
 
   static TextStyle chipText(BuildContext context) => TextStyle(
         fontFamily: fontFamily,
         fontSize: _sp(context, 11),
         fontWeight: FontWeight.w600,
-        color: AppColors.primary,
+        color: AppColors.secondary,
         letterSpacing: 0.2,
       );
 
@@ -140,21 +178,21 @@ class AppTextStyles {
         fontFamily: fontFamily,
         fontSize: _sp(context, 11),
         fontWeight: FontWeight.w500,
-        color: AppColors.gray600,
+        color: AppColors.textLight,
       );
 
   static TextStyle fieldLabel(BuildContext context) => TextStyle(
         fontFamily: fontFamily,
         fontSize: _sp(context, 12),
         fontWeight: FontWeight.w400,
-        color: AppColors.gray600,
+        color: AppColors.textLight,
       );
 
   static TextStyle fieldValue(BuildContext context) => TextStyle(
         fontFamily: fontFamily,
         fontSize: _sp(context, 14.5),
         fontWeight: FontWeight.w700,
-        color: AppColors.gray800,
+        color: AppColors.textPrimary,
       );
 
   static TextStyle fieldValueDanger(BuildContext context) => TextStyle(
@@ -165,7 +203,6 @@ class AppTextStyles {
       );
 
   // ── Helper ──────────────────────────────────────────────
-  /// Responsive font size: 1 unit ≈ 1/375 of screen width (base: 375 logical px)
   static double _sp(BuildContext context, double size) {
     final width = MediaQuery.of(context).size.width;
     return size * (width / 375);

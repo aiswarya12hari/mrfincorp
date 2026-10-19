@@ -88,10 +88,10 @@ class RecentLoansSection extends StatelessWidget {
                   vertical: 6,
                 ),
                 decoration: BoxDecoration(
-                  color: AppColors.primaryLight.withOpacity(0.8),
+                  color: AppColors.primaryLight,
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                    color: AppColors.primary.withOpacity(0.18),
+                    color: AppColors.secondary.withValues(alpha: 0.3),
                     width: 1,
                   ),
                 ),
@@ -104,14 +104,14 @@ class RecentLoansSection extends StatelessWidget {
                         fontFamily: AppTextStyles.fontFamily,
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.primary,
+                        color: AppColors.secondary,
                       ),
                     ),
                     SizedBox(width: 4),
                     Icon(
                       Icons.arrow_forward_rounded,
                       size: 14,
-                      color: AppColors.primary,
+                      color: AppColors.secondary,
                     ),
                   ],
                 ),
@@ -131,11 +131,11 @@ class RecentLoansSection extends StatelessWidget {
               color: AppColors.white,
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
-                color: AppColors.borderColor.withOpacity(0.8),
+                color: AppColors.borderColor.withValues(alpha: 0.8),
               ),
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFF1E293B).withOpacity(0.04),
+                  color: const Color(0xFF1E293B).withValues(alpha: 0.04),
                   blurRadius: 10,
                   offset: const Offset(0, 3),
                 ),
@@ -217,23 +217,23 @@ class RecentLoansSection extends StatelessWidget {
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
                         color: AppColors.white,
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: AppColors.borderColor.withOpacity(0.8),
+                          color: AppColors.border,
                           width: 1,
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: const Color(0xFF1E293B).withOpacity(0.04),
-                            blurRadius: 10,
-                            offset: const Offset(0, 3),
+                            color: AppColors.primary.withValues(alpha: 0.04),
+                            blurRadius: 14,
+                            offset: const Offset(0, 4),
                           ),
                         ],
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // ── Customer Name (Teal, Bold) ────
+                          // ── Customer Name (Black, Bold) ────
                           Text(
                             displayName,
                             maxLines: 1,
@@ -242,7 +242,7 @@ class RecentLoansSection extends StatelessWidget {
                               fontFamily: AppTextStyles.fontFamily,
                               fontSize: 16.5,
                               fontWeight: FontWeight.w700,
-                              color: AppColors.primary,
+                              color: AppColors.textPrimary,
                             ),
                           ),
 
@@ -257,7 +257,7 @@ class RecentLoansSection extends StatelessWidget {
                               fontFamily: AppTextStyles.fontFamily,
                               fontSize: 12.5,
                               fontWeight: FontWeight.w500,
-                              color: AppColors.gray600,
+                              color: AppColors.textLight,
                             ),
                           ),
 
@@ -274,7 +274,7 @@ class RecentLoansSection extends StatelessWidget {
                                   vertical: 4,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: AppColors.chipActiveBg,
+                                  color: AppColors.primaryLight,
                                   borderRadius: BorderRadius.circular(6),
                                 ),
                                 child: Text(
@@ -285,7 +285,7 @@ class RecentLoansSection extends StatelessWidget {
                                     fontFamily: AppTextStyles.fontFamily,
                                     fontSize: 11,
                                     fontWeight: FontWeight.w700,
-                                    color: AppColors.primary,
+                                    color: AppColors.secondary,
                                     letterSpacing: 0.3,
                                   ),
                                 ),
@@ -325,7 +325,7 @@ class RecentLoansSection extends StatelessWidget {
                           Divider(
                             height: 1,
                             thickness: 1,
-                            color: AppColors.borderColor.withOpacity(0.7),
+                            color: AppColors.borderColor.withValues(alpha: 0.7),
                           ),
 
                           const SizedBox(height: 10),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mr_fincorp/FEATURES/Account/data/models/account_model.dart';
 
-import '../data/models/login_model.dart';
-import '../data/services/login_service.dart';
+import 'package:mr_fincorp/FEATURES/Login/data/models/login_model.dart';
+import 'package:mr_fincorp/FEATURES/Login/data/services/login_service.dart';
 
 import '../../../CORE/Storage/shared_preference.dart';
 

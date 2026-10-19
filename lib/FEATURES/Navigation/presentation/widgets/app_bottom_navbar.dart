@@ -46,12 +46,12 @@ class AppBottomNavBar extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF0F172A).withOpacity(0.06),
+            color: const Color(0xFF0F172A).withValues(alpha: 0.06),
             blurRadius: 20,
             offset: const Offset(0, -4),
           ),
           BoxShadow(
-            color: const Color(0xFF0F172A).withOpacity(0.02),
+            color: const Color(0xFF0F172A).withValues(alpha: 0.02),
             blurRadius: 4,
             offset: const Offset(0, -1),
           ),
@@ -95,8 +95,8 @@ class AppBottomNavBar extends StatelessWidget {
                             isSelected ? item.activeIcon : item.icon,
                             size: 22,
                             color: isSelected
-                                ? AppColors.primary
-                                : const Color(0xFF64748B),
+                                ? AppColors.secondary
+                                : AppColors.textLight,
                           ),
                         ),
 
@@ -113,8 +113,8 @@ class AppBottomNavBar extends StatelessWidget {
                                 : FontWeight.w500,
                             letterSpacing: isSelected ? -0.1 : 0,
                             color: isSelected
-                                ? AppColors.primary
-                                : const Color(0xFF64748B),
+                                ? AppColors.textPrimary
+                                : AppColors.textLight,
                           ),
                           child: Text(item.label),
                         ),

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mr_fincorp/FEATURES/Loans/presentation/pages/individual_loan_verification.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../CORE/Theme/app_color.dart';
+import '../../../../CORE/Theme/app_text_style.dart';
 import '../../provider/loan_detail_provider.dart';
-
+import 'individual_loan_verification.dart';
 import '../widgets detail page/loan_info_card.dart';
 import '../widgets detail page/customer_details_card.dart';
 import '../widgets detail page/verify_loan_button.dart';
@@ -30,33 +31,76 @@ class _LoanDetailPageState extends State<LoanDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffF7F8FA),
+      backgroundColor: AppColors.background,
 
+      // ── Clean Minimal White App Bar (no top background gradient) ──
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.white,
-        title: const Text('Loan Details'),
+        backgroundColor: AppColors.surface,
+        surfaceTintColor: Colors.transparent,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 12),
+          child: Center(
+            child: InkWell(
+              borderRadius: BorderRadius.circular(20),
+              onTap: () => Navigator.maybePop(context),
+              child: Container(
+                width: 36,
+                height: 36,
+                decoration: const BoxDecoration(
+                  color: AppColors.surfaceSecondary,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.arrow_back_rounded,
+                  color: AppColors.textPrimary,
+                  size: 20,
+                ),
+              ),
+            ),
+          ),
+        ),
+        leadingWidth: 52,
+        titleSpacing: 8,
+        title: const Text(
+          'Loan Details',
+          style: TextStyle(
+            fontFamily: AppTextStyles.fontFamily,
+            color: AppColors.textPrimary,
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+            letterSpacing: -0.2,
+          ),
+        ),
+
       ),
 
       body: Consumer<LoanDetailProvider>(
         builder: (context, provider, child) {
           if (provider.isLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+              child: CircularProgressIndicator(color: AppColors.secondaryDark),
+            );
           }
 
           final loan = provider.loanDetail;
 
           if (loan == null) {
-            return const Center(child: Text('Failed to load loan'));
+            return Center(
+              child: Text(
+                'Failed to load loan',
+                style: AppTextStyles.body(context),
+              ),
+            );
           }
 
-          // Scrollable content — button is NOT part of this anymore.
+          // Responsive full-width layout with minimal comfortable margins
           return SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+            padding: const EdgeInsets.fromLTRB(12, 12, 12, 24),
             child: Column(
               children: [
                 LoanInfoCard(loan: loan),
-                const SizedBox(height: 16),
+                const SizedBox(height: 14),
                 CustomerDetailsCard(customer: loan.customer),
               ],
             ),
@@ -64,7 +108,7 @@ class _LoanDetailPageState extends State<LoanDetailPage> {
         },
       ),
 
-      // ── Fixed bottom button, stays put while content scrolls ──
+      // ── Fixed bottom verify button ──
       bottomNavigationBar: Consumer<LoanDetailProvider>(
         builder: (context, provider, child) {
           final loan = provider.loanDetail;
@@ -81,10 +125,10 @@ class _LoanDetailPageState extends State<LoanDetailPage> {
             child: Container(
               padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.surface,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(.06),
+                    color: Colors.black.withValues(alpha: 0.06),
                     blurRadius: 12,
                     offset: const Offset(0, -3),
                   ),

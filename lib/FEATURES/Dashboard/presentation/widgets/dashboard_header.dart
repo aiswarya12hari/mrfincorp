@@ -33,7 +33,7 @@ class DashboardHeader extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF1E293B).withOpacity(0.04),
+            color: const Color(0xFF1E293B).withValues(alpha: 0.04),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -49,23 +49,19 @@ class DashboardHeader extends StatelessWidget {
               clipBehavior: Clip.none,
               children: [
                 Container(
-                  width: 44,
-                  height: 44,
+                  width: 38,
+                  height: 38,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    gradient: const LinearGradient(
-                      colors: [
-                        AppColors.primary,
-                        Color(0xFF0D9488),
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
+                    color: AppColors.primaryLight,
+                    border: Border.all(
+                      color: AppColors.secondary,
+                      width: 1.5,
                     ),
-                    border: Border.all(color: Colors.white, width: 2),
                     boxShadow: [
                       BoxShadow(
-                        color: AppColors.primary.withOpacity(0.22),
-                        blurRadius: 8,
+                        color: AppColors.secondary.withValues(alpha: 0.15),
+                        blurRadius: 6,
                         offset: const Offset(0, 2),
                       ),
                     ],
@@ -75,8 +71,8 @@ class DashboardHeader extends StatelessWidget {
                     _initials(displayName),
                     style: const TextStyle(
                       fontFamily: AppTextStyles.fontFamily,
-                      color: Colors.white,
-                      fontSize: 16.5,
+                      color: AppColors.secondary,
+                      fontSize: 15,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -85,23 +81,23 @@ class DashboardHeader extends StatelessWidget {
                   right: -1,
                   bottom: -1,
                   child: Container(
-                    width: 17,
-                    height: 17,
+                    width: 15,
+                    height: 15,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: AppColors.cardColor,
-                      border: Border.all(color: Colors.white, width: 1.5),
+                      border: Border.all(color: Colors.white, width: 1.2),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
+                          color: Colors.black.withValues(alpha: 0.1),
                           blurRadius: 3,
                         ),
                       ],
                     ),
                     child: const Icon(
                       Icons.expand_more_rounded,
-                      size: 13,
-                      color: AppColors.primary,
+                      size: 11,
+                      color: AppColors.secondary,
                     ),
                   ),
                 ),
@@ -146,35 +142,38 @@ class DashboardHeader extends StatelessWidget {
 
           const SizedBox(width: 8),
 
-          // ── Account Switch Button ──────────
+          // ── Account Switch Button (Aqua Pill Web Style) ──────────
           BouncyTap(
             onTap: () => AccountSwitcherSheet.show(context),
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 6.5),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
               decoration: BoxDecoration(
-                color: AppColors.primaryLight.withOpacity(0.7),
+                color: AppColors.secondary,
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                  color: AppColors.primary.withOpacity(0.18),
-                  width: 1,
-                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.secondary.withValues(alpha: 0.25),
+                    blurRadius: 6,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
               ),
-              child: Row(
+              child: const Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.swap_horiz_rounded,
                     size: 14,
-                    color: AppColors.primary,
+                    color: Colors.white,
                   ),
-                  const SizedBox(width: 4),
+                  SizedBox(width: 4),
                   Text(
                     'Switch',
                     style: TextStyle(
                       fontFamily: AppTextStyles.fontFamily,
                       fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.primary,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
                     ),
                   ),
                 ],

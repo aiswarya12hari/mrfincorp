@@ -1,31 +1,5 @@
-// import 'package:flutter/material.dart';
-
-// class ViewMembersButton
-//     extends StatelessWidget {
-//   final VoidCallback onTap;
-
-//   const ViewMembersButton({
-//     super.key,
-//     required this.onTap,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return SizedBox(
-//       width: double.infinity,
-//       height: 52,
-//       child: ElevatedButton(
-//         onPressed: onTap,
-//         child: const Text(
-//           "View Members",
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-
 import 'package:flutter/material.dart';
+import '../../../../CORE/Theme/app_color.dart';
 
 class ViewMembersButton extends StatelessWidget {
   final VoidCallback onTap;
@@ -40,7 +14,7 @@ class ViewMembersButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onTap,
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF38B2AC),
+          backgroundColor: AppColors.secondary,
           foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),

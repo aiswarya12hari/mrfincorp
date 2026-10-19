@@ -12,7 +12,7 @@ class LoanStatusTabs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<LoanProvider>(
-      builder: (_, provider, __) {
+      builder: (_, provider, child) {
         final isAll = provider.selectedStatus == null ||
             provider.selectedStatus!.isEmpty;
         final isPending = provider.selectedStatus == 'VERIFICATION_PENDING';
@@ -58,20 +58,18 @@ class LoanStatusTabs extends StatelessWidget {
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 220),
           curve: Curves.easeInOutCubic,
-          height: 42,
+          height: 38,
           decoration: BoxDecoration(
-            color: selected ? AppColors.primary : const Color(0xFFF1F5F9),
-            borderRadius: BorderRadius.circular(12),
+            color: selected ? AppColors.secondary : AppColors.surfaceSecondary,
+            borderRadius: BorderRadius.circular(20),
             border: Border.all(
-              color: selected
-                  ? Colors.transparent
-                  : const Color(0xFFE2E8F0),
+              color: selected ? Colors.transparent : AppColors.border,
               width: 1,
             ),
             boxShadow: selected
                 ? [
                     BoxShadow(
-                      color: AppColors.primary.withOpacity(0.25),
+                      color: AppColors.secondary.withValues(alpha: 0.28),
                       blurRadius: 8,
                       offset: const Offset(0, 2),
                     ),
@@ -83,10 +81,10 @@ class LoanStatusTabs extends StatelessWidget {
             duration: const Duration(milliseconds: 200),
             style: TextStyle(
               fontFamily: AppTextStyles.fontFamily,
-              fontSize: 13.5,
-              fontWeight: selected ? FontWeight.w700 : FontWeight.w600,
+              fontSize: 13,
+              fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
               letterSpacing: -0.1,
-              color: selected ? Colors.white : const Color(0xFF64748B),
+              color: selected ? Colors.white : AppColors.textLight,
             ),
             child: Text(title),
           ),

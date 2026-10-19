@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../../../../CORE/Theme/app_color.dart';
 
 import '../../data/models/group_verify_response_model.dart';
 
@@ -28,13 +29,13 @@ class GroupAllVerifiedSuccessPage extends StatelessWidget {
                   width: 100,
                   height: 100,
                   decoration: const BoxDecoration(
-                    color: Color(0xFFE3F8EF),
+                    color: AppColors.successBg,
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
                     Icons.check_circle,
                     size: 56,
-                    color: Color(0xFF1E9E6B),
+                    color: AppColors.success,
                   ),
                 ),
 
@@ -90,7 +91,7 @@ class GroupAllVerifiedSuccessPage extends StatelessWidget {
                   height: 52,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF38B2AC),
+                      backgroundColor: AppColors.primary,
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),

@@ -7,6 +7,7 @@ import 'package:mr_fincorp/FEATURES/Collections/presentation/Widgets/collected_l
 import 'package:mr_fincorp/FEATURES/Collections/presentation/Widgets/collection_list.dart';
 import 'package:mr_fincorp/FEATURES/Collections/presentation/Widgets/collection_search_bar.dart';
 import 'package:mr_fincorp/FEATURES/Collections/presentation/Widgets/collection_tab_toggle.dart';
+import 'package:mr_fincorp/FEATURES/Collections/presentation/Widgets/collection_shimmer.dart';
 import 'package:mr_fincorp/FEATURES/Collections/presentation/pages/collection_detail_page.dart';
 import 'package:mr_fincorp/FEATURES/Collections/provider/collected_list_provider.dart';
 import 'package:mr_fincorp/FEATURES/Collections/provider/collection_list_provider.dart';
@@ -114,23 +115,23 @@ class _CollectionsPageState extends State<CollectionsPage> with RouteAware {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.gray100,
+      backgroundColor: AppColors.background,
       appBar: AppBar(
-  backgroundColor: AppColors.gray100,
-  elevation: 0,
-  centerTitle: false,
-  leading: IconButton(
-    icon: Icon(Icons.arrow_back_ios_new, size: 20, color: AppColors.gray800),
-    onPressed: () {
-      if (Navigator.canPop(context)) {
-        Navigator.pop(context);
-      } else {
-        context.read<NavigationProvider>().changeTab(0);
-      }
-    },
-  ),
-  title: Text('Collections', style: AppTextStyles.pageTitle(context)),
-),
+        backgroundColor: AppColors.background,
+        elevation: 0,
+        centerTitle: false,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new, size: 20, color: AppColors.textPrimary),
+          onPressed: () {
+            if (Navigator.canPop(context)) {
+              Navigator.pop(context);
+            } else {
+              context.read<NavigationProvider>().changeTab(0);
+            }
+          },
+        ),
+        title: Text('Collections', style: AppTextStyles.pageTitle(context)),
+      ),
       body: Column(
         children: [
           Padding(
@@ -166,7 +167,7 @@ class _CollectionsPageState extends State<CollectionsPage> with RouteAware {
                 ? Consumer<CollectionListProvider>(
                     builder: (context, provider, _) {
                       if (provider.isLoading) {
-                        return const Center(child: CircularProgressIndicator());
+                        return const CollectionListShimmer();
                       }
 
                       if (provider.errorMessage != null) {
@@ -202,7 +203,7 @@ class _CollectionsPageState extends State<CollectionsPage> with RouteAware {
                 : Consumer<CollectedListProvider>(
                     builder: (context, provider, _) {
                       if (provider.isLoading) {
-                        return const Center(child: CircularProgressIndicator());
+                        return const CollectionListShimmer(isCollected: true);
                       }
 
                       if (provider.errorMessage != null) {

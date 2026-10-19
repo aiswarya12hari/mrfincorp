@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../CORE/Network/api_client.dart';
 import '../../../CORE/Storage/shared_preference.dart';
-import '../data/models/account_model.dart';
+import 'package:mr_fincorp/FEATURES/Account/data/models/account_model.dart';
 
 enum SwitchResult { success, notFound, invalidSession, error }
 

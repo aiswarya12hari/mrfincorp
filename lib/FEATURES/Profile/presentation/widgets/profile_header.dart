@@ -1,87 +1,46 @@
-// import 'package:flutter/material.dart';
-// import '../../../../../CORE/Theme/app_color.dart';
-
-// class ProfileHeader extends StatelessWidget {
-//   const ProfileHeader({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       height: 56,
-//       alignment: Alignment.center,
-//       decoration: const BoxDecoration(
-//         gradient: LinearGradient(
-//           begin: Alignment.topLeft,
-//           end: Alignment.bottomRight,
-//           colors: [AppColors.primaryDark, AppColors.primary],
-//         ),
-//       ),
-//       child: const Text(
-//         'Profile',
-//         style: TextStyle(
-//           fontSize: 18,
-//           fontWeight: FontWeight.w700,
-//           color: Colors.white,
-//           letterSpacing: 0.3,
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
+import 'package:mr_fincorp/CORE/Theme/app_color.dart';
+import 'package:mr_fincorp/CORE/Theme/app_text_style.dart';
 import 'package:mr_fincorp/FEATURES/Navigation/navigation_provider.dart';
 import 'package:provider/provider.dart';
-import '../../../../../CORE/Theme/app_color.dart';
 
-class ProfileHeader extends StatelessWidget {
+class ProfileHeader extends StatelessWidget implements PreferredSizeWidget {
   const ProfileHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 56,
-      alignment: Alignment.center,
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [AppColors.primaryDark, AppColors.primary],
+    return AppBar(
+      backgroundColor: AppColors.background,
+      elevation: 0,
+      scrolledUnderElevation: 0,
+      surfaceTintColor: Colors.transparent,
+      leading: IconButton(
+        icon: const Icon(
+          Icons.arrow_back_ios_new_rounded,
+          size: 20,
+          color: AppColors.textPrimary,
         ),
+        onPressed: () {
+          if (Navigator.canPop(context)) {
+            Navigator.pop(context);
+          } else {
+            context.read<NavigationProvider>().changeTab(0);
+          }
+        },
       ),
-      child: Stack(
-        children: [
-          const Center(
-            child: Text(
-              'Profile',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-                color: Colors.white,
-                letterSpacing: 0.3,
-              ),
-            ),
-          ),
-          Positioned(
-            left: 0,
-            top: 0,
-            child: IconButton(
-              icon: const Icon(
-                Icons.arrow_back_ios_new,
-                size: 20,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                if (Navigator.canPop(context)) {
-                  Navigator.pop(context);
-                } else {
-                  context.read<NavigationProvider>().changeTab(0);
-                }
-              },
-            ),
-          ),
-        ],
+      titleSpacing: 0,
+      title: const Text(
+        'Profile',
+        style: TextStyle(
+          fontFamily: AppTextStyles.fontFamily,
+          fontSize: 18,
+          fontWeight: FontWeight.w700,
+          color: AppColors.textPrimary,
+        ),
       ),
     );
   }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

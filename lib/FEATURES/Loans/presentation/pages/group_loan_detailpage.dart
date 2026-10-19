@@ -7,6 +7,8 @@ import '../widgets group loan/group_summary_card.dart';
 import '../widgets group loan/view_members_button.dart';
 import 'group_member_page.dart';
 
+import '../../../../CORE/Theme/app_color.dart';
+
 class GroupLoanDetailPage extends StatefulWidget {
   final String loanId;
 
@@ -29,7 +31,7 @@ class _GroupLoanDetailPageState extends State<GroupLoanDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffF7F8FA),
+      backgroundColor: AppColors.background,
 
       appBar: AppBar(title: const Text("Group Loan Details")),
 

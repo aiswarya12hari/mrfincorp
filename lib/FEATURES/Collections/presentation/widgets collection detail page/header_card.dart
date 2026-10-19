@@ -13,7 +13,7 @@ const String _whatsappSvg = '''
 ''';
 
 /// Customer Details & Loan Details section for Friends Fincorp Collection Details page.
-/// Simple, professional fintech UI with no redundant call options and standard restrained font sizes.
+/// Refined, balanced font scaling with full backward compatibility.
 class CollectionDetailHeaderCard extends StatelessWidget {
   final CollectionDetailModel data;
 
@@ -56,7 +56,7 @@ class CollectionDetailHeaderCard extends StatelessWidget {
             ? data.dueDate
             : (data.formattedDueDate != '-' ? data.formattedDueDate : '-'));
 
-    return 'Hello *${data.customerName}*,\n\n'
+    final englishMessage = 'Hello *${data.customerName}*,\n\n'
         'This is a reminder from **Friends Fincorp** regarding your loan collection.\n\n'
         '* Loan ID: ${data.loanId}\n'
         '* Collection Date: $dueDateStr\n'
@@ -67,6 +67,20 @@ class CollectionDetailHeaderCard extends StatelessWidget {
         'Please make your payment at the earliest. For any assistance, kindly contact our field staff.\n\n'
         'Thank you,\n'
         '**Friends Fincorp**';
+
+    final malayalamMessage = 'നമസ്കാരം *${data.customerName}*,\n\n'
+        'നിങ്ങളുടെ ലോൺ തിരിച്ചടവുമായി ബന്ധപ്പെട്ട് **Friends Fincorp**-ൽ നിന്നുള്ള ഒരു ഓർമ്മപ്പെടുത്തലാണിത്.\n\n'
+        '* ലോൺ ഐഡി: ${data.loanId}\n'
+        '* കളക്ഷൻ തീയതി: $dueDateStr\n'
+        '* അടയ്ക്കാനുള്ള തവണകൾ: ${data.duePending}\n'
+        '* പ്രിൻസിപ്പൽ ബാക്കി: ₹$principalStr\n'
+        '* ഫൈൻ ബാക്കി: ₹$fineStr\n'
+        '* ആകെ അടയ്ക്കാനുള്ള തുക: ₹$balanceStr\n\n'
+        'ദയവായി നിങ്ങളുടെ തിരിച്ചടവ് എത്രയും വേഗം നടത്തുക. എന്തെങ്കിലും സഹായത്തിന് ഞങ്ങളുടെ ഫീൽഡ് സ്റ്റാഫുമായി ബന്ധപ്പെടുക.\n\n'
+        'നന്ദി,\n'
+        '**Friends Fincorp**';
+
+    return '$englishMessage\n\n$malayalamMessage';
   }
 
   static String buildWhatsAppMessage(CollectionDetailModel data) =>
@@ -150,6 +164,15 @@ class CollectionDetailHeaderCard extends StatelessWidget {
     return '${parts[0][0]}${parts[1][0]}'.toUpperCase();
   }
 
+  String _formatName(String raw) {
+    final trimmed = raw.trim();
+    if (trimmed.isEmpty) return raw;
+    return trimmed.split(' ').map((word) {
+      if (word.isEmpty) return '';
+      return '${word[0].toUpperCase()}${word.substring(1)}';
+    }).join(' ');
+  }
+
   @override
   Widget build(BuildContext context) {
     final hasPhone = data.customerPhone.trim().isNotEmpty;
@@ -159,42 +182,47 @@ class CollectionDetailHeaderCard extends StatelessWidget {
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(22),
         border: Border.all(
-          color: AppColors.borderColor.withValues(alpha: 0.7),
+          color: const Color(0xFFE2E8F0).withValues(alpha: 0.8),
           width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF1E293B).withValues(alpha: 0.04),
+            color: const Color(0xFF0F2A38).withValues(alpha: 0.05),
             blurRadius: 18,
-            offset: const Offset(0, 4),
+            offset: const Offset(0, 5),
+          ),
+          BoxShadow(
+            color: const Color(0xFF0F2A38).withValues(alpha: 0.02),
+            blurRadius: 5,
+            offset: const Offset(0, 2),
           ),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // ── Header: Customer Details title & Status Chip ─────────
+          // ── Section 1: Header (Title + Status chip) ──────────────
           _buildHeader(context),
           const SizedBox(height: 14),
 
-          // ── Customer Profile (Avatar + Name + Badges) ───────────
+          // ── Section 2: Customer Profile (Avatar + Name + Badges) ──
           _buildCustomerProfile(),
           const SizedBox(height: 16),
           const Divider(height: 1, thickness: 1, color: Color(0xFFF1F5F9)),
           const SizedBox(height: 12),
 
-          // ── Phone Number Row (with Single Call & WhatsApp) ───────
+          // ── Section 3: Phone Number Row ──────────────────────────
           _buildPhoneRow(context, hasPhone),
-          const SizedBox(height: 12),
+          const SizedBox(height: 10),
           const Divider(height: 1, thickness: 0.8, color: Color(0xFFF1F5F9)),
-          const SizedBox(height: 12),
+          const SizedBox(height: 10),
 
-          // ── Customer Address Row ─────────────────────────────────
+          // ── Section 4: Customer Address Row ──────────────────────
           _buildAddressRow(),
 
-          // ── Customer Location Row (Google Maps) ──────────────────
+          // ── Section 5: Customer Location Row (Google Maps) ───────
           if (data.customerLocation.trim().isNotEmpty) ...[
             const SizedBox(height: 12),
             _buildMapsRow(),
@@ -204,12 +232,12 @@ class CollectionDetailHeaderCard extends StatelessWidget {
           const Divider(height: 1, thickness: 1, color: Color(0xFFF1F5F9)),
           const SizedBox(height: 16),
 
-          // ── Information Grid (2x2) ───────────────────────────────
+          // ── Section 6: Information Grid (2x2) ────────────────────
           _buildInformationGrid(),
 
-          const SizedBox(height: 20),
+          const SizedBox(height: 18),
 
-          // ── Loan Financial Details (Summary) ─────────────────────
+          // ── Section 7: Loan Financial Details (Summary) ──────────
           _buildFinancialSummary(context),
         ],
       ),
@@ -226,15 +254,15 @@ class CollectionDetailHeaderCard extends StatelessWidget {
         Row(
           children: [
             Container(
-              width: 30,
-              height: 30,
-              decoration: const BoxDecoration(
+              width: 28,
+              height: 28,
+              decoration: BoxDecoration(
                 color: AppColors.primaryLight,
-                shape: BoxShape.circle,
+                borderRadius: BorderRadius.circular(8),
               ),
               child: const Center(
                 child: Icon(
-                  Icons.person,
+                  Icons.person_rounded,
                   color: AppColors.primary,
                   size: 16,
                 ),
@@ -245,7 +273,7 @@ class CollectionDetailHeaderCard extends StatelessWidget {
               'Customer Details',
               style: TextStyle(
                 fontFamily: AppTextStyles.fontFamily,
-                fontSize: 15.5,
+                fontSize: 14,
                 fontWeight: FontWeight.w700,
                 color: Color(0xFF0F3E3E),
                 letterSpacing: -0.2,
@@ -274,13 +302,13 @@ class CollectionDetailHeaderCard extends StatelessWidget {
 
     return Container(
       key: const Key('status_chip'),
-      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3.5),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3.5),
       decoration: BoxDecoration(
         color: bgColor,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: textColor.withValues(alpha: 0.25),
-          width: 0.8,
+          color: textColor.withValues(alpha: 0.3),
+          width: 0.9,
         ),
       ),
       child: Row(
@@ -299,10 +327,10 @@ class CollectionDetailHeaderCard extends StatelessWidget {
             statusText,
             style: TextStyle(
               fontFamily: AppTextStyles.fontFamily,
-              fontSize: 10.5,
+              fontSize: 10,
               fontWeight: FontWeight.w700,
               color: textColor,
-              letterSpacing: 0.2,
+              letterSpacing: 0.3,
             ),
           ),
         ],
@@ -317,27 +345,35 @@ class CollectionDetailHeaderCard extends StatelessWidget {
     return Row(
       children: [
         Container(
-          width: 46,
-          height: 46,
-          decoration: const BoxDecoration(
+          width: 44,
+          height: 44,
+          decoration: BoxDecoration(
             shape: BoxShape.circle,
-            gradient: LinearGradient(
+            gradient: const LinearGradient(
               colors: [
-                Color(0xFF006A61),
-                Color(0xFF0D7E74),
+                AppColors.secondary,
+                AppColors.accent,
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.secondary.withValues(alpha: 0.25),
+                blurRadius: 8,
+                offset: const Offset(0, 3),
+              ),
+            ],
           ),
           alignment: Alignment.center,
           child: Text(
             _getInitials(data.customerName),
             style: const TextStyle(
               fontFamily: AppTextStyles.fontFamily,
-              fontSize: 16.5,
-              fontWeight: FontWeight.w700,
+              fontSize: 15,
+              fontWeight: FontWeight.w800,
               color: AppColors.white,
+              letterSpacing: 0.4,
             ),
           ),
         ),
@@ -347,69 +383,73 @@ class CollectionDetailHeaderCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                data.customerName,
+                _formatName(data.customerName),
                 style: const TextStyle(
                   fontFamily: AppTextStyles.fontFamily,
-                  fontSize: 16,
+                  fontSize: 14.5,
                   fontWeight: FontWeight.w700,
-                  color: Color(0xFF0F2A38),
+                  color: Color(0xFF0F172A),
+                  letterSpacing: -0.2,
                 ),
               ),
               const SizedBox(height: 4),
-              Row(
-                children: [
-                  Text.rich(
-                    TextSpan(
-                      children: [
-                        const TextSpan(
-                          text: 'ID: ',
-                          style: TextStyle(
-                            fontFamily: AppTextStyles.fontFamily,
-                            fontSize: 11.5,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.gray600,
-                          ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2.5),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF1F5F9),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text.rich(
+                  TextSpan(
+                    children: [
+                      const TextSpan(
+                        text: 'ID: ',
+                        style: TextStyle(
+                          fontFamily: AppTextStyles.fontFamily,
+                          fontSize: 10.5,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.gray600,
                         ),
-                        TextSpan(
-                          text: '${data.id}',
-                          style: const TextStyle(
-                            fontFamily: AppTextStyles.fontFamily,
-                            fontSize: 11.5,
-                            fontWeight: FontWeight.w700,
-                            color: Color(0xFF1E293B),
-                          ),
+                      ),
+                      TextSpan(
+                        text: '${data.id}',
+                        style: const TextStyle(
+                          fontFamily: AppTextStyles.fontFamily,
+                          fontSize: 10.5,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF0F172A),
                         ),
-                        const TextSpan(
-                          text: '   |   ',
-                          style: TextStyle(
-                            fontFamily: AppTextStyles.fontFamily,
-                            fontSize: 11,
-                            fontWeight: FontWeight.w400,
-                            color: Color(0xFFCBD5E1),
-                          ),
+                      ),
+                      const TextSpan(
+                        text: '   |   ',
+                        style: TextStyle(
+                          fontFamily: AppTextStyles.fontFamily,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xFFCBD5E1),
                         ),
-                        const TextSpan(
-                          text: 'Loan ID: ',
-                          style: TextStyle(
-                            fontFamily: AppTextStyles.fontFamily,
-                            fontSize: 11.5,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.gray600,
-                          ),
+                      ),
+                      const TextSpan(
+                        text: 'Loan ID: ',
+                        style: TextStyle(
+                          fontFamily: AppTextStyles.fontFamily,
+                          fontSize: 10.5,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.gray600,
                         ),
-                        TextSpan(
-                          text: data.loanId,
-                          style: const TextStyle(
-                            fontFamily: AppTextStyles.fontFamily,
-                            fontSize: 11.5,
-                            fontWeight: FontWeight.w700,
-                            color: Color(0xFF1E293B),
-                          ),
+                      ),
+                      TextSpan(
+                        text: data.loanId,
+                        style: const TextStyle(
+                          fontFamily: AppTextStyles.fontFamily,
+                          fontSize: 10.5,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF0F172A),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ],
           ),
@@ -429,15 +469,15 @@ class CollectionDetailHeaderCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         child: Container(
           constraints: const BoxConstraints(minHeight: 52),
-          padding: const EdgeInsets.symmetric(vertical: 4),
+          padding: const EdgeInsets.symmetric(vertical: 2),
           child: Row(
             children: [
               Container(
-                width: 38,
-                height: 38,
-                decoration: const BoxDecoration(
+                width: 36,
+                height: 36,
+                decoration: BoxDecoration(
                   color: AppColors.primaryLight,
-                  shape: BoxShape.circle,
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 child: const Center(
                   child: Icon(
@@ -447,7 +487,7 @@ class CollectionDetailHeaderCard extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: 10),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -457,19 +497,20 @@ class CollectionDetailHeaderCard extends StatelessWidget {
                       'Phone Number',
                       style: TextStyle(
                         fontFamily: AppTextStyles.fontFamily,
-                        fontSize: 11.5,
+                        fontSize: 10.5,
                         fontWeight: FontWeight.w500,
                         color: AppColors.gray600,
                       ),
                     ),
-                    const SizedBox(height: 2),
+                    const SizedBox(height: 1),
                     Text(
                       hasPhone ? data.customerPhone : 'No phone number',
                       style: const TextStyle(
                         fontFamily: AppTextStyles.fontFamily,
-                        fontSize: 14.5,
+                        fontSize: 13.5,
                         fontWeight: FontWeight.w700,
                         color: Color(0xFF0F172A),
+                        letterSpacing: 0.2,
                       ),
                     ),
                   ],
@@ -479,12 +520,19 @@ class CollectionDetailHeaderCard extends StatelessWidget {
                 // Single Call Button
                 Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 14,
-                    vertical: 7.5,
+                    horizontal: 12,
+                    vertical: 7,
                   ),
                   decoration: BoxDecoration(
-                    color: AppColors.primary,
-                    borderRadius: BorderRadius.circular(20),
+                    gradient: const LinearGradient(
+                      colors: [
+                        AppColors.primary,
+                        Color(0xFF144D4D),
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(18),
                     boxShadow: [
                       BoxShadow(
                         color: AppColors.primary.withValues(alpha: 0.25),
@@ -496,15 +544,16 @@ class CollectionDetailHeaderCard extends StatelessWidget {
                   child: const Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.call, size: 14, color: AppColors.white),
+                      Icon(Icons.call, size: 13, color: AppColors.white),
                       SizedBox(width: 5),
                       Text(
                         'Call',
                         style: TextStyle(
                           fontFamily: AppTextStyles.fontFamily,
                           color: AppColors.white,
-                          fontSize: 13,
+                          fontSize: 12,
                           fontWeight: FontWeight.w700,
+                          letterSpacing: 0.2,
                         ),
                       ),
                     ],
@@ -519,7 +568,7 @@ class CollectionDetailHeaderCard extends StatelessWidget {
                     child: InkWell(
                       key: const Key('whatsapp_button'),
                       onTap: () => _sendWhatsAppReminder(context),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(18),
                       child: Container(
                         width: 36,
                         height: 36,
@@ -560,11 +609,11 @@ class CollectionDetailHeaderCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
-          width: 38,
-          height: 38,
-          decoration: const BoxDecoration(
+          width: 36,
+          height: 36,
+          decoration: BoxDecoration(
             color: AppColors.primaryLight,
-            shape: BoxShape.circle,
+            borderRadius: BorderRadius.circular(10),
           ),
           child: const Center(
             child: Icon(
@@ -574,7 +623,7 @@ class CollectionDetailHeaderCard extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(width: 12),
+        const SizedBox(width: 10),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -584,32 +633,42 @@ class CollectionDetailHeaderCard extends StatelessWidget {
                 'Customer Address',
                 style: TextStyle(
                   fontFamily: AppTextStyles.fontFamily,
-                  fontSize: 11.5,
+                  fontSize: 10.5,
                   fontWeight: FontWeight.w500,
                   color: AppColors.gray600,
                 ),
               ),
-              const SizedBox(height: 2),
+              const SizedBox(height: 1),
               Text(
                 data.customerAddress.trim().isNotEmpty
                     ? data.customerAddress
                     : '-',
                 style: const TextStyle(
                   fontFamily: AppTextStyles.fontFamily,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
+                  fontSize: 12.5,
+                  fontWeight: FontWeight.w600,
                   color: Color(0xFF334155),
-                  height: 1.35,
+                  height: 1.3,
                 ),
               ),
             ],
           ),
         ),
-        const SizedBox(width: 8),
-        const Icon(
-          Icons.chevron_right_rounded,
-          size: 20,
-          color: Color(0xFF94A3B8),
+        const SizedBox(width: 6),
+        Container(
+          width: 24,
+          height: 24,
+          decoration: BoxDecoration(
+            color: const Color(0xFFF1F5F9),
+            borderRadius: BorderRadius.circular(6),
+          ),
+          child: const Center(
+            child: Icon(
+              Icons.chevron_right_rounded,
+              size: 16,
+              color: Color(0xFF64748B),
+            ),
+          ),
         ),
       ],
     );
@@ -626,7 +685,7 @@ class CollectionDetailHeaderCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         child: Container(
           width: double.infinity,
-          constraints: const BoxConstraints(minHeight: 50),
+          constraints: const BoxConstraints(minHeight: 52),
           padding: const EdgeInsets.symmetric(
             horizontal: 12,
             vertical: 10,
@@ -635,7 +694,7 @@ class CollectionDetailHeaderCard extends StatelessWidget {
             color: const Color(0xFFF8FAFC),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: const Color(0xFFEDF2F7),
+              color: const Color(0xFFE2E8F0),
               width: 1,
             ),
           ),
@@ -650,8 +709,8 @@ class CollectionDetailHeaderCard extends StatelessWidget {
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withValues(alpha: 0.04),
-                      blurRadius: 4,
-                      offset: const Offset(0, 1),
+                      blurRadius: 5,
+                      offset: const Offset(0, 2),
                     ),
                   ],
                 ),
@@ -673,17 +732,17 @@ class CollectionDetailHeaderCard extends StatelessWidget {
                       'Customer Location',
                       style: TextStyle(
                         fontFamily: AppTextStyles.fontFamily,
-                        fontSize: 11,
+                        fontSize: 10,
                         fontWeight: FontWeight.w500,
                         color: AppColors.gray600,
                       ),
                     ),
-                    SizedBox(height: 2),
+                    SizedBox(height: 1),
                     Text(
                       'Tap to Open Google Maps',
                       style: TextStyle(
                         fontFamily: AppTextStyles.fontFamily,
-                        fontSize: 13,
+                        fontSize: 12.5,
                         fontWeight: FontWeight.w700,
                         color: AppColors.primary,
                       ),
@@ -691,10 +750,20 @@ class CollectionDetailHeaderCard extends StatelessWidget {
                   ],
                 ),
               ),
-              const Icon(
-                Icons.open_in_new_rounded,
-                size: 18,
-                color: AppColors.primary,
+              Container(
+                width: 26,
+                height: 26,
+                decoration: BoxDecoration(
+                  color: AppColors.primaryLight,
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: const Center(
+                  child: Icon(
+                    Icons.open_in_new_rounded,
+                    size: 14,
+                    color: AppColors.primary,
+                  ),
+                ),
               ),
             ],
           ),
@@ -751,7 +820,7 @@ class CollectionDetailHeaderCard extends StatelessWidget {
             const SizedBox(width: 10),
             Expanded(
               child: _infoSquareCard(
-                label: 'METHOD',
+                label: 'LOAN STATUS',
                 value: data.loanStatus,
                 icon: Icons.chat_bubble_outline_rounded,
                 iconColor: const Color(0xFF7C3AED),
@@ -789,7 +858,7 @@ class CollectionDetailHeaderCard extends StatelessWidget {
         color: const Color(0xFFF8FAFC),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: const Color(0xFFEDF2F7),
+          color: const Color(0xFFE2E8F0),
           width: 1,
         ),
       ),
@@ -798,16 +867,16 @@ class CollectionDetailHeaderCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            width: 30,
-            height: 30,
+            width: 28,
+            height: 28,
             decoration: BoxDecoration(
               color: iconBg,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(7),
             ),
             child: Center(
               child: Icon(
                 icon,
-                size: 16,
+                size: 15,
                 color: iconColor,
               ),
             ),
@@ -817,7 +886,7 @@ class CollectionDetailHeaderCard extends StatelessWidget {
             label,
             style: const TextStyle(
               fontFamily: AppTextStyles.fontFamily,
-              fontSize: 10.5,
+              fontSize: 9.5,
               fontWeight: FontWeight.w600,
               color: Color(0xFF64748B),
               letterSpacing: 0.2,
@@ -828,7 +897,7 @@ class CollectionDetailHeaderCard extends StatelessWidget {
             value,
             style: const TextStyle(
               fontFamily: AppTextStyles.fontFamily,
-              fontSize: 13,
+              fontSize: 12.5,
               fontWeight: FontWeight.w700,
               color: Color(0xFF0F172A),
             ),
@@ -842,33 +911,74 @@ class CollectionDetailHeaderCard extends StatelessWidget {
 
   // ────────────────────────────────────────────────────────────────
   // Section 7: Financial Summary (Loan Details)
-  // ── EXACTLY matching the screenshot, untouched ─────────────────
   // ────────────────────────────────────────────────────────────────
   Widget _buildFinancialSummary(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Divider(height: 1, thickness: 1, color: Color(0xFFEDF2F7)),
-        const SizedBox(height: 20),
-
-        // Row 1: LOAN AMOUNT & COLLECTION DATE
+        // Section Header
         Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _field(
-              context,
-              label: 'LOAN AMOUNT',
-              value: '₹${_format(data.loanAmount)}',
+            Container(
+              width: 26,
+              height: 26,
+              decoration: BoxDecoration(
+                color: AppColors.primaryLight,
+                borderRadius: BorderRadius.circular(7),
+              ),
+              child: const Center(
+                child: Icon(
+                  Icons.receipt_long_rounded,
+                  size: 14,
+                  color: AppColors.primary,
+                ),
+              ),
             ),
-            _field(
-              context,
-              label: 'COLLECTION DATE',
-              value: data.formattedDueDate,
-              alignEnd: true,
+            const SizedBox(width: 8),
+            const Text(
+              'Loan Financial Summary',
+              style: TextStyle(
+                fontFamily: AppTextStyles.fontFamily,
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+                color: Color(0xFF0F3E3E),
+                letterSpacing: -0.2,
+              ),
             ),
           ],
         ),
-        const SizedBox(height: 18),
+        const SizedBox(height: 12),
+
+        // Featured Hero Card: LOAN AMOUNT & COLLECTION DATE
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+          decoration: BoxDecoration(
+            color: const Color(0xFFF8FAFC),
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _field(
+                context,
+                label: 'LOAN AMOUNT',
+                value: '₹${_format(data.loanAmount)}',
+                valueColor: const Color(0xFF0F2A38),
+                valueSize: 16.5,
+              ),
+              _field(
+                context,
+                label: 'COLLECTION DATE',
+                value: data.formattedDueDate,
+                alignEnd: true,
+                valueSize: 13.5,
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 12),
 
         // Row 2: PRINCIPAL BALANCE & FINE BALANCE
         Row(
@@ -878,16 +988,18 @@ class CollectionDetailHeaderCard extends StatelessWidget {
               context,
               label: 'PRINCIPAL BALANCE',
               value: '₹${_format(data.principalPending)}',
+              valueColor: const Color(0xFFDC2626),
             ),
             _field(
               context,
               label: 'FINE BALANCE',
               value: '₹${_format(data.finePending)}',
               alignEnd: true,
+              valueColor: const Color(0xFFDC2626),
             ),
           ],
         ),
-        const SizedBox(height: 18),
+        const SizedBox(height: 12),
 
         // Row 3: PRINCIPAL PAID & FINE PAID
         Row(
@@ -897,16 +1009,18 @@ class CollectionDetailHeaderCard extends StatelessWidget {
               context,
               label: 'PRINCIPAL PAID',
               value: '₹${_format(data.principalPaid)}',
+              valueColor: const Color(0xFF059669),
             ),
             _field(
               context,
               label: 'FINE PAID',
               value: '₹${_format(data.finePaid)}',
               alignEnd: true,
+              valueColor: const Color(0xFF059669),
             ),
           ],
         ),
-        const SizedBox(height: 18),
+        const SizedBox(height: 12),
 
         // Row 4: DUE PENDING
         Row(
@@ -916,6 +1030,7 @@ class CollectionDetailHeaderCard extends StatelessWidget {
               context,
               label: 'DUE PENDING',
               value: data.duePending.toString(),
+              valueColor: const Color(0xFFD97706),
             ),
             const Spacer(),
           ],
@@ -929,6 +1044,8 @@ class CollectionDetailHeaderCard extends StatelessWidget {
     required String label,
     required String value,
     bool alignEnd = false,
+    Color valueColor = const Color(0xFF0F172A),
+    double valueSize = 14,
   }) {
     final crossAlign =
         alignEnd ? CrossAxisAlignment.end : CrossAxisAlignment.start;
@@ -943,21 +1060,22 @@ class CollectionDetailHeaderCard extends StatelessWidget {
             textAlign: textAlign,
             style: const TextStyle(
               fontFamily: AppTextStyles.fontFamily,
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-              color: Color(0xFF718096),
-              letterSpacing: 0.3,
+              fontSize: 10,
+              fontWeight: FontWeight.w600,
+              color: Color(0xFF64748B),
+              letterSpacing: 0.25,
             ),
           ),
-          const SizedBox(height: 5),
+          const SizedBox(height: 3),
           Text(
             value,
             textAlign: textAlign,
-            style: const TextStyle(
+            style: TextStyle(
               fontFamily: AppTextStyles.fontFamily,
-              fontSize: 18,
+              fontSize: valueSize,
               fontWeight: FontWeight.w700,
-              color: Color(0xFF1E293B),
+              color: valueColor,
+              letterSpacing: -0.2,
             ),
           ),
         ],

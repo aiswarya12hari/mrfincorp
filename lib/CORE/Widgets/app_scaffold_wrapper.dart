@@ -10,7 +10,7 @@ import '../Theme/app_text_style.dart';
 ///
 /// return AppScaffoldWrapper(
 ///   title: 'Loan Details',
-///   onRefresh: () => context.read<LoanDetailProvider>().fetchLoanDetail(loanId),
+///   onRefresh: () => `context.read<LoanDetailProvider>().fetchLoanDetail(loanId)`,
 ///   body: ...your existing scrollable content...,
 /// );
 ///
@@ -82,38 +82,37 @@ class AppScaffoldWrapper extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: backgroundColor ?? AppColors.gray100,
-      appBar: customHeader == null
-          ? AppBar(
-              backgroundColor: Colors.white,
-              elevation: 0,
-              scrolledUnderElevation: 0.5,
-              centerTitle: false,
-              automaticallyImplyLeading: false,
-              leading: showBackButton
-                  ? IconButton(
-                      icon: Icon(
-                        Icons.arrow_back_ios_new_rounded,
-                        size: 20,
-                        color: AppColors.gray800,
-                      ),
-                      onPressed:
-                          onBackPressed ?? () => Navigator.of(context).pop(),
-                    )
-                  : null,
-              title: title != null
-                  ? Text(
-                      title!,
-                      style: TextStyle(
-                        fontFamily: AppTextStyles.fontFamily,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.gray800,
-                      ),
-                    )
-                  : null,
-              actions: actions,
-            )
-          : customHeader,
+      appBar: customHeader ??
+          AppBar(
+            backgroundColor: Colors.white,
+            elevation: 0,
+            scrolledUnderElevation: 0.5,
+            centerTitle: false,
+            automaticallyImplyLeading: false,
+            leading: showBackButton
+                ? IconButton(
+                    icon: Icon(
+                      Icons.arrow_back_ios_new_rounded,
+                      size: 20,
+                      color: AppColors.gray800,
+                    ),
+                    onPressed:
+                        onBackPressed ?? () => Navigator.of(context).pop(),
+                  )
+                : null,
+            title: title != null
+                ? Text(
+                    title!,
+                    style: TextStyle(
+                      fontFamily: AppTextStyles.fontFamily,
+                      fontSize: 17,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.gray800,
+                    ),
+                  )
+                : null,
+            actions: actions,
+          ),
       body: SafeArea(top: customHeader == null, child: content),
       bottomNavigationBar: bottomNavigationBar,
     );
