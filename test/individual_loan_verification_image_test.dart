@@ -4,6 +4,7 @@ import 'package:mr_fincorp/FEATURES/Loans/data/models/customer_model.dart';
 import 'package:mr_fincorp/FEATURES/Loans/data/models/individual_loan_verification_model.dart';
 import 'package:mr_fincorp/FEATURES/Loans/data/models/loan_detail_model.dart';
 import 'package:mr_fincorp/FEATURES/Loans/presentation/pages/individual_loan_verification.dart';
+import 'package:mr_fincorp/FEATURES/Loans/presentation/widgets/verification_image_section.dart';
 import 'package:mr_fincorp/FEATURES/Loans/provider/individual_loan_verification.dart';
 import 'package:mr_fincorp/FEATURES/Loans/provider/loan_provider.dart';
 import 'package:mr_fincorp/FEATURES/Dashboard/provider/dashboard_provider.dart';
@@ -105,8 +106,8 @@ void main() {
 
       await tester.pumpAndSettle();
 
-      expect(find.text('VERIFICATION PHOTO (OPTIONAL)'), findsOneWidget);
-      expect(find.text('Capture Photo / Upload Image'), findsOneWidget);
+      expect(find.byType(VerificationImageSection), findsOneWidget);
+      expect(find.text('+ Add Photos'), findsOneWidget);
       expect(find.text('Submit Verification'), findsOneWidget);
     });
   });

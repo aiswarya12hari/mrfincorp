@@ -9,11 +9,14 @@ import 'package:mr_fincorp/FEATURES/Profile/provider/profile_provider.dart';
 import 'package:mr_fincorp/FEATURES/Navigation/navigation_provider.dart';
 import 'package:provider/provider.dart';
 
-class MockProfileProvider extends ProfileProvider {
-  ProfileModel? _mockProfile;
-  bool _mockLoading = false;
+import 'package:mr_fincorp/FEATURES/Profile/presentation/widgets/profile_shimmer.dart';
 
-  MockProfileProvider(this._mockProfile);
+class MockProfileProvider extends ProfileProvider {
+  final ProfileModel? _mockProfile;
+  final bool _mockLoading;
+
+  MockProfileProvider(this._mockProfile, {bool isLoading = false})
+      : _mockLoading = isLoading;
 
   @override
   ProfileModel? get profile => _mockProfile;
@@ -41,11 +44,11 @@ void main() {
     address: 'plkd',
   );
 
-  Widget createWidgetUnderTest(ProfileModel? profile) {
+  Widget createWidgetUnderTest(ProfileModel? profile, {bool isLoading = false}) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<ProfileProvider>(
-          create: (_) => MockProfileProvider(profile),
+          create: (_) => MockProfileProvider(profile, isLoading: isLoading),
         ),
         ChangeNotifierProvider<LogoutProvider>(
           create: (_) => LogoutProvider(),
@@ -59,6 +62,13 @@ void main() {
       ),
     );
   }
+
+  testWidgets('ProfilePage renders ProfileShimmer when isLoading is true', (tester) async {
+    await tester.pumpWidget(createWidgetUnderTest(null, isLoading: true));
+    await tester.pump();
+
+    expect(find.byType(ProfileShimmer), findsOneWidget);
+  });
 
   testWidgets('Redesigned ProfilePage renders header, avatar, name, details card, and all fields', (tester) async {
     await tester.pumpWidget(createWidgetUnderTest(sampleProfile));

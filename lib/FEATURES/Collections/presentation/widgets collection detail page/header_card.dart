@@ -45,40 +45,34 @@ class CollectionDetailHeaderCard extends StatelessWidget {
     CollectionDetailModel data, {
     String? customDueDate,
   }) {
-    final principalStr = formatAmount(data.principalPending);
-    final fineStr = formatAmount(data.finePending);
-    final totalBalance = data.balancePending > 0
-        ? data.balancePending
-        : (data.principalPending + data.finePending);
-    final balanceStr = formatAmount(totalBalance);
+    final dueTotalPlusInterest = data.principalPending + data.finePending;
+    final amountStr = formatAmount(dueTotalPlusInterest);
     final dueDateStr = customDueDate ??
         (data.dueDate.trim().isNotEmpty
             ? data.dueDate
             : (data.formattedDueDate != '-' ? data.formattedDueDate : '-'));
 
-    final englishMessage = 'Hello *${data.customerName}*,\n\n'
-        'This is a reminder from **Friends Fincorp** regarding your loan collection.\n\n'
-        '* Loan ID: ${data.loanId}\n'
-        '* Collection Date: $dueDateStr\n'
-        '* Due Count: ${data.duePending}\n'
-        '* Principal Balance: ₹$principalStr\n'
-        '* Fine Balance: ₹$fineStr\n'
-        '* Total Balance: ₹$balanceStr\n\n'
-        'Please make your payment at the earliest. For any assistance, kindly contact our field staff.\n\n'
+    final englishMessage = 'Hello ${data.customerName},\n\n'
+        'This is a reminder from Friends Fincorp regarding your loan repayment.\n\n'
+        '- Loan ID: ${data.loanId}\n'
+        '- Collection Date: $dueDateStr\n'
+        '- Due Count: ${data.duePending}\n'
+        '- Due Total + Interest: ₹$amountStr\n\n'
+        'Please make your payment at the earliest. For any assistance, kindly contact our branch.\n\n'
         'Thank you,\n'
-        '**Friends Fincorp**';
+        'Friends Fincorp\n'
+        'Trusted Financial Partner';
 
-    final malayalamMessage = 'നമസ്കാരം *${data.customerName}*,\n\n'
-        'നിങ്ങളുടെ ലോൺ തിരിച്ചടവുമായി ബന്ധപ്പെട്ട് **Friends Fincorp**-ൽ നിന്നുള്ള ഒരു ഓർമ്മപ്പെടുത്തലാണിത്.\n\n'
-        '* ലോൺ ഐഡി: ${data.loanId}\n'
-        '* കളക്ഷൻ തീയതി: $dueDateStr\n'
-        '* അടയ്ക്കാനുള്ള തവണകൾ: ${data.duePending}\n'
-        '* പ്രിൻസിപ്പൽ ബാക്കി: ₹$principalStr\n'
-        '* ഫൈൻ ബാക്കി: ₹$fineStr\n'
-        '* ആകെ അടയ്ക്കാനുള്ള തുക: ₹$balanceStr\n\n'
-        'ദയവായി നിങ്ങളുടെ തിരിച്ചടവ് എത്രയും വേഗം നടത്തുക. എന്തെങ്കിലും സഹായത്തിന് ഞങ്ങളുടെ ഫീൽഡ് സ്റ്റാഫുമായി ബന്ധപ്പെടുക.\n\n'
+    final malayalamMessage = 'Hi ${data.customerName},\n\n'
+        'നിങ്ങളുടെ വായ്പാ തിരിച്ചടവുമായി ബന്ധപ്പെട്ട് ഫ്രണ്ട്സ് ഫിൻകോർപ്പിന്റെ ഓർമ്മപ്പെടുത്തലാണിത്.\n\n'
+        '- വായ്പാ ഐഡി: ${data.loanId}\n'
+        '- പിരിവ് തീയതി: $dueDateStr\n'
+        '- കുടിശ്ശികകളുടെ എണ്ണം: ${data.duePending}\n'
+        '- പലിശ ഉൾപ്പെടെയുള്ള ആകെ കുടിശ്ശിക: ₹$amountStr\n\n'
+        'ദയവായി എത്രയും വേഗം നിങ്ങളുടെ പണമടയ്ക്കൽ നടത്തുക. കൂടുതൽ സഹായത്തിനായി ഞങ്ങളുടെ ബ്രാഞ്ചുമായി ബന്ധപ്പെടുക.\n\n'
         'നന്ദി,\n'
-        '**Friends Fincorp**';
+        'ഫ്രണ്ട്സ് ഫിൻകോർപ്പ്\n'
+        'വിശ്വസനീയമായ സാമ്പത്തിക പങ്കാളി';
 
     return '$englishMessage\n\n$malayalamMessage';
   }
@@ -1022,7 +1016,7 @@ class CollectionDetailHeaderCard extends StatelessWidget {
         ),
         const SizedBox(height: 12),
 
-        // Row 4: DUE PENDING
+        // Row 4: DUE PENDING & INSTALLMENT AMOUNT
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -1032,7 +1026,12 @@ class CollectionDetailHeaderCard extends StatelessWidget {
               value: data.duePending.toString(),
               valueColor: const Color(0xFFD97706),
             ),
-            const Spacer(),
+            _field(
+              context,
+              label: 'INSTALLMENT AMOUNT',
+              value: '₹${_format(data.installmentAmount)}',
+              alignEnd: true,
+            ),
           ],
         ),
       ],

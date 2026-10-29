@@ -135,9 +135,11 @@ void main() {
       expect(find.text('FINE PAID'), findsOneWidget);
       expect(find.text('₹50'), findsOneWidget);
 
-      // Row 4: DUE PENDING
+      // Row 4: DUE PENDING & INSTALLMENT AMOUNT
       expect(find.text('DUE PENDING'), findsOneWidget);
       expect(find.text('2'), findsOneWidget);
+      expect(find.text('INSTALLMENT AMOUNT'), findsOneWidget);
+      expect(find.text('₹1,000'), findsOneWidget);
 
       // BALANCE PENDING should no longer appear
       expect(find.text('BALANCE PENDING'), findsNothing);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../../../CORE/Theme/app_color.dart';
+import '../../../../CORE/Theme/app_text_style.dart';
 
 import '../../data/models/group_verify_response_model.dart';
 
@@ -86,15 +87,31 @@ class GroupAllVerifiedSuccessPage extends StatelessWidget {
 
                 const SizedBox(height: 32),
 
-                SizedBox(
+                Container(
                   width: double.infinity,
                   height: 52,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(26),
+                    gradient: const LinearGradient(
+                      colors: [AppColors.secondaryDark, AppColors.secondary],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.secondaryDark.withValues(alpha: 0.35),
+                        blurRadius: 14,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primary,
+                      backgroundColor: Colors.transparent,
+                      shadowColor: Colors.transparent,
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
+                        borderRadius: BorderRadius.circular(26),
                       ),
                       elevation: 0,
                     ),
@@ -104,8 +121,11 @@ class GroupAllVerifiedSuccessPage extends StatelessWidget {
                     child: const Text(
                       'Back to Group Loans',
                       style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
+                        fontFamily: AppTextStyles.fontFamily,
+                        fontSize: 15.5,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 0.2,
+                        color: Colors.white,
                       ),
                     ),
                   ),

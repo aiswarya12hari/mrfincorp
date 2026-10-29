@@ -149,9 +149,24 @@ class _GroupMembersPageState extends State<GroupMembersPage> {
             // ── Bottom action button ─────────────────────
             if (showVerifyButton) ...[
               const SizedBox(height: 12),
-              SizedBox(
+              Container(
                 width: double.infinity,
                 height: 52,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(26),
+                  gradient: const LinearGradient(
+                    colors: [AppColors.secondaryDark, AppColors.secondary],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.secondaryDark.withValues(alpha: 0.35),
+                      blurRadius: 14,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
                 child: ElevatedButton(
                   onPressed: () {
                     final pending = detail.members.firstWhere(
@@ -160,10 +175,11 @@ class _GroupMembersPageState extends State<GroupMembersPage> {
                     openVerification(pending);
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
+                    backgroundColor: Colors.transparent,
+                    shadowColor: Colors.transparent,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(26),
                     ),
                     elevation: 0,
                   ),
@@ -173,7 +189,9 @@ class _GroupMembersPageState extends State<GroupMembersPage> {
                         : 'Verify Remaining Members',
                     style: const TextStyle(
                       fontSize: 15,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                      letterSpacing: 0.2,
                     ),
                   ),
                 ),

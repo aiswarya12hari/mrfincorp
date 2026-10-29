@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../widgets/logout_button.dart';
 import '../widgets/profile_header.dart';
 import '../widgets/profile_info_tile.dart';
+import '../widgets/profile_shimmer.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -48,11 +49,7 @@ class _ProfilePageState extends State<ProfilePage> {
       body: Consumer<ProfileProvider>(
         builder: (context, provider, child) {
           if (provider.isLoading) {
-            return const Center(
-              child: CircularProgressIndicator(
-                color: _accentColor,
-              ),
-            );
+            return const ProfileShimmer();
           }
 
           final profile = provider.profile;

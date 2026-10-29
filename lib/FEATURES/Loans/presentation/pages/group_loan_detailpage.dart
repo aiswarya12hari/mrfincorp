@@ -5,6 +5,7 @@ import 'package:mr_fincorp/FEATURES/Loans/provider/loan_detail_provider.dart';
 import 'package:provider/provider.dart';
 import '../widgets group loan/group_summary_card.dart';
 import '../widgets group loan/view_members_button.dart';
+import '../widgets/loan_shimmer.dart';
 import 'group_member_page.dart';
 
 import '../../../../CORE/Theme/app_color.dart';
@@ -38,7 +39,7 @@ class _GroupLoanDetailPageState extends State<GroupLoanDetailPage> {
       body: Consumer<LoanDetailProvider>(
         builder: (context, provider, _) {
           if (provider.isLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const GroupLoanDetailShimmer();
           }
 
           final detail = provider.loanDetail;

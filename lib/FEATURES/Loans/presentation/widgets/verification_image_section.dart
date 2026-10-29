@@ -365,9 +365,11 @@ class VerificationImageSection extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                title.toUpperCase(),
-                style: AppTextStyles.fieldLabel(context).copyWith(letterSpacing: 0.3),
+              Expanded(
+                child: Text(
+                  title.toUpperCase(),
+                  style: AppTextStyles.fieldLabel(context).copyWith(letterSpacing: 0.3),
+                ),
               ),
               if (images.isNotEmpty)
                 Container(

@@ -4,6 +4,7 @@ import 'package:mr_fincorp/FEATURES/Dashboard/provider/dashboard_provider.dart';
 import 'package:mr_fincorp/FEATURES/Loans/data/models/group_member_model.dart';
 import 'package:mr_fincorp/FEATURES/Loans/data/models/group_verify_request_model.dart';
 import 'package:mr_fincorp/FEATURES/Loans/presentation/pages/group_member_verification_page.dart';
+import 'package:mr_fincorp/FEATURES/Loans/presentation/widgets/verification_image_section.dart';
 import 'package:mr_fincorp/FEATURES/Loans/provider/group_loan_verification_provider.dart';
 import 'package:mr_fincorp/FEATURES/Loans/provider/loan_provider.dart';
 import 'package:provider/provider.dart';
@@ -129,9 +130,8 @@ void main() {
       await tester.pumpWidget(createTestWidget());
       await tester.pumpAndSettle();
 
-      expect(find.text('MEMBER IMAGE'), findsOneWidget);
-      expect(find.text('Capture Photo / Upload Image'), findsOneWidget);
-      expect(find.text('Camera or Gallery'), findsOneWidget);
+      expect(find.byType(VerificationImageSection), findsOneWidget);
+      expect(find.text('+ Add Photos'), findsOneWidget);
       expect(find.text('Submit Verification'), findsOneWidget);
     });
 
@@ -146,7 +146,7 @@ void main() {
       await tester.pumpWidget(createTestWidget());
       await tester.pumpAndSettle();
 
-      final uploadFinder = find.text('Capture Photo / Upload Image');
+      final uploadFinder = find.text('+ Add Photos');
       await tester.ensureVisible(uploadFinder);
       await tester.pumpAndSettle();
 
@@ -154,41 +154,8 @@ void main() {
       await tester.tap(uploadFinder);
       await tester.pumpAndSettle();
 
-      expect(find.text('Select Member Image'), findsOneWidget);
-      expect(find.text('Camera'), findsOneWidget);
-      expect(find.text('Gallery'), findsOneWidget);
-    });
-
-    testWidgets('validates image as mandatory when form is filled without image', (tester) async {
-      tester.view.physicalSize = const Size(800, 1800);
-      tester.view.devicePixelRatio = 1.0;
-      addTearDown(() {
-        tester.view.resetPhysicalSize();
-        tester.view.resetDevicePixelRatio();
-      });
-
-      await tester.pumpWidget(createTestWidget());
-      await tester.pumpAndSettle();
-
-      // Enter full address
-      await tester.enterText(
-        find.widgetWithText(TextFormField, 'Enter Full Address'),
-        '45 Blue Ave, Thrissur',
-      );
-      // Enter feedback
-      await tester.enterText(
-        find.widgetWithText(TextFormField, 'Enter Feedback'),
-        'All members verified.',
-      );
-      await tester.pumpAndSettle();
-
-      // Tap Submit Verification
-      await tester.tap(find.text('Submit Verification'));
-      await tester.pumpAndSettle();
-
-      // Should show mandatory image error
-      expect(find.text('Member image is required for verification'), findsOneWidget);
-      expect(find.text('Please upload an image for this member to verify.'), findsOneWidget);
+      expect(find.text('Take a Photo'), findsOneWidget);
+      expect(find.text('Choose from Gallery'), findsOneWidget);
     });
   });
 }

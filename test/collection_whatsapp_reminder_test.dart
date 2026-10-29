@@ -64,53 +64,59 @@ void main() {
       final model = CollectionDetailModel.fromJson(sampleJson);
       final message = CollectionDetailHeaderCard.buildWhatsAppReminderMessage(model);
 
-      expect(message, contains('Hello *Ramesh Kumar*,'));
+      expect(message, contains('Hello Ramesh Kumar,'));
       expect(
         message,
         contains(
-          'This is a reminder from **Friends Fincorp** regarding your loan collection.',
+          'This is a reminder from Friends Fincorp regarding your loan repayment.',
         ),
       );
-      expect(message, contains('* Loan ID: IND01-LAT-00085'));
-      expect(message, contains('* Collection Date: 2026-09-15'));
-      expect(message, contains('* Due Count: 3'));
-      expect(message, contains('* Principal Balance: ₹6,000'));
-      expect(message, contains('* Fine Balance: ₹200'));
-      expect(message, contains('* Total Balance: ₹6,200'));
+      expect(message, contains('- Loan ID: IND01-LAT-00085'));
+      expect(message, contains('- Collection Date: 2026-09-15'));
+      expect(message, contains('- Due Count: 3'));
+      expect(message, contains('- Due Total + Interest: ₹6,200'));
       expect(
         message,
         contains(
-          'Please make your payment at the earliest. For any assistance, kindly contact our field staff.',
+          'Please make your payment at the earliest. For any assistance, kindly contact our branch.',
         ),
       );
-      expect(message, contains('Thank you,\n**Friends Fincorp**'));
+      expect(
+        message,
+        contains(
+          'Thank you,\nFriends Fincorp\nTrusted Financial Partner',
+        ),
+      );
 
       // Check blank line separation and Malayalam translation
       expect(
         message,
         contains(
-          '**Friends Fincorp**\n\nനമസ്കാരം *Ramesh Kumar*,',
+          'Trusted Financial Partner\n\nHi Ramesh Kumar,',
         ),
       );
       expect(
         message,
         contains(
-          'നിങ്ങളുടെ ലോൺ തിരിച്ചടവുമായി ബന്ധപ്പെട്ട് **Friends Fincorp**-ൽ നിന്നുള്ള ഒരു ഓർമ്മപ്പെടുത്തലാണിത്.',
+          'നിങ്ങളുടെ വായ്പാ തിരിച്ചടവുമായി ബന്ധപ്പെട്ട് ഫ്രണ്ട്സ് ഫിൻകോർപ്പിന്റെ ഓർമ്മപ്പെടുത്തലാണിത്.',
         ),
       );
-      expect(message, contains('* ലോൺ ഐഡി: IND01-LAT-00085'));
-      expect(message, contains('* കളക്ഷൻ തീയതി: 2026-09-15'));
-      expect(message, contains('* അടയ്ക്കാനുള്ള തവണകൾ: 3'));
-      expect(message, contains('* പ്രിൻസിപ്പൽ ബാക്കി: ₹6,000'));
-      expect(message, contains('* ഫൈൻ ബാക്കി: ₹200'));
-      expect(message, contains('* ആകെ അടയ്ക്കാനുള്ള തുക: ₹6,200'));
+      expect(message, contains('- വായ്പാ ഐഡി: IND01-LAT-00085'));
+      expect(message, contains('- പിരിവ് തീയതി: 2026-09-15'));
+      expect(message, contains('- കുടിശ്ശികകളുടെ എണ്ണം: 3'));
+      expect(message, contains('- പലിശ ഉൾപ്പെടെയുള്ള ആകെ കുടിശ്ശിക: ₹6,200'));
       expect(
         message,
         contains(
-          'ദയവായി നിങ്ങളുടെ തിരിച്ചടവ് എത്രയും വേഗം നടത്തുക. എന്തെങ്കിലും സഹായത്തിന് ഞങ്ങളുടെ ഫീൽഡ് സ്റ്റാഫുമായി ബന്ധപ്പെടുക.',
+          'ദയവായി എത്രയും വേഗം നിങ്ങളുടെ പണമടയ്ക്കൽ നടത്തുക. കൂടുതൽ സഹായത്തിനായി ഞങ്ങളുടെ ബ്രാഞ്ചുമായി ബന്ധപ്പെടുക.',
         ),
       );
-      expect(message, contains('നന്ദി,\n**Friends Fincorp**'));
+      expect(
+        message,
+        contains(
+          'നന്ദി,\nഫ്രണ്ട്സ് ഫിൻകോർപ്പ്\nവിശ്വസനീയമായ സാമ്പത്തിക പങ്കാളി',
+        ),
+      );
     });
 
     test('buildWhatsAppUri builds valid wa.me deep link with URL-encoded text', () {
@@ -177,9 +183,9 @@ void main() {
       expect(launchedUri.scheme, 'https');
       expect(launchedUri.host, 'wa.me');
       expect(launchedUri.path, '/919876543210');
-      expect(launchedUri.queryParameters['text'], contains('Hello *Ramesh Kumar*,'));
+      expect(launchedUri.queryParameters['text'], contains('Hello Ramesh Kumar,'));
       expect(launchedUri.queryParameters['text'], contains('IND01-LAT-00085'));
-      expect(launchedUri.queryParameters['text'], contains('₹6,000'));
+      expect(launchedUri.queryParameters['text'], contains('₹6,200'));
       expect(mockUrlLauncher.launchOptions?.mode, PreferredLaunchMode.externalApplication);
     });
 

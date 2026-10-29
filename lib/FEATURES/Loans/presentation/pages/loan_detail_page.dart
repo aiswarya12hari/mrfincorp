@@ -8,6 +8,7 @@ import 'individual_loan_verification.dart';
 import '../widgets detail page/loan_info_card.dart';
 import '../widgets detail page/customer_details_card.dart';
 import '../widgets detail page/verify_loan_button.dart';
+import '../widgets/loan_shimmer.dart';
 
 class LoanDetailPage extends StatefulWidget {
   final String loanId;
@@ -78,9 +79,7 @@ class _LoanDetailPageState extends State<LoanDetailPage> {
       body: Consumer<LoanDetailProvider>(
         builder: (context, provider, child) {
           if (provider.isLoading) {
-            return const Center(
-              child: CircularProgressIndicator(color: AppColors.secondaryDark),
-            );
+            return const LoanDetailShimmer();
           }
 
           final loan = provider.loanDetail;

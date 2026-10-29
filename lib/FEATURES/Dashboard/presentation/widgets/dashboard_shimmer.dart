@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../../CORE/Theme/app_color.dart';
+import 'package:mr_fincorp/CORE/Theme/app_color.dart';
 
 /// Pure Flutter continuous shimmer effect driver using an animated ShaderMask.
 class ShimmerLoading extends StatefulWidget {

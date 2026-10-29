@@ -86,35 +86,48 @@ class _GroupMemberVerificationPageState
     }
   }
 
-  // ── Collection-style boxed field: label above, gray200 container ──
-  Widget _sectionField({
+  // ── Collection-style boxed field: label above, modern rounded container ──
+  Widget buildField({
     required String label,
     required TextEditingController controller,
     int maxLines = 1,
     bool required = true,
   }) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 18),
+      padding: const EdgeInsets.only(bottom: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            label.toUpperCase(),
-            style: AppTextStyles.fieldLabel(
-              context,
-            ).copyWith(letterSpacing: 0.3),
+            label,
+            style: const TextStyle(
+              fontFamily: AppTextStyles.fontFamily,
+              fontSize: 12.5,
+              fontWeight: FontWeight.w600,
+              color: AppColors.textPrimary,
+              letterSpacing: 0.2,
+            ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 7),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+            padding: EdgeInsets.symmetric(
+              horizontal: 14,
+              vertical: maxLines > 1 ? 10 : 4,
+            ),
             decoration: BoxDecoration(
-              color: AppColors.gray200,
-              borderRadius: BorderRadius.circular(10),
+              color: const Color(0xFFF8FAFC),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: AppColors.border, width: 1),
             ),
             child: TextFormField(
               controller: controller,
               maxLines: maxLines,
-              style: AppTextStyles.inputText(context),
+              style: const TextStyle(
+                fontFamily: AppTextStyles.fontFamily,
+                fontSize: 14,
+                color: AppColors.textPrimary,
+                fontWeight: FontWeight.w500,
+              ),
               validator: required
                   ? (value) {
                       if (value == null || value.trim().isEmpty) {
@@ -127,7 +140,11 @@ class _GroupMemberVerificationPageState
                 isDense: true,
                 border: InputBorder.none,
                 hintText: 'Enter $label',
-                hintStyle: AppTextStyles.hint(context),
+                hintStyle: const TextStyle(
+                  fontFamily: AppTextStyles.fontFamily,
+                  fontSize: 13.5,
+                  color: AppColors.textMuted,
+                ),
               ),
             ),
           ),
@@ -135,7 +152,6 @@ class _GroupMemberVerificationPageState
       ),
     );
   }
-
 
   Future<void> submitVerification() async {
     if (_isSubmitting) return;
@@ -218,20 +234,50 @@ class _GroupMemberVerificationPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.gray100,
+      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.gray100,
+        backgroundColor: AppColors.surface,
         elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: AppColors.gray800),
-          onPressed: () => Navigator.of(context).maybePop(),
+        surfaceTintColor: Colors.transparent,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 12),
+          child: Center(
+            child: InkWell(
+              borderRadius: BorderRadius.circular(20),
+              onTap: () => Navigator.of(context).maybePop(),
+              child: Container(
+                width: 36,
+                height: 36,
+                decoration: const BoxDecoration(
+                  color: AppColors.surfaceSecondary,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.arrow_back_rounded,
+                  color: AppColors.textPrimary,
+                  size: 20,
+                ),
+              ),
+            ),
+          ),
         ),
-        title: Text('Verify Member', style: AppTextStyles.pageTitle(context)),
+        leadingWidth: 52,
+        titleSpacing: 8,
+        title: const Text(
+          'Verify Member',
+          style: TextStyle(
+            fontFamily: AppTextStyles.fontFamily,
+            color: AppColors.textPrimary,
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+            letterSpacing: -0.2,
+          ),
+        ),
       ),
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -240,68 +286,54 @@ class _GroupMemberVerificationPageState
                 width: double.infinity,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: AppColors.white,
-                  borderRadius: BorderRadius.circular(16),
+                  color: AppColors.surface,
+                  borderRadius: BorderRadius.circular(18),
+                  border: Border.all(color: AppColors.border, width: 1),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.gray800.withValues(alpha: 0.05),
-                      blurRadius: 12,
+                      color: Colors.black.withValues(alpha: 0.04),
+                      blurRadius: 10,
                       offset: const Offset(0, 4),
                     ),
                   ],
                 ),
                 child: Row(
                   children: [
-                    CircleAvatar(
-                      radius: 22,
-                      backgroundColor: widget.member.isVerified
-                          ? const Color(0xFFE3F8EF)
-                          : const Color(0xFFFCEDE3),
-                      child: Text(
-                        widget.member.name.isNotEmpty
-                            ? widget.member.name[0].toUpperCase()
-                            : '?',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          color: widget.member.isVerified
-                              ? const Color(0xFF1E9E6B)
-                              : const Color(0xFFE08A3C),
-                        ),
+                    Container(
+                      width: 44,
+                      height: 44,
+                      decoration: const BoxDecoration(
+                        color: AppColors.primaryLight,
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.person,
+                        color: AppColors.secondaryDark,
+                        size: 24,
                       ),
                     ),
-                    const SizedBox(width: 12),
+                    const SizedBox(width: 14),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             widget.member.name,
-                            style: AppTextStyles.cardCustomerName(context),
+                            style: const TextStyle(
+                              fontFamily: AppTextStyles.fontFamily,
+                              fontSize: 17,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.textPrimary,
+                            ),
                           ),
-                          const SizedBox(height: 4),
+                          const SizedBox(height: 3),
                           Text(
-                            widget.member.customerCode,
-                            style: AppTextStyles.cardLoanId(context),
-                          ),
-                          const SizedBox(height: 8),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 5,
-                            ),
-                            decoration: BoxDecoration(
-                              color: widget.member.isVerified
-                                  ? const Color(0xFFE3F8EF)
-                                  : const Color(0xFFFCEDE3),
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            child: Text(
-                              widget.member.isVerified ? 'VERIFIED' : 'PENDING',
-                              style: AppTextStyles.chipText(context).copyWith(
-                                color: widget.member.isVerified
-                                    ? const Color(0xFF1E9E6B)
-                                    : const Color(0xFFE08A3C),
-                              ),
+                            '${widget.loanId} • ${widget.member.customerCode}',
+                            style: const TextStyle(
+                              fontFamily: AppTextStyles.fontFamily,
+                              fontSize: 12.5,
+                              color: AppColors.textLight,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                         ],
@@ -311,109 +343,172 @@ class _GroupMemberVerificationPageState
                 ),
               ),
 
-              const SizedBox(height: 16),
+              const SizedBox(height: 18),
 
-              // ── Customer details card ──────────────────
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: AppColors.white,
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.gray800.withValues(alpha: 0.05),
-                      blurRadius: 12,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Customer Details',
-                      style: AppTextStyles.cardCustomerName(
-                        context,
-                      ).copyWith(fontSize: 17),
-                    ),
-                    const SizedBox(height: 12),
-                    _detailRow(Icons.phone, 'Phone', 'Not available'),
-                    const SizedBox(height: 10),
-                    _detailRow(
-                      Icons.location_on_outlined,
-                      'Address',
-                      'Not available',
-                    ),
-                    const SizedBox(height: 10),
-                    _detailRow(
-                      Icons.groups_outlined,
-                      'Group Loan ID',
-                      widget.loanId,
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 16),
-
-              // ── Verification form ──────────────────────
-              Text(
-                'Verification Form',
-                style: AppTextStyles.cardCustomerName(
-                  context,
-                ).copyWith(fontSize: 17),
-              ),
-              const SizedBox(height: 16),
-
-              _sectionField(
+              // ── Full Address ──
+              buildField(
                 label: 'Full Address',
                 controller: addressController,
                 maxLines: 3,
               ),
-              _sectionField(
-                label: 'Location',
-                controller: googleMapLinkController,
-                required: false,
-              ),
 
-              const SizedBox(height: 6),
-
-              SizedBox(
-                width: double.infinity,
-                height: 52,
-                child: OutlinedButton.icon(
-                  onPressed: chooseLocation,
-                  icon: Icon(Icons.map_outlined, color: AppColors.primary),
-                  label: Text(
-                    'Choose Location',
-                    style: AppTextStyles.button(
-                      context,
-                    ).copyWith(color: AppColors.primary),
-                  ),
-                  style: OutlinedButton.styleFrom(
-                    side: BorderSide(color: AppColors.primary),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+              // ── Location Field with Choose Location right near it ──
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Location',
+                          style: TextStyle(
+                            fontFamily: AppTextStyles.fontFamily,
+                            fontSize: 12.5,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.textPrimary,
+                            letterSpacing: 0.2,
+                          ),
+                        ),
+                        InkWell(
+                          onTap: _isSubmitting ? null : chooseLocation,
+                          borderRadius: BorderRadius.circular(8),
+                          child: const Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 6,
+                              vertical: 2,
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.map_outlined,
+                                  size: 15,
+                                  color: AppColors.secondaryDark,
+                                ),
+                                SizedBox(width: 4),
+                                Text(
+                                  'Choose Location',
+                                  style: TextStyle(
+                                    fontFamily: AppTextStyles.fontFamily,
+                                    fontSize: 12.5,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColors.secondaryDark,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
+                    const SizedBox(height: 7),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 6,
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF8FAFC),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: AppColors.border, width: 1),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              controller: googleMapLinkController,
+                              maxLines: 2,
+                              style: const TextStyle(
+                                fontFamily: AppTextStyles.fontFamily,
+                                fontSize: 14,
+                                color: AppColors.textPrimary,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              validator: (value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return 'Location is required';
+                                }
+                                return null;
+                              },
+                              decoration: const InputDecoration(
+                                isDense: true,
+                                border: InputBorder.none,
+                                hintText: 'Enter Location',
+                                hintStyle: TextStyle(
+                                  fontFamily: AppTextStyles.fontFamily,
+                                  fontSize: 13.5,
+                                  color: AppColors.textMuted,
+                                ),
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: _isSubmitting ? null : chooseLocation,
+                            tooltip: 'Choose Location on Map',
+                            icon: const Icon(
+                              Icons.map_outlined,
+                              color: AppColors.secondaryDark,
+                              size: 22,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    if (selectedLatitude != null && selectedLongitude != null)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8),
+                        child: Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: 8,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.successBg,
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              color: AppColors.success.withValues(alpha: 0.3),
+                              width: 1,
+                            ),
+                          ),
+                          child: const Row(
+                            children: [
+                              Icon(
+                                Icons.check_circle_rounded,
+                                color: AppColors.success,
+                                size: 16,
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                'Location Selected',
+                                style: TextStyle(
+                                  fontFamily: AppTextStyles.fontFamily,
+                                  color: AppColors.success,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 12.5,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
               ),
 
-              const SizedBox(height: 16),
-
-              _sectionField(
+              buildField(
                 label: 'Landmark',
                 controller: landmarkController,
                 required: false,
               ),
-              // _sectionField(label: 'Pin Code', controller: pinCodeController),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 18),
 
-              // ── Member Photos (Optional) ──
+              // ── Optional Verification Photos below location details ──
               VerificationImageSection(
-                title: 'MEMBER PHOTOS (OPTIONAL)',
                 images: _memberImages[widget.member.customerId] ?? [],
                 onImagesChanged: (imgs) => setState(() {
                   _memberImages[widget.member.customerId] = imgs;
@@ -422,14 +517,14 @@ class _GroupMemberVerificationPageState
               ),
 
               // ── Max Pay Amount ──
-              _sectionField(
+              buildField(
                 label: 'Max Pay Amount',
                 controller: maxPayAmountController,
                 required: false,
               ),
 
               // ── Feedback moved to bottom ──
-              _sectionField(
+              buildField(
                 label: 'Feedback',
                 controller: feedbackController,
                 maxLines: 4,
@@ -439,12 +534,12 @@ class _GroupMemberVerificationPageState
         ),
       ),
 
-      // ── Fixed bottom Submit Verification button ──
+      // ── Fixed bottom verify button ──
       bottomNavigationBar: SafeArea(
         child: Container(
           padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
           decoration: BoxDecoration(
-            color: AppColors.white,
+            color: AppColors.surface,
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.06),
@@ -453,56 +548,65 @@ class _GroupMemberVerificationPageState
               ),
             ],
           ),
-          child: SizedBox(
+          child: Container(
             width: double.infinity,
             height: 52,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(26),
+              gradient: _isSubmitting
+                  ? null
+                  : const LinearGradient(
+                      colors: [AppColors.secondaryDark, AppColors.secondary],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+              color: _isSubmitting
+                  ? AppColors.secondaryDark.withValues(alpha: 0.7)
+                  : null,
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.secondaryDark.withValues(alpha: 0.35),
+                  blurRadius: 14,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                foregroundColor: AppColors.white,
-                disabledBackgroundColor: AppColors.primary.withValues(alpha: 0.6),
-                disabledForegroundColor: AppColors.white.withValues(alpha: 0.8),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
+                backgroundColor: Colors.transparent,
+                shadowColor: Colors.transparent,
+                foregroundColor: Colors.white,
+                disabledBackgroundColor: Colors.transparent,
+                disabledForegroundColor: Colors.white,
                 elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(26),
+                ),
               ),
               onPressed: _isSubmitting ? null : submitVerification,
               child: _isSubmitting
                   ? const SizedBox(
-                      width: 22,
                       height: 22,
+                      width: 22,
                       child: CircularProgressIndicator(
                         strokeWidth: 2.5,
                         valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                       ),
                     )
-                  : Text(
+                  : const Text(
                       'Submit Verification',
-                      style: AppTextStyles.button(context),
+                      style: TextStyle(
+                        fontFamily: AppTextStyles.fontFamily,
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 0.3,
+                      ),
                     ),
             ),
           ),
         ),
       ),
-    );
-  }
-
-  Widget _detailRow(IconData icon, String label, String value) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(icon, size: 18, color: AppColors.gray600),
-        const SizedBox(width: 10),
-        Expanded(child: Text(label, style: AppTextStyles.fieldLabel(context))),
-        Expanded(
-          child: Text(
-            value,
-            textAlign: TextAlign.end,
-            style: AppTextStyles.fieldValue(context).copyWith(fontSize: 13),
-          ),
-        ),
-      ],
     );
   }
 }
